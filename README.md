@@ -80,9 +80,9 @@ Awesome-Chinese-Stable-Diffusion
   * 地址：https://github.com/OpenBMB/VisCPM
     ![](https://img.shields.io/github/stars/OpenBMB/VisCPM.svg)
 
-  * 简介：`VisCPM-Paint`支持中英双语的文到图生成。该模型使用CPM-Bee（10B）作为文本编码器，使用`UNet`作为图像解码器，并通过扩散模型训练目标融合语言和视觉模型。在训练过程中，语言模型参数始终保持固定。我们使用[Stable Diffusion 2.1](https://github.com/Stability-AI/stablediffusion)的UNet参数初始化视觉解码器，并通过逐步解冻其中关键的桥接参数将其与语言模型融合。该模型在[LAION 2B](https://laion.ai/)英文图文对数据上进行了训练。
+  * 简介：VisCPM-Paint支持中英双语的文到图生成。该模型使用CPM-Bee（10B）作为文本编码器，使用UNet作为图像解码器，并通过扩散模型训练目标融合语言和视觉模型。在训练过程中，语言模型参数始终保持固定。我们使用[Stable Diffusion 2.1](https://github.com/Stability-AI/stablediffusion)的UNet参数初始化视觉解码器，并通过逐步解冻其中关键的桥接参数将其与语言模型融合。该模型在[LAION 2B](https://laion.ai/)英文图文对数据上进行了训练。
 
-    与`VisCPM-Chat`类似，我们发现得益于CPM-Bee的双语能力，`VisCPM-Paint`可以仅通过英文图文对训练，泛化实现良好的中文文到图生成能力，达到中文开源模型的最佳效果。通过进一步加入20M清洗后的原生中文图文对数据，以及120M翻译到中文的图文对数据，模型的中文文到图生成能力可以获得进一步提升。我们在标准图像生成测试集MSCOCO上采样了3万张图片，计算了常用评估图像生成指标FID (Fréchet Inception Distance)评估生成图片的质量。我们同样提供了两个模型版本，分别为`VisCPM-Paint-balance`和`VisCPM-Paint-zhplus`，前者在英文和中文两种语言上的能力较为平衡，后者在中文能力上更加突出。`VisCPM-Paint-balance`只使用了英文图文对进行训练，`VisCPM-Paint-zhplus`在`VisCPM-Paint-balance`基础上增加了20M原生中文图文对数据和120M翻译到中文的图文对数据进行训练。
+    与VisCPM-Chat类似，我们发现得益于CPM-Bee的双语能力，VisCPM-Paint可以仅通过英文图文对训练，泛化实现良好的中文文到图生成能力，达到中文开源模型的最佳效果。通过进一步加入20M清洗后的原生中文图文对数据，以及120M翻译到中文的图文对数据，模型的中文文到图生成能力可以获得进一步提升。我们在标准图像生成测试集MSCOCO上采样了3万张图片，计算了常用评估图像生成指标FID (Fréchet Inception Distance)评估生成图片的质量。我们同样提供了两个模型版本，分别为VisCPM-Paint-balance和VisCPM-Paint-zhplus，前者在英文和中文两种语言上的能力较为平衡，后者在中文能力上更加突出。VisCPM-Paint-balance只使用了英文图文对进行训练，VisCPM-Paint-zhplus在VisCPM-Paint-balance基础上增加了20M原生中文图文对数据和120M翻译到中文的图文对数据进行训练。
 
 
 #### 1.2 闭源模型
