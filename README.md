@@ -108,6 +108,21 @@ Awesome-Chinese-Stable-Diffusion
     
     最终我们经过过滤得到了一亿较高质量中文图文对。进一步地，在训练悟空画画模型时，我们对悟空数据集的数据根据图文匹配分数、水印分数以及艺术性分数https://github.com/christophschuhmann/improved-aesthetic-predictor 再次进行筛选，最终获得25M左右的数据进行训练。该部分数据具有较高的图像质量，并对常见文本内容进行了良好的覆盖，使得训练得到的悟空画画模型对文本拥有广泛的识别能力，并能根据不同的提示词生成多样的图片风格。
 
+* PanGu-Draw：
+
+  * 地址：https://github.com/mindspore-lab/mindone/blob/master/examples/pangu_draw_v3
+    ![](https://img.shields.io/github/stars/mindspore-lab/mindone.svg)
+
+  * 简介： 
+
+    * 网络结构扩容，参数量从1B扩大到5B，是当前**业界最大的中文文生图模型**；
+    *  支持**中英文双语**输入；
+    *  提升输出分辨率，支持**原生1K输出**（v1->v2->v3: 512->768->1024）；
+    *  多尺寸（16:9、4:3、2:1...）输出；
+    *  **可量化的风格化调整**：动漫、艺术性、摄影控制；
+    *  基于**昇腾硬件和昇思平台**进行大规模多机多卡训练、推理，全自研昇思MindSpore平台和昇腾Ascend硬件；
+    *  采用**自研RLAIF**提升画质和艺术性表达。
+
 
 #### 1.2 闭源模型
 
