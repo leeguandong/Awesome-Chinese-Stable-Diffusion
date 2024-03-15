@@ -66,6 +66,18 @@ Awesome-Chinese-Stable-Diffusion
     Taiyi-SD：我们将[Noah-Wukong](https://link.zhihu.com/?target=https%3A//wukong-dataset.github.io/wukong-dataset/)数据集(100M)和[Zero](https://link.zhihu.com/?target=https%3A//zero.so.com/)数据集(23M)用作预训练的数据集，先用[IDEA-CCNL/Taiyi-CLIP-RoBERTa-102M-ViT-L-Chinese](https://link.zhihu.com/?target=https%3A//huggingface.co/IDEA-CCNL/Taiyi-CLIP-RoBERTa-102M-ViT-L-Chinese)对这两个数据集的图文对相似性进行打分，取CLIP Score大于0.2的图文对作为我们的训练集。 我们使用[IDEA-CCNL/Taiyi-CLIP-RoBERTa-102M-ViT-L-Chinese](https://link.zhihu.com/?target=https%3A//huggingface.co/IDEA-CCNL/Taiyi-CLIP-RoBERTa-102M-ViT-L-Chinese)作为初始化的text encoder，冻住[stable-diffusion-v1-4](https://link.zhihu.com/?target=https%3A//huggingface.co/CompVis/stable-diffusion-v1-4)([论文](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2112.10752))模型的其他部分，**只训练text encoder**，以便保留原始模型的生成能力且实现中文概念的对齐。该模型目前在0.2亿图文对上训练了一个epoch。 我们在 32 x A100 训练了大约100小时。
     补充: clip和sd的微调阶段都只调text encoder部分
 
+* Taiyi-xl-3.5B：
+
+  * 地址：https://huggingface.co/IDEA-CCNL/Taiyi-Stable-Diffusion-XL-3.5B
+
+  * 简介：文生图模型如谷歌的Imagen、OpenAI的DALL-E 3和Stability AI的Stable Diffusion引领了AIGC和数字艺术创作的新浪潮。然而，基于SD v1.5的中文文生图模型，如Taiyi-Diffusion-v0.1和Alt-Diffusion的效果仍然一般。中国的许多AI绘画平台仅支持英文，或依赖中译英的翻译工具。目前的开源文生图模型主要支持英文，双语支持有限。我们的工作，Taiyi-Diffusion-XL（Taiyi-XL），在这些发展的基础上，专注于保留英文理解能力的同时增强中文文生图生成能力，更好地支持双语文生图。
+
+    Taiyi-Diffusion-XL文生图模型训练主要包括了3个阶段。首先，我们制作了一个高质量的图文对数据集，每张图片都配有详细的描述性文本。为了克服网络爬取数据的局限性，我们使用先进的视觉-语言大模型生成准确描述图片的caption。这种方法丰富了我们的数据集，确保了相关性和细节。然后，我们从预训练的英文CLIP模型开始，为了更好地支持中文和长文本我们扩展了模型的词表和位置编码，通过大规模双语数据集扩展其双语能力。训练涉及对比损失函数和内存高效的方法。最后，我们基于Stable-Diffusion-XL，替换了第二阶段获得的text encoder，在第一阶段获得的数据集上进行扩散模型的多分辨率、多宽高比训练。
+
+    我们的机器评估包括了对不同模型的全面比较。评估指标包括CLIP相似度（CLIP Sim）、IS和FID，为每个模型在图像质量、多样性和与文本描述的对齐方面提供了全面的评估。在英文数据集（COCO）中，Taiyi-XL在所有指标上表现优异，获得了最好的CLIP Sim、IS和FID得分。这表明Taiyi-XL在生成与英文文本提示紧密对齐的图像方面非常有效，同时保持了高图像质量和多样性。同样，在中文数据集（COCO-CN）中，Taiyi-XL也超越了其他模型，展现了其强大的双语能力。
+
+    尽管Taiyi-XL可能还未能与商业模型相媲美，但它比当前双语开源模型优越不少。我们认为我们模型与商业模型的差距主要归因于训练数据的数量、质量和多样性的差异。我们的模型仅使用学术数据集和符合版权要求的图文数据进行训练，未使用Midjourney和DALL-E 3等生成数据。XL版本模型，如SD-XL和Taiyi-XL，在1.5版本模型如SD-v1.5和Alt-Diffusion上显示出显著改进。DALL-E 3以其生动的色彩和prompt-following的能力而著称。Taiyi-XL模型偏向生成摄影风格的图片，与Midjourney较为类似，但是Taiyi-XL并在双语（中英文）文生图生成方面表现更出色。  
+    
 * AltDiffusion:
 
   * 地址：https://github.com/FlagAI-Open/FlagAI
