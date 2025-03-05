@@ -167,6 +167,13 @@ Awesome-Chinese-Stable-Diffusion
 
   * 联通元景（UniT2IXL）是中国联通AI推出的中文原生文生图模型，完全在国产昇腾AI基础软硬件平台上实现训练和推理。该模型采用复合语言编码模块，优化中文长文本和特色词汇理解，提升图像生成质量。联通元景基于预训练海量中文图文数据，减少信息损失，准确生成高质量图片。元景文生图模型支持国产全栈训推，适配自定义数据集，实现跨平台平滑切换。已在多个行业如文创、服装等领域应用，助力企业提效降本。复合语言编码模块：在SDXL架构中融合复合语言编码模块，替换英文CLIP模型为中文CLIP，增强中文短文本的理解能力。encoder-decoder架构：引入基于encoder-decoder架构的语言模型到语言编码器部分，支持超过CLIP长度限制的长文本输入。
 昇腾AI算力集群：在昇腾AI大规模算力集群上实现模型的训练和推理，提供强大的计算支持。接口与Diffusers对齐：模型推理接口与Diffusers对齐，简化使用流程，支持单卡和多卡推理，单卡推理支持UNet Cache加速。
+
+* Cogview4：
+
+  * 地址：[https://github.com/THUDM/CogView4]
+    ![](https://img.shields.io/github/stars/THUDM/CogView4.svg)
+
+  * 首个支持生成汉字的文生图模型，CogView4 在 DPG-Bench 基准测试中的综合评分排名第一，在开源文生图模型中达到 SOTA。DPG-Bench 基准测试是用来评估文生图模型的文本指令跟随能力，CogView4得分是85.13。将文本编码器从纯英文的 T5 encoder 换为具备双语能力的 GLM-4 encoder（GLM-4-9B），并通过中英双语图文进行训练，使模型具备双语提示词输入能力。这让CogView4能支持生成汉字，同时也能理解和遵循中文提示词。CogView4也是DiT架构，不过并非MMDiT架构，而是延续了上一代的 Share-param DiT 架构，这里Attention和FFN的参数是文本和图像共享的（比MMDiT更节省参数），但为文本和图像模态分别设计独立的自适应 LayerNorm 层，以实现模态间的高效适配。架构上和CogVideoX是一致的，DiT参数量约6.4B。生成方法采用Flow Matching，VAE的channel=16，不过参数量为406M，比SD3和Flux的VAE要大不少。文本编码器前面说了，采用的是9B的GLM-4-9B。CogView4支持生成512～2048分辨率图像。而且CogView4 突破了传统固定 token 长度的限制，允许更高的 token 上限（最长1024 tokens）。采用4bit的文本编码器的话，只需要13GB显存就能生成1024图像。
     
 #### 1.2 闭源模型
 
