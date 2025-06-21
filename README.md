@@ -174,7 +174,15 @@ Awesome-Chinese-Stable-Diffusion
     ![](https://img.shields.io/github/stars/THUDM/CogView4.svg)
 
   * 首个支持生成汉字的文生图模型，CogView4 在 DPG-Bench 基准测试中的综合评分排名第一，在开源文生图模型中达到 SOTA。DPG-Bench 基准测试是用来评估文生图模型的文本指令跟随能力，CogView4得分是85.13。将文本编码器从纯英文的 T5 encoder 换为具备双语能力的 GLM-4 encoder（GLM-4-9B），并通过中英双语图文进行训练，使模型具备双语提示词输入能力。这让CogView4能支持生成汉字，同时也能理解和遵循中文提示词。CogView4也是DiT架构，不过并非MMDiT架构，而是延续了上一代的 Share-param DiT 架构，这里Attention和FFN的参数是文本和图像共享的（比MMDiT更节省参数），但为文本和图像模态分别设计独立的自适应 LayerNorm 层，以实现模态间的高效适配。架构上和CogVideoX是一致的，DiT参数量约6.4B。生成方法采用Flow Matching，VAE的channel=16，不过参数量为406M，比SD3和Flux的VAE要大不少。文本编码器前面说了，采用的是9B的GLM-4-9B。CogView4支持生成512～2048分辨率图像。而且CogView4 突破了传统固定 token 长度的限制，允许更高的 token 上限（最长1024 tokens）。采用4bit的文本编码器的话，只需要13GB显存就能生成1024图像。
-    
+
+* HiDream-I1：
+
+  * 地址：[https://github.com/HiDream-ai/HiDream-I1]
+    ![](https://img.shields.io/github/stars/HiDream-ai/HiDream-I1.svg)
+
+  * HiDream-I1采用扩散模型技术，是一种先进的深度学习方法，通过逐步去除噪声来生成图像。使模型能在细节渲染和图像一致性方面表现出色，生成的图像在色彩还原、边缘处理和构图完整性上都具有高质量。混合专家架构（MoE）：HiDream-I1使用了混合专家架构（MoE）的DiT模型，结合了双流MMDiT block与单流DiT block。通过动态路由机制高效分配计算资源，使模型在处理复杂任务时能够更灵活地利用计算能力。多种文本编码器集成：为了提升语义理解能力，HiDream-I1集成了多种文本编码器，包括OpenCLIP ViT-bigG、OpenAI CLIP ViT-L、T5-XXL和Llama-3.1-8B-Instruct。能更准确地理解文本描述，生成更符合用户需求的图像。大规模预训练策略：开发团队采用了大规模预训练策略，使HiDream-I1在生成速度与质量之间找到了绝佳平衡点。通过这种方式，模型能在短时间内生成高质量的图像，同时保持较高的生成效率。优化机制：HiDream-I1采用了Flash Attention等优化机制，进一步提升了生成图像的速度和质量。使模型在实际应用中更加高效，能快速响应用户的生成请求。
+
+
 #### 1.2 闭源模型
 
 * 腾讯混元
