@@ -182,6 +182,12 @@ Awesome-Chinese-Stable-Diffusion
 
   * HiDream-I1采用扩散模型技术，是一种先进的深度学习方法，通过逐步去除噪声来生成图像。使模型能在细节渲染和图像一致性方面表现出色，生成的图像在色彩还原、边缘处理和构图完整性上都具有高质量。混合专家架构（MoE）：HiDream-I1使用了混合专家架构（MoE）的DiT模型，结合了双流MMDiT block与单流DiT block。通过动态路由机制高效分配计算资源，使模型在处理复杂任务时能够更灵活地利用计算能力。多种文本编码器集成：为了提升语义理解能力，HiDream-I1集成了多种文本编码器，包括OpenCLIP ViT-bigG、OpenAI CLIP ViT-L、T5-XXL和Llama-3.1-8B-Instruct。能更准确地理解文本描述，生成更符合用户需求的图像。大规模预训练策略：开发团队采用了大规模预训练策略，使HiDream-I1在生成速度与质量之间找到了绝佳平衡点。通过这种方式，模型能在短时间内生成高质量的图像，同时保持较高的生成效率。优化机制：HiDream-I1采用了Flash Attention等优化机制，进一步提升了生成图像的速度和质量。使模型在实际应用中更加高效，能快速响应用户的生成请求。
 
+* Qwen-Image：
+
+  * 地址：[https://github.com/QwenLM/Qwen-Image]
+    ![](https://img.shields.io/github/stars/QwenLM/Qwen-Image.svg)
+
+  * Qwen-image扩散模型是一个20B的MMDiT，采用Flow Matching，patch size为2x2。但是这里的模型架构设计和SD3类似，transformer只包含60层的MMDiT block（文本和图像采用不同的参数），而不像Flux那样还包含单流的DiT Block（文本和图像共享参数）。Qwen-Image的MMDiT一个独特设计是位置编码，这里引入了一种新的位置编码方法：多模态可扩展旋转位置编码（Multimodal Scalable RoPE，简称 MSRoPE）。这种设计使得 MSRoPE 能够在图像端利用分辨率缩放的优势；而且在文本端保持与一维 RoPE 等效的行为，从而无需再为文本设计复杂的位置编码策略。VAE是采用同时支持编码图像和视频的3D VAE，以在未来支持视频。这里的3D VAE复用Wan 2.1 VAE，模型大小为127M，空间下采样8x，时序下采样4x，latent特征维度为16，比如对于输入为1024x1024的图像，VAE编码的latent特征维度16x128x128。另外，为了提升VAE的重建精度，尤其是针对小字体文本和细粒度细节的还原能力，这里还基于内部构建的富含文本的图像数据集上对VAE decoder进行了微调，这里仅组合使用重建损失和感知损失。text encoder采用Qwen2.5-VL（提取模型最后一层的隐含层特征），具体来说是Qwen2.5-VL-7B。Qwen2.5-VL 的语言与视觉空间已经对齐，而且保留了纯语言模型的语言建模能力，相较于仅语言模型更适用于文生图任务，而且Qwen2.5-VL 支持多模态输入，使得 Qwen-Image 能够更好地支持图像编辑这样的任务。Qwen-Image的训练数据规模是十亿级图文对，包含自然类（Nature）、设计类（Design）、人物类（People）以及合成类数据（Synthetic Data），其中合成数据占比约5%。训练数据采用七阶段的渐进式数据过滤流程，模型的后训练包括SFT和RL，在微调阶段，用高质量图像和人工标注优化模型，使其生成更真实、细节更丰富的内容。在强化学习阶段中，先用高效的DPO方法进行大规模偏好训练，再用GRPO做小范围精细调整，从而提升生成效果。
 
 #### 1.2 闭源模型
 
