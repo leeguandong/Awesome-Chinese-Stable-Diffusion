@@ -224,13 +224,6 @@ Awesome-Chinese-Stable-Diffusion
 
   * 采用了一种可扩展的单流数字图像处理 （S3-DiT）架构。在该架构中，文本、视觉语义标记和图像 VAE 标记在序列级别上连接起来，作为统一的输入流，与双流方法相比，最大限度地提高了参数效率。Decoupled-DMD：Z-Image背后的加速魔力，Decoupled-DMD 是赋能 8 步 Z-Image 模型的核心少步蒸馏算法。团队在 Decoupled-DMD 中的核心洞察是，现有分布匹配蒸馏（Distributaion Matching Distillation，DMD）方法的成功来源于两个独立且协作的机制：CFG 增强：驱动蒸馏过程的主要引擎 ，这是以前工作中大多被忽视的因素。分布匹配：更像是一种正则化器 ，确保生成结果的稳定性和质量。通过识别并解耦这两个机制，能够独立地研究和优化它们。这最终促使团队开发出了一种改进的蒸馏流程，大幅提升了少步生成的性能。在Decoupled-DMD 基础上，8 步 Z-Image 模型已经展示了卓越的能力。为了在语义对齐、美学质量和结构一致性方面实现进一步提升，同时生成具有更丰富高频细节的图像，团队提出了 DMDR。DMDR 的核心洞见是，强化学习（RL）与分布匹配蒸馏（DMD）可以在少步模型的后训练阶段协同整合。团队展示了：1. RL 解锁了 DMD 的性能，2. DMD 有效规范了 RL。Z-Image-Turbo —— Z-Image 的蒸馏轻量版，仅使用 8 步即可达到或超越主流竞品性能。它在企业级 H800 GPU 上可实现亚秒级推理速度⚡️，并能轻松运行于 16G显存的消费级设备。该模型在 照片级写实生成、中英双语文字渲染，以及指令遵循方面表现突出。
 
-* Z-Image：
-
-  * 地址：[https://github.com/Tongyi-MAI/Z-Image]
-    ![](https://img.shields.io/github/stars/Tongyi-MAI/Z-Image.svg)
-
-  * 采用了一种可扩展的单流数字图像处理 （S3-DiT）架构。在该架构中，文本、视觉语义标记和图像 VAE 标记在序列级别上连接起来，作为统一的输入流，与双流方法相比，最大限度地提高了参数效率。Decoupled-DMD：Z-Image背后的加速魔力，Decoupled-DMD 是赋能 8 步 Z-Image 模型的核心少步蒸馏算法。团队在 Decoupled-DMD 中的核心洞察是，现有分布匹配蒸馏（Distributaion Matching Distillation，DMD）方法的成功来源于两个独立且协作的机制：CFG 增强：驱动蒸馏过程的主要引擎 ，这是以前工作中大多被忽视的因素。分布匹配：更像是一种正则化器 ，确保生成结果的稳定性和质量。通过识别并解耦这两个机制，能够独立地研究和优化它们。这最终促使团队开发出了一种改进的蒸馏流程，大幅提升了少步生成的性能。在Decoupled-DMD 基础上，8 步 Z-Image 模型已经展示了卓越的能力。为了在语义对齐、美学质量和结构一致性方面实现进一步提升，同时生成具有更丰富高频细节的图像，团队提出了 DMDR。DMDR 的核心洞见是，强化学习（RL）与分布匹配蒸馏（DMD）可以在少步模型的后训练阶段协同整合。团队展示了：1. RL 解锁了 DMD 的性能，2. DMD 有效规范了 RL。Z-Image-Turbo —— Z-Image 的蒸馏轻量版，仅使用 8 步即可达到或超越主流竞品性能。它在企业级 H800 GPU 上可实现亚秒级推理速度⚡️，并能轻松运行于 16G显存的消费级设备。该模型在 照片级写实生成、中英双语文字渲染，以及指令遵循方面表现突出。
-
 * Ovis-Image：
 
   * 地址：[https://github.com/AIDC-AI/Ovis-Image]
@@ -244,7 +237,13 @@ Awesome-Chinese-Stable-Diffusion
     ![](https://img.shields.io/github/stars/LongCat-Image.svg)
 
   * LongCat-Image具备出色的跨语言图像编辑能力，通过共享 MM-DiT+Single-DiT 混合主干架构与VLM条件编码器，文生图与编辑能力相互辅助，继承文生图的出图质量并具备出色的指令遵循、一致性保持能力，在主流公开评测基准上达到第一梯队水平。文字生成专项能力上，覆盖全量通用规范汉字并在在商业海报、自然场景文字上都展现出极强的适用性。此外，通过精细化模型设计及多阶段训练策略优化，极大提升生成真实度、合理性并可支持消费级显卡高效推理。图像编辑：ImgEdit 得分 4.50（开源 SOTA），GEdit 中/英 7.60 / 7.64，接近商业模型；文字渲染：ChineseWord 分数 90.7，超越所有竞品；文生图：GenEval 0.87、DPG 86.8，达到开源/闭源顶级模型水平。
-    
+
+* LongCat-Image：
+
+  * 地址：[https://github.com/black-forest-labs/flux2]
+    ![](https://img.shields.io/github/stars/black-forest-labs/flux2.svg)
+
+  * 参数量级：Text Encoder (TE) 激增至 23B，配合 32B 的 DiT (Diffusion Transformer) 主干，总参数量达到了恐怖的 55B 级别。模型性质：目前的 dev 版本是一个蒸馏模型 (Distilled)，这意味着它在保持高性能的同时，推理步数被压缩了。多参考图的“逻辑融合” 这一点非常 aggressive。Flux.2 支持高达 10 张的参考图输入 (Multi-Reference)。实际官方示例来看，其对 ID 保持、风格迁移和物体融合的理解能力还是不错的。对于需要处理复杂构图和一致性角色的工作流，这是质变。提示词工程：从 NLP 到 结构化指令 Text Encoder 的升级带来了全新的 Prompt 范式。结构化 (Structured)：模型对 JSON 格式的理解力大幅提升，支持分层定义主体、光影、构图。Hex 色值锚定：不再需要用 "dark blue" 这种模糊词，直接丢给它 #0033FF，模型能将其精确映射到 Latent Space 的颜色向量中。这意味着 AI 正在从“生成艺术”走向“工业设计”。视觉上限：4MP 原生分辨率 + 全新 VAE分辨率：原生支持生成 4MP（约 2048x2048）级别的图像，在这个分辨率下，细节的连贯性依然稳健。VAE 升级：配套了全新的 Flux.2 VAE。众所周知，高分图的崩坏往往始于解码阶段，新的 VAE 显然是为了应对 4K 级（4096px）纹理细节而特调的，极大地修复了边缘伪影和细节涂抹感。
   
 #### 1.2 闭源模型
 
