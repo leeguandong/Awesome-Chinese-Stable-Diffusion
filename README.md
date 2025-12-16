@@ -238,7 +238,7 @@ Awesome-Chinese-Stable-Diffusion
 
   * LongCat-Image具备出色的跨语言图像编辑能力，通过共享 MM-DiT+Single-DiT 混合主干架构与VLM条件编码器，文生图与编辑能力相互辅助，继承文生图的出图质量并具备出色的指令遵循、一致性保持能力，在主流公开评测基准上达到第一梯队水平。文字生成专项能力上，覆盖全量通用规范汉字并在在商业海报、自然场景文字上都展现出极强的适用性。此外，通过精细化模型设计及多阶段训练策略优化，极大提升生成真实度、合理性并可支持消费级显卡高效推理。图像编辑：ImgEdit 得分 4.50（开源 SOTA），GEdit 中/英 7.60 / 7.64，接近商业模型；文字渲染：ChineseWord 分数 90.7，超越所有竞品；文生图：GenEval 0.87、DPG 86.8，达到开源/闭源顶级模型水平。
 
-* LongCat-Image：
+* Flux2：
 
   * 地址：[https://github.com/black-forest-labs/flux2]
     ![](https://img.shields.io/github/stars/black-forest-labs/flux2.svg)
