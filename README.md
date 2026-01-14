@@ -244,7 +244,15 @@ Awesome-Chinese-Stable-Diffusion
     ![](https://img.shields.io/github/stars/black-forest-labs/flux2.svg)
 
   * 参数量级：Text Encoder (TE) 激增至 23B，配合 32B 的 DiT (Diffusion Transformer) 主干，总参数量达到了恐怖的 55B 级别。模型性质：目前的 dev 版本是一个蒸馏模型 (Distilled)，这意味着它在保持高性能的同时，推理步数被压缩了。多参考图的“逻辑融合” 这一点非常 aggressive。Flux.2 支持高达 10 张的参考图输入 (Multi-Reference)。实际官方示例来看，其对 ID 保持、风格迁移和物体融合的理解能力还是不错的。对于需要处理复杂构图和一致性角色的工作流，这是质变。提示词工程：从 NLP 到 结构化指令 Text Encoder 的升级带来了全新的 Prompt 范式。结构化 (Structured)：模型对 JSON 格式的理解力大幅提升，支持分层定义主体、光影、构图。Hex 色值锚定：不再需要用 "dark blue" 这种模糊词，直接丢给它 #0033FF，模型能将其精确映射到 Latent Space 的颜色向量中。这意味着 AI 正在从“生成艺术”走向“工业设计”。视觉上限：4MP 原生分辨率 + 全新 VAE分辨率：原生支持生成 4MP（约 2048x2048）级别的图像，在这个分辨率下，细节的连贯性依然稳健。VAE 升级：配套了全新的 Flux.2 VAE。众所周知，高分图的崩坏往往始于解码阶段，新的 VAE 显然是为了应对 4K 级（4096px）纹理细节而特调的，极大地修复了边缘伪影和细节涂抹感。
-  
+
+* GLM-Image：
+
+  * 地址：[https://github.com/zai-org/GLM-Image]
+    ![](https://img.shields.io/github/stars/zai-org/GLM-Image.svg)
+
+  * 首个开源的，国产链路训练的工业表现级离散自回归图像生成模型，是面向认知型生成技术范式的一次尝试，在文字生成得SOTA成就。整个模型可以拆成两大块： Autoregressive（AR）模块：负责生成离散视觉 token。AR 模块本质上是个多模态理解 + 生成系统，包含 GLM-4-0414-9B 结构的语言模型, X-Omni-En 的 ViT 和 VQVAE。在原词表前面新增了16512个视觉 token，这也是这个模型lm head的大小，AR的输出结果不是直接出图，而是先产出一串离散视觉 token，然后把它们交给后面的 DiT 当输入。 Diffusion Decoder 模块：负责把 token 变成高质量图像，包含 DiT（Diffusion Transformer）Glyph + VAE，这里和去年发布的 CogView4 相似，是经典的Diffusion结构。不管多少张图以及什么比例，AR 这边的 ViT 会先把参考图编码成 Image Token （参考 GLM-V 类似的处理），这些 token 不仅给AR 用，也会复用到 DiT 里作为 condition_token（条件输入），让生成更贴着参考图走。
+    
+
 #### 1.2 闭源模型
 
 * 腾讯混元
