@@ -506,7 +506,7 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://lmarena.ai/leaderboard/text-to-image
 
-  * 简介：基于真实用户投票的Elo排名系统，是评估AI图像生成模型的金标准。采用盲测对比方式，由用户选择更好的生成结果来计算排名。截至2026年初，腾讯Hunyuan Image 3.0（Elo约1161，57K+投票）和字节Seedream 4（Elo约1144，14K+投票）等中国模型已跻身全球前列，与Google Gemini等国际模型竞争。
+  * 简介：基于真实用户投票的Elo排名系统，是评估AI图像生成模型的金标准。采用盲测对比方式，由用户选择更好的生成结果来计算排名。
 
 * **agicto.com 文生图排行榜**：
 
