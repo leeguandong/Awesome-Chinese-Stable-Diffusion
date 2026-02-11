@@ -29,6 +29,8 @@ Awesome-Chinese-Stable-Diffusion
   - [2.2 评测工具](#22-评测工具)
   - [2.3 排行榜](#23-排行榜)
 - [3. 数据集](#3-数据集)
+  - [3.1 开源训练数据集](#31-开源训练数据集)
+  - [3.2 评测/标注数据集](#32-评测标注数据集)
 - [Star History](#star-history)
 - [License](#license)
 
@@ -424,7 +426,57 @@ Awesome-Chinese-Stable-Diffusion
 
 ## 3. 数据集
 
-> 待补充。欢迎PR贡献中文图文对数据集资源。
+### 3.1 开源训练数据集
+
+* **WuKong（悟空数据集）**：
+
+  * 地址：https://wukong-dataset.github.io/wukong-dataset/ | [HuggingFace](https://huggingface.co/datasets/wanng/wukong100m)
+
+  * 简介：由华为诺亚方舟实验室创建的大规模中文多模态数据集，包含约1亿图文对。从百度搜索引擎利用100万个中文高频文本作为关键词进行图片搜索，获得接近20亿原始图文对，经过图片尺寸过滤（边长>200px，长宽比1/3~3）、无意义文本去除、短文本过滤、敏感词过滤等多步清洗后得到1亿高质量图文对。数据集分为256个文件，每个约8万对。是当时最大的中文开源多模态数据集，被Taiyi-SD、Taiyi-CLIP、WuKong-HuaHua（悟空画画）、PanGu-Draw等模型广泛使用。
+
+* **Zero（零）**：
+
+  * 地址：https://zero.so.com/
+
+  * 简介：由奇虎360搜索引擎收集的中文图文对数据集，包含约2300万图文对，从50亿原始图文对中筛选而来。与悟空数据集一起被Taiyi-CLIP和Taiyi-SD用作预训练数据集，在A100x32上预训练24轮共6天。
+
+* **LAION-5B中文子集**：
+
+  * 地址：https://laion.ai/blog/laion-5b/ | [下载工具](https://github.com/opendatalab/laion5b-downloader) ![](https://img.shields.io/github/stars/opendatalab/laion5b-downloader.svg)
+
+  * 简介：LAION-5B包含58.5亿CLIP过滤的图文对，其中LAION-2B-multi子集包含22.6亿非英文图文对，覆盖100+语言。中文（zh）是其中最大的语言子集之一，估计包含1.7-2亿中文图文对。从Common Crawl网页数据中收集。被多个中文文生图模型使用：MiaoBi（妙笔，清洗后的中文子集）、中文StableDiffusion-通用（DAMO，结合翻译版LAION-400M、CC12M、Open Images）、AltDiffusion（LAION-Aesthetics子集）、VisCPM-Paint（LAION-2B）等。
+
+* **TaiSu（太素）**：
+
+  * 地址：https://github.com/ksOAn6g5/TaiSu ![](https://img.shields.io/github/stars/ksOAn6g5/TaiSu.svg)
+
+  * 简介：大规模高质量中文多模态数据集，包含约1.66亿图文对。采用自动化数据获取和清洗框架构建，旨在填补大规模高质量中文图文数据的空白。可用于中文视觉-语言预训练研究。
+
+* **WuDaoMM（悟道多模态语料）**：
+
+  * 地址：https://arxiv.org/abs/2203.11480
+
+  * 简介：由BAAI（北京智源人工智能研究院）作为悟道项目的一部分创建的大规模多模态语料库，包含超过6.5亿图文对，涵盖中文和多语言内容。AltCLIP和AltDiffusion使用了悟道数据集（结合LAION）进行训练，CogView系列也使用了悟道数据。
+
+### 3.2 评测/标注数据集
+
+* **COCO-CN**：
+
+  * 地址：https://github.com/li-xirong/coco-cn ![](https://img.shields.io/github/stars/li-xirong/coco-cn.svg)
+
+  * 简介：最大的中英跨语言图文数据集，基于MS-COCO构建，包含20342张图像，标注了27218条中文句子和70993个标签。支持图像标注、描述和检索任务，也可作为中文文生图模型计算FID和CLIP Score的参考数据集。Taiyi-XL在COCO-CN评测中超越了同类双语开源模型。
+
+* **AI Challenger图像中文描述（AIC-ICC）**：
+
+  * 地址：https://github.com/ruotianluo/Image_Captioning_AI_Challenger ![](https://img.shields.io/github/stars/ruotianluo/Image_Captioning_AI_Challenger.svg)
+
+  * 简介：AI Challenger大规模数据集的一部分，包含约30万张图像及对应的中文描述标注（21万训练集，8万测试集）。是最早的大规模中文图像描述数据集之一，可用于中文图像描述和视觉-语言模型的评测。
+
+* **MUGE（多模态理解与生成评测）**：
+
+  * 地址：https://github.com/MUGE-2021/image-retrieval-baseline ![](https://img.shields.io/github/stars/MUGE-2021/image-retrieval-baseline.svg)
+
+  * 简介：由阿里达摩院认知智能团队推出的大规模中文多模态评测基准，覆盖图文检索、图像描述等多模态任务。MUGE检索基线后来被Chinese-CLIP所超越。为中文多模态模型提供了标准化的评测平台。
 
 
 
