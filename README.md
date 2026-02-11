@@ -424,6 +424,13 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：中文文生图模型排行榜，追踪和对比各文生图模型的排名表现。展示腾讯Hunyuan Image 3.0、字节Seedream等模型的排名情况，为中文用户提供直观的模型对比参考。
 
+
+* **Artificial Analysis Text-to-Image**：
+                                                                    
+  * 地址：https://artificialanalysis.ai/text-to-image                                                                 
+                                                                                                              
+  * 简介：独立的AI模型分析平台，提供文生图模型的全面对比评测。从图像质量（Elo评分）、生成速度、价格等多维度对主流文生图模型进行基准测试和排名，覆盖FLUX、DALL-E、Stable Diffusion、Midjourney以及Hunyuan、Seedream等中国模型。提供交互式图表和详细的性能数据，帮助用户在质量、速度和成本之间做出选择。     
+
 ## 3. 数据集
 
 ### 3.1 开源训练数据集
