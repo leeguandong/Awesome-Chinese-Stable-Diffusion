@@ -25,6 +25,9 @@ Awesome-Chinese-Stable-Diffusion
   - [1.2 开源模型](#12-开源模型)
   - [1.3 闭源模型](#13-闭源模型)
 - [2. 测评](#2-测评)
+  - [2.1 评测基准](#21-评测基准)
+  - [2.2 评测工具](#22-评测工具)
+  - [2.3 排行榜](#23-排行榜)
 - [3. 数据集](#3-数据集)
 - [Star History](#star-history)
 - [License](#license)
@@ -335,7 +338,89 @@ Awesome-Chinese-Stable-Diffusion
     
 ## 2. 测评
 
-> 待补充。欢迎PR贡献中文文生图模型的测评资源。
+### 2.1 评测基准
+
+* **GenEval**：
+
+  * 地址：https://github.com/djghosh13/geneval ![](https://img.shields.io/github/stars/djghosh13/geneval.svg)
+
+  * 简介：一个以物体为中心的文图对齐评估框架（NeurIPS 2023）。通过物体检测模型验证生成图像，测试物体共现、位置、数量、颜色和空间关系等组合式生成能力。被广泛用于评估Hunyuan-DiT、Kolors、FLUX、Seedream、Qwen-Image、SDXL、DALL-E 3、CogView等模型。LongCat-Image在GenEval上得分0.87，达到开源/闭源顶级水平。
+
+* **DPG-Bench**：
+
+  * 地址：https://github.com/TencentQQGYLab/ELLA ![](https://img.shields.io/github/stars/TencentQQGYLab/ELLA.svg)
+
+  * 简介：Dense Prompt Graph Benchmark，由腾讯提出，包含1000条密集/复杂提示词，用于评估文生图模型对详细、多元素描述的指令跟随能力。CogView4在DPG-Bench上综合评分85.13，在开源模型中排名第一。LongCat-Image得分86.8，同样达到顶级水平。该基准是评估中文文生图模型文本理解能力的重要指标。
+
+* **T2I-CompBench**：
+
+  * 地址：https://karine-h.github.io/T2I-CompBench/
+
+  * 简介：一个全面的组合式文生图评测基准，包含6000条组合式文本提示，覆盖三大类别：属性绑定（颜色、形状、纹理）、物体关系（空间、非空间、复杂）和复杂组合。为每个类别提供专门的评估指标，被Hunyuan-DiT、Kolors、Seedream、SDXL等模型广泛采用。
+
+* **CVTG-2K**：
+
+  * 简介：Chinese Visual Text Generation 2K，中文视觉文字生成评测基准，包含2000条测试用例。专门评估文生图模型在生成图像中准确渲染中文文字的能力，衡量指标包括Word Accuracy（词准确率）和Normalized Edit Distance（归一化编辑距离）等。Ovis-Image在CVTG-2K上达到SOTA，超越Qwen-Image和GPT4o。LongCat-Image、Hunyuan Image 3.0等模型也在此基准上进行了评测。
+
+* **ChineseWord**：
+
+  * 简介：中文字符渲染准确性评测基准，覆盖全部8105个通用规范汉字，评估模型对中文字符的渲染准确率、稳定性以及对生僻字/复杂字形的支持能力。LongCat-Image（美团）在此基准上得分90.7，超越所有竞品，达到开源SOTA。该基准是衡量中文文生图模型文字渲染能力的核心指标。
+
+* **C3 Benchmark**：
+
+  * 地址：https://openreview.net/forum?id=7isO_QfcX55
+
+  * 简介：Challenging Cross-Cultural Benchmark，由腾讯AI Lab提出，专门评估文生图模型生成中国及非西方文化场景图像的能力。包含500条挑战性提示词（C3），扩展版C3+包含9889条提示词，平均每条约40个词，远比标准基准复杂。是评估中文文化理解能力的重要基准。
+
+* **OneIG-Bench**：
+
+  * 简介：由StepFun提出的综合性文生图评测基准，从多个维度评估模型能力，包括文图对齐、文字渲染、推理能力、风格化和多样性等。Qwen-Image在OneIG-Bench上开源模型排名第一，提供了对图像生成质量的全面评估视角。
+
+* **COCO-CN**：
+
+  * 地址：https://github.com/li-xirong/coco-cn ![](https://img.shields.io/github/stars/li-xirong/coco-cn.svg)
+
+  * 简介：最大的中英跨语言图文数据集，包含20342张图像，标注了27218条中文句子和70993个标签。虽然主要面向图像描述和检索任务设计，但可作为中文文生图模型计算FID和CLIP Score的参考数据集。Taiyi-XL在COCO-CN上的评测中超越了同类双语开源模型。
+
+* **T2I-CoReBench**：
+
+  * 地址：https://t2i-corebench.github.io/
+
+  * 简介：由中国科学技术大学（USTC）提出的综合性评测基准，从12个维度评估文生图模型的组合能力和推理能力。超越简单的组合测试，进一步考察物理常识、时间理解等推理能力，是目前维度最全面的文生图评测基准之一。
+
+### 2.2 评测工具
+
+* **ImageReward**：
+
+  * 地址：https://github.com/THUDM/ImageReward ![](https://img.shields.io/github/stars/THUDM/ImageReward.svg)
+
+  * 简介：由清华大学（THUDM）提出的首个通用人类偏好奖励模型（NeurIPS 2023），可作为文生图模型的评分函数。支持集成到微调流程中（ReFL），用于基于人类偏好的强化学习训练。可以对生成图像的质量、文图对齐度和美学表现进行自动化评分。
+
+* **FlagEval**：
+
+  * 地址：https://github.com/FlagOpen/FlagEval ![](https://img.shields.io/github/stars/FlagOpen/FlagEval.svg)
+
+  * 简介：由BAAI（北京智源人工智能研究院）推出的开源AI大模型评测工具包。FlagEvalMM扩展版支持多模态和文生图评测，可全面评估视觉-语言理解和生成任务。提供标准化的评测流程和指标计算。
+
+* **X-IQE**：
+
+  * 地址：https://github.com/Schuture/Benchmarking-Awesome-Diffusion-Models ![](https://img.shields.io/github/stars/Schuture/Benchmarking-Awesome-Diffusion-Models.svg)
+
+  * 简介：eXplainable Image Quality Evaluation，由港中深提出的基于MiniGPT-4的文生图扩散模型评测策略。使用COCO Caption和DrawBench作为提示词集，提供可解释的质量评估而非仅数值分数，帮助理解模型在不同维度上的表现差异。
+
+### 2.3 排行榜
+
+* **LM Arena Text-to-Image**：
+
+  * 地址：https://lmarena.ai/leaderboard/text-to-image
+
+  * 简介：基于真实用户投票的Elo排名系统，是评估AI图像生成模型的金标准。采用盲测对比方式，由用户选择更好的生成结果来计算排名。截至2026年初，腾讯Hunyuan Image 3.0（Elo约1161，57K+投票）和字节Seedream 4（Elo约1144，14K+投票）等中国模型已跻身全球前列，与Google Gemini等国际模型竞争。
+
+* **agicto.com 文生图排行榜**：
+
+  * 地址：https://agicto.com/leaderboard/text-to-image
+
+  * 简介：中文文生图模型排行榜，追踪和对比各文生图模型的排名表现。展示腾讯Hunyuan Image 3.0、字节Seedream等模型的排名情况，为中文用户提供直观的模型对比参考。
 
 ## 3. 数据集
 
