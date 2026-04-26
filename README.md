@@ -73,6 +73,8 @@ Awesome-Chinese-Stable-Diffusion
 | BAGEL-7B-MoT | 14B (7B active) | MoT | - | 1024+ | - |
 | Wan2.5 | - | DiT | umT5 | 720p+ | - |
 | Wan2.6 | - | DiT | - | 720p+ | - |
+| ERNIE-Image | 8B | DiT (single-stream) | ERNIE-based | 2K | 支持 |
+| ERNIE-Image-Turbo | 8B | DiT (8-step distill) | ERNIE-based | 2K | 支持 |
 
 ### 1.2 开源模型
 
@@ -318,6 +320,12 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：Wan2.6是阿里于2025年12月17日发布的通义万相系列最新版本，支持文本、图像、视频、音频等多模态生成。在文生图方面，Wan2.6在LM Arena排行榜上排名第21位（Elo约1108）。该版本进一步提升了多模态协同能力，是目前Wan系列中功能最全面的版本。
 
+* **ERNIE-Image / 文心 ERNIE-Image**：
+
+  * 地址：https://huggingface.co/baidu/ERNIE-Image
+
+  * 简介：百度文心于 2026 年 4 月 15 日开源的 8B 单流 DiT 中文文生图模型，以 Apache-2.0 许可证发布。文本编码器基于 ERNIE LLM，并搭配轻量 Prompt Enhancer 与 iRAG 检索增强，实现强中英双语理解与 2K 高清生成。当前在 8B 量级开源模型中**中英双语图内文字渲染**与多面板漫画生成能力领先。同期还放出了 8 步采样的 **ERNIE-Image-Turbo** 蒸馏版（[huggingface.co/baidu/ERNIE-Image-Turbo](https://huggingface.co/baidu/ERNIE-Image-Turbo)），延迟优化场景的同源伴侣模型。
+
 ### 1.3 闭源模型
 
 * **腾讯混元**：
@@ -393,7 +401,7 @@ Awesome-Chinese-Stable-Diffusion
 
     **Seedream 4.5**（2025年底）：改进了主体一致性、参考细节保持和排版保真度，支持批量输入/输出。在LM Arena排名第13位（Elo约1142）。
 
-    **Seedream 5.0**（2026年2月）：最新版本，已上线剪映（国内）、CapCut（海外）和小云雀AI平台。具备智能理解能力，支持2K/4K分辨率输出，增强了图生图能力。
+    **Seedream 5.0 / 5.0 Lite**（2026 年 2 月 10 日 / 13 日）：首次引入"深度思考"（deep-thinking）规划器，将 MLLM 与 DiT 统一在一个推理流水里，支持图内文字 100+ 语种渲染、最多 14 张参考图、原生 3K 分辨率、并接入实时网页搜索做世界知识对齐。已上线剪映（国内）、CapCut（海外）和小云雀 AI 平台。Lite 版本对应延迟优化场景的同源精简模型。
 
 
 
