@@ -73,6 +73,8 @@ Awesome-Chinese-Stable-Diffusion
 | BAGEL-7B-MoT | 14B (7B active) | MoT | - | 1024+ | - |
 | Wan2.5 | - | DiT | umT5 | 720p+ | - |
 | Wan2.6 | - | DiT | - | 720p+ | - |
+| ERNIE-Image | 8B | DiT (single-stream) | ERNIE-based | 2K | 支持 |
+| ERNIE-Image-Turbo | 8B | DiT (8-step distill) | ERNIE-based | 2K | 支持 |
 
 ### 1.2 开源模型
 
@@ -307,6 +309,12 @@ Awesome-Chinese-Stable-Diffusion
   * 简介：BAGEL-7B-MoT是字节跳动Seed团队于2025年5月发布的统一多模态基础模型，总参数量14B，激活参数7B。该模型采用Mixture-of-Transformer（MoT）架构，在单一模型中统一了文生图生成（效果可与SD3竞争）、图像编辑和多模态理解三大能力。在LM Arena文生图排行榜上有排名。BAGEL的创新之处在于将理解和生成能力融合在同一个模型中，无需为不同任务切换模型。
 
 
+* **ERNIE-Image / 文心 ERNIE-Image**：
+
+  * 地址：https://huggingface.co/baidu/ERNIE-Image
+
+  * 简介：百度文心于 2026 年 4 月 15 日开源的 8B 单流 DiT 中文文生图模型，以 Apache-2.0 许可证发布。文本编码器基于 ERNIE LLM，并搭配轻量 Prompt Enhancer 与 iRAG 检索增强，实现强中英双语理解与 2K 高清生成。当前在 8B 量级开源模型中**中英双语图内文字渲染**与多面板漫画生成能力领先。同期还放出了 8 步采样的 **ERNIE-Image-Turbo** 蒸馏版（[huggingface.co/baidu/ERNIE-Image-Turbo](https://huggingface.co/baidu/ERNIE-Image-Turbo)），延迟优化场景的同源伴侣模型。
+
 ### 1.3 闭源模型
 
 * **腾讯混元**：
@@ -382,7 +390,7 @@ Awesome-Chinese-Stable-Diffusion
 
     **Seedream 4.5**（2025年底）：改进了主体一致性、参考细节保持和排版保真度，支持批量输入/输出。在LM Arena排名第13位（Elo约1142）。
 
-    **Seedream 5.0**（2026年2月）：最新版本，已上线剪映（国内）、CapCut（海外）和小云雀AI平台。具备智能理解能力，支持2K/4K分辨率输出，增强了图生图能力。
+    **Seedream 5.0 / 5.0 Lite**（2026 年 2 月 10 日 / 13 日）：首次引入"深度思考"（deep-thinking）规划器，将 MLLM 与 DiT 统一在一个推理流水里，支持图内文字 100+ 语种渲染、最多 14 张参考图、原生 3K 分辨率、并接入实时网页搜索做世界知识对齐。已上线剪映（国内）、CapCut（海外）和小云雀 AI 平台。Lite 版本对应延迟优化场景的同源精简模型。
 
 
 
