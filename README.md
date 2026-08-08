@@ -14,10 +14,6 @@ Awesome-Chinese-Stable-Diffusion
 
 本项目旨在收集和梳理中文图像生成与编辑相关资源。除 Stable Diffusion 生态外，也收录 DiT、自回归、MoE 和统一多模态模型，以及中文文字渲染相关的评测与数据集。
 
-> 最近核验：2026-08-07。模型可用状态与链接以官方来源为准；排行榜分数保留各条目标注的统计日期。
->
-> 本轮更新：新增 Qwen-Image-3.0 / Qwen-Image-3.0-Pro、Mage-Flow / Mage-Flow-Edit 和 Qwen-Image-Flash，并补充 Boogu-Image 的最新推理框架与昇腾 NPU 支持。
-
 如果本项目能给您带来一点点帮助，麻烦点个⭐️吧～
 
 同时也欢迎大家贡献本项目未收录的开源模型、应用、数据集等。提供新的仓库信息请发起PR，并按照本项目的格式提供仓库链接、star数，简介等相关信息，感谢~
@@ -43,8 +39,6 @@ Awesome-Chinese-Stable-Diffusion
 
 ### 1.1 模型汇总
 
-> 本表用于横向索引，包含已开源、闭源/API、仅论文与待开放项目；具体状态以 1.2～1.4 节为准。`-` 表示相关信息尚未公开或未能核验，并不等同于“不支持”。
-
 | 模型 | 参数量 | 架构 | 文本编码器 | 最大分辨率 | 中文文字渲染 |
 |------|--------|------|-----------|-----------|-------------|
 | SkyPaint | - | UNet (SD) | CLIP (中英) | 512 | - |
@@ -60,7 +54,6 @@ Awesome-Chinese-Stable-Diffusion
 | MiaoBi | - | UNet (SD 1.5) | Chinese | 512 | - |
 | 混元DiT | 1.5B | DiT | CLIP + T5 | 1024+ | - |
 | Kolors | - | SDXL | ChatGLM3-6B | 1024 | 支持 |
-| AnyText2 | - | SD 1.5 + WriteNet/AttnX | CLIP | 512 | 支持 |
 | UniT2IXL | - | SDXL | Chinese CLIP + LM | 1024 | - |
 | CogView4 | 6B | DiT (Share-param) | GLM-4-9B | 2048 | 支持 |
 | HiDream-I1 | 17B | MoE DiT | CLIP + T5 + Llama-3.1-8B | 1024+ | - |
@@ -75,7 +68,6 @@ Awesome-Chinese-Stable-Diffusion
 | FLUX.2 | 32B 主干（另用 24B TE） | DiT | Mistral-Small-3.2-24B | 2048 | - |
 | GLM-Image | 16B（9B AR + 7B DiT） | AR + DiT | GLM-4-9B | 2K | 支持 |
 | Qwen-Image-2512 | 20B | MMDiT | Qwen2.5-VL-7B | 2048+ | 支持 |
-| Qwen-Image-Layered | 20B | MMDiT | Qwen2.5-VL-7B | 2048+ | - |
 | Qwen-Image-2.0 | - | - | - | 2K | 支持 |
 | Z-Image-Turbo | 6B | S3-DiT (8-step distill) | - | 2048 | 支持 |
 | BAGEL-7B-MoT | 14B (7B active) | MoT | - | 1024+ | - |
@@ -211,12 +203,6 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：在架构上，可图也是采用latent diffusion架构，基本沿用SDXL的模型设计，但是文本编码器采用了支持中英文双语的ChatGLM3-6B-Base，而且文本提示词的输入长度支持 256 tokens，这比77 tokens的CLIP要长得多。使用GLM也比采用CLIP有更强的文本理解能力，和DALL-E 3一样，可图也对训练数据集中的图像作了重打标来生成文本详细描述，这里采用的打标模型是开源模型中效果相对较好的CogVLM-1.1-chat，由于多模态大模型MLLMs无法识别图像中的特定的概念，所以训练过程中采用混合caption：50%用原始文本，50%用合成的文本，这和SD3的训练策略类似。此外，为了让可图支持写中文，这里也是专门构建了包含中文字的数据集，包括合成的数据以及通过OCR或者多模态大模型打标的数据集。在训练策略上，可图也是采用两阶段训练，首先是预训练阶段，技术报告里面叫concept learning，这个阶段就是从大量的文本图像对数据集上学习，让模型能够对文本有很强的理解能力。然后是微调阶段，通过构建高质量数据来提升图像质量和分辨率。
 
-* **AnyText2**：
-
-  * 地址：https://github.com/tyxsspa/AnyText2 ![](https://img.shields.io/github/stars/tyxsspa/AnyText2.svg) | [论文](https://arxiv.org/abs/2411.15245)
-
-  * 简介：基于 Stable Diffusion 1.5，以 WriteNet + AttnX 注入文字渲染能力，支持多语言文字生成与编辑，并可逐行控制字体和颜色。官方于 2025 年 3 月 1 日开放推理、训练、评测代码，以及模型权重和 AnyWord-3M 训练数据。
-
 * **UniT2IXL联通元景**：
 
   * 地址：https://github.com/UnicomAI/UniT2IXL ![](https://img.shields.io/github/stars/UnicomAI/UniT2IXL.svg)
@@ -306,12 +292,6 @@ Awesome-Chinese-Stable-Diffusion
   * 地址：https://huggingface.co/Qwen/Qwen-Image-2512
 
   * 简介：Qwen-Image-2512是阿里Qwen-Image的更新版本（2025年12月发布），专注于提升人像生成的真实感。相比初版Qwen-Image，该模型在面部细节、皮肤纹理、光影表现等方面进行了优化，生成的人像更加自然，减少了"AI生成感"。截至2026年7月5日，在LM Arena Text-to-Image Overall排行榜上排名第34位（Elo 1127±4）。模型架构与Qwen-Image一致，为20B的MMDiT，采用Qwen2.5-VL-7B作为文本编码器。
-
-* **Qwen-Image-Layered**：
-
-  * 地址：https://huggingface.co/Qwen/Qwen-Image-Layered
-
-  * 简介：Qwen-Image-Layered是阿里于2025年12月发布的创新模型，能够将单张图像分解为多个语义解耦的RGBA图层，实现类似Photoshop的内在可编辑性。用户可以对生成图像的不同元素（前景、背景、文字等）进行独立编辑和调整，大幅提升了文生图模型在设计工作流中的实用性。
 
 * **BAGEL-7B-MoT**：
 
