@@ -14,7 +14,9 @@ Awesome-Chinese-Stable-Diffusion
 
 本项目旨在收集和梳理中文图像生成与编辑相关资源。除 Stable Diffusion 生态外，也收录 DiT、自回归、MoE 和统一多模态模型，以及中文文字渲染相关的评测与数据集。
 
-> 最近核验：2026-07-19。模型可用状态与链接以官方来源为准；排行榜分数保留各条目标注的统计日期。
+> 最近核验：2026-08-07。模型可用状态与链接以官方来源为准；排行榜分数保留各条目标注的统计日期。
+>
+> 本轮更新：新增 Qwen-Image-3.0 / Qwen-Image-3.0-Pro、Mage-Flow / Mage-Flow-Edit 和 Qwen-Image-Flash，并补充 Boogu-Image 的最新推理框架与昇腾 NPU 支持。
 
 如果本项目能给您带来一点点帮助，麻烦点个⭐️吧～
 
@@ -22,7 +24,7 @@ Awesome-Chinese-Stable-Diffusion
 
 ## 目录
 
-- [1. 中文文生图模型](#1-中文文生图模型)
+- [1. 中文图像生成与编辑模型](#1-中文图像生成与编辑模型)
   - [1.1 模型汇总](#11-模型汇总)
   - [1.2 开源模型](#12-开源模型)
   - [1.3 闭源模型](#13-闭源模型)
@@ -37,7 +39,7 @@ Awesome-Chinese-Stable-Diffusion
 - [Star History](#star-history)
 - [License](#license)
 
-## 1. 中文文生图模型
+## 1. 中文图像生成与编辑模型
 
 ### 1.1 模型汇总
 
@@ -87,6 +89,9 @@ Awesome-Chinese-Stable-Diffusion
 | Boogu-Image-0.1 | 10B | DiT | Qwen3-VL-8B | 2048 | 支持 |
 | JoyAI-Image / Edit | 24B (8B MLLM + 16B MMDiT) | MLLM + MMDiT | 8B MLLM | 1024 | 支持 |
 | JuZhou 1.0 | 0.387B | UNet + Rectified Flow | Chinese CLIP | 1024 | 支持 |
+| Mage-Flow / Mage-Flow-Edit | 4B | Native-Resolution MMDiT | Qwen3-VL | 2048 | 支持 |
+| Qwen-Image-Flash | 20.43B DiT（全流水线 28.85B） | MMDiT (4-step DMD2) | Qwen2.5-VL | 未公开（官方仅测 1024） | 未评测（英文蒸馏） |
+| Qwen-Image-3.0 / Qwen-Image-3.0-Pro | - | - | - | 2K | 支持（12 种语言） |
 
 ### 1.2 开源模型
 
@@ -333,7 +338,7 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：Boogu-Image-0.1是Boogu Project于2026年6月16日发布的10B开源文生图与图像编辑统一模型家族（Apache-2.0许可证），包含Base（基础生成模型，25-50步推理，强调多样性和可控性）、Turbo（3-4步蒸馏版，基于Decoupled DMD加速，面向快速推理和照片级真实感）、Edit（图像编辑与变换）和Edit-Turbo（四步蒸馏编辑版）等变体。文本编码器采用Qwen3-VL-8B-Instruct，VAE复用开源FLUX.1 VAE，支持1K和2K分辨率输出。该模型支持中英双语文字渲染，擅长海报、印章、文档界面、品牌指南等场景的超密集文字生成，并提供FP8量化版本以降低部署门槛。2026年6月30日，官方发布Boogu-Image-0.1-Edit-Turbo；2026年7月8日发布Edit-Turbo hotfix，修复前一版本问题并提供1K/1.5K检查点。
 
-    **技术报告更新**：官方于 2026 年 7 月 16 日发布[技术报告](https://arxiv.org/abs/2607.13125)（arXiv 首次提交于 7 月 14 日），披露训练使用 208.62M 张去重图像，Base 的理论训练成本约 40 万美元，并以 Apache-2.0 开放代码、权重与训练 recipes。
+    **技术报告与部署更新**：官方于 2026 年 7 月 16 日发布[技术报告](https://arxiv.org/abs/2607.13125)（arXiv 首次提交于 7 月 14 日），披露训练使用 208.62M 张去重图像，Base 的理论训练成本约 40 万美元，并以 Apache-2.0 开放代码、权重与训练 recipes。7 月 22 日，vLLM-Omni 主仓库新增[社区维护的 Boogu-Image recipe](https://github.com/vllm-project/vllm-omni/blob/ee33954dff27da317be597449a6c1b5a5df4052b/recipes/Boogu/Boogu-Image.md)；7 月 23 日，项目新增[昇腾 NPU 初步支持](https://github.com/boogu-project/Boogu-Image/blob/b40214e5c0f94579a932fdc8074c17330051d16f/NPU_INFERENCE_GUIDE.md)。
 
 * **JoyAI-Image / Edit**：
 
@@ -347,7 +352,25 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：百度文心于 2026 年 4 月 15 日开源的 8B 单流 DiT 中文文生图模型，以 Apache-2.0 许可证发布。文本编码器基于 ERNIE LLM，并搭配轻量 Prompt Enhancer 与 iRAG 检索增强，实现强中英双语理解与 2K 高清生成。当前在 8B 量级开源模型中**中英双语图内文字渲染**与多面板漫画生成能力领先。同期还放出了 8 步采样的 **ERNIE-Image-Turbo** 蒸馏版（[huggingface.co/baidu/ERNIE-Image-Turbo](https://huggingface.co/baidu/ERNIE-Image-Turbo)），延迟优化场景的同源伴侣模型。
 
+* **Mage-Flow / Mage-Flow-Edit**：
+
+  * 地址：https://github.com/microsoft/Mage ![](https://img.shields.io/github/stars/microsoft/Mage.svg) | [论文](https://arxiv.org/abs/2607.19064) | [生成权重](https://huggingface.co/microsoft/Mage-Flow) | [编辑权重](https://huggingface.co/microsoft/Mage-Flow-Edit)
+
+  * 简介：微软于 2026 年 7 月 22 日开放的 4B 图像生成与指令编辑模型族。模型采用 Native-Resolution MMDiT、Mage-VAE 与 Qwen3-VL 文本编码器，同一套 4B 主干分别提供 Base、RL 对齐和 4 步 Turbo 版本；支持 512～2048 分辨率、最高 4:1 宽高比及中文文字渲染。官方开放生成和编辑代码、权重，项目仓库采用 MIT 许可证；编辑版支持单图与多图参考。项目报告给出的结果中，Mage-Flow 在 GenEval 为 0.90、CVTG-2K 为 0.887；这些分数属于项目方自报结果，横向比较时仍应统一评测设置。
+
+* **Qwen-Image-Flash**：
+
+  * 地址：https://huggingface.co/nvidia/Qwen-Image-Flash
+
+  * 简介：NVIDIA 于 2026 年 7 月 23 日发布的 Qwen-Image 四步蒸馏版本，使用 DMD2 保留原 20.43B MMDiT 架构，并提供 Diffusers、SGLang Diffusion、vLLM-Omni 和 TensorRT-LLM 推理路径。四步推理减少了 Transformer 前向次数，但不减少参数量或基础权重占用；官方仅在 1024×1024 上完成测试。该版本使用英文提示词蒸馏，模型卡明确说明继承的中文能力尚未评测，且用途限于文生图，不包含图像编辑。权重遵循 NVIDIA Open Model License。
+
 ### 1.3 闭源模型
+
+* **Qwen-Image-3.0 / Qwen-Image-3.0-Pro**：
+
+  * 地址：https://help.aliyun.com/zh/model-studio/qwen-image-generation-and-editing-api-reference | [官方首发](https://zhuanlan.zhihu.com/p/2062903884503330992) | [全量开放](https://zhuanlan.zhihu.com/p/2068284890467014567) | [Standard](https://help.aliyun.com/zh/model-studio/qwen-image-3-0) | [Pro](https://help.aliyun.com/zh/model-studio/qwen-image-3-0-pro)
+
+  * 简介：阿里于 2026 年 7 月 21 日发布并开启 API 邀测、8 月 5 日全量开放的闭源图像生成与编辑模型族，包含兼顾质量与速度的 Standard 和强调复杂版面、真实细节的 Pro。两者均支持文生图，以及基于 1～3 张参考图的图生图/指令编辑；支持最长约 4.5K tokens 的中英文指令、12 种语言与多字体文字渲染、最多 6 张输出。文生图和图生图的输出像素面积均为 512×512～2048×2048，宽高比可在 1:8～8:1 之间。目前仅提供 API，未公开模型架构和权重。
 
 * **Wan2.7-Image / Wan2.7-Image-Pro**：
 
