@@ -83,6 +83,7 @@ Awesome-Chinese-Stable-Diffusion
 | JuZhou 1.0 | 0.387B | UNet + Rectified Flow | Chinese CLIP | 1024 | 支持 |
 | Mage-Flow / Mage-Flow-Edit | 4B | Native-Resolution MMDiT | Qwen3-VL | 2048 | 支持 |
 | Qwen-Image-Flash | 20.43B DiT（全流水线 28.85B） | MMDiT (4-step DMD2) | Qwen2.5-VL | 未公开（官方仅测 1024） | 未评测（英文蒸馏） |
+| Qwen-Image-Layered | 20B | VLD-MMDiT | Qwen2.5-VL-7B | 2048 | 支持（文字可独立成层） |
 | Qwen-Image-3.0 / Qwen-Image-3.0-Pro | - | - | - | 2K | 支持（12 种语言） |
 
 ### 1.2 开源模型
@@ -248,9 +249,9 @@ Awesome-Chinese-Stable-Diffusion
 
 * **Hunyuan3**：
 
-  * 地址：https://github.com/Tencent-Hunyuan/HunyuanImage-3.0 ![](https://img.shields.io/github/stars/Tencent-Hunyuan/HunyuanImage-3.0.svg)
+  * 地址：https://github.com/Tencent-Hunyuan/HunyuanImage-3.0 ![](https://img.shields.io/github/stars/Tencent-Hunyuan/HunyuanImage-3.0.svg) | [技术报告](https://arxiv.org/abs/2509.23951)
 
-  * 简介：混元图像3.0是首个开源的工业级原生多模态图像生成模型，这里的工业级说的是效果能达到可用的地步，之前学术界其实也有很多开源的原生多模态生图模型，但是效果上其实都不算很好。此外，这个模型是80B的MoE模型（13B激活参数），也是目前参数量最大的开源生图模型。HunyuanImage-3.0 是一个突破性的原生多模态模型，它在一个自回归框架内统一了多模态理解和生成。我们的文本到图像模块实现了与领先闭源模型相当或超越的性能。统一多模态架构：超越流行的基于 DiT 的架构，HunyuanImage-3.0 采用统一的自回归框架。这种设计能够更直接和集成地建模文本和图像模态，从而实现令人惊讶的有效且具有丰富上下文的图像生成。最大图像生成 MoE 模型：这是迄今为止最大的开源图像生成专家混合（MoE）模型。它拥有 64 个专家，总参数量达 800 亿，每个 token 激活参数达 130 亿，显著提升了其容量和性能。卓越的图像生成性能：通过严格的数据集筛选和先进的强化学习后训练，我们在语义准确性和视觉卓越性之间实现了最佳平衡。该模型在遵循提示方面表现出色，同时提供具有惊人美学质量和细粒度细节的逼真图像。 智能世界知识推理：统一的跨模态架构赋予 HunyuanImage-3.0 强大的推理能力。它利用其丰富的世界知识智能地理解用户意图，自动用恰当的上下文细节补充稀疏提示，以生成更优质、更完整的视觉输出。
+  * 简介：混元图像3.0是首个开源的工业级原生多模态图像生成模型，这里的工业级说的是效果能达到可用的地步，之前学术界其实也有很多开源的原生多模态生图模型，但是效果上其实都不算很好。此外，这个模型是80B的MoE模型（13B激活参数），也是目前参数量最大的开源生图模型。HunyuanImage-3.0 是一个突破性的原生多模态模型，它在一个自回归框架内统一了多模态理解和生成。我们的文本到图像模块实现了与领先闭源模型相当或超越的性能。统一多模态架构：超越流行的基于 DiT 的架构，HunyuanImage-3.0 采用统一的自回归框架。这种设计能够更直接和集成地建模文本和图像模态，从而实现令人惊讶的有效且具有丰富上下文的图像生成。最大图像生成 MoE 模型：这是迄今为止最大的开源图像生成专家混合（MoE）模型。它拥有 64 个专家，总参数量达 800 亿，每个 token 激活参数达 130 亿，显著提升了其容量和性能。卓越的图像生成性能：通过严格的数据集筛选和先进的强化学习后训练，我们在语义准确性和视觉卓越性之间实现了最佳平衡。该模型在遵循提示方面表现出色，同时提供具有惊人美学质量和细粒度细节的逼真图像。 智能世界知识推理：统一的跨模态架构赋予 HunyuanImage-3.0 强大的推理能力。它利用其丰富的世界知识智能地理解用户意图，自动用恰当的上下文细节补充稀疏提示，以生成更优质、更完整的视觉输出。技术报告披露该模型的成功依赖于精心的数据管理、先进的架构设计、原生 Chain-of-Thoughts 模式、渐进式模型预训练、激进的模型后训练以及支持大规模训练和推理的高效基础设施。
 
     **更新**：2026年1月26日，腾讯发布了HunyuanImage-3.0-Instruct及其蒸馏版本HunyuanImage-3.0-Instruct-Distil。Instruct版本引入了Chain-of-Thoughts推理能力，支持指令驱动的图像生成和编辑。截至2026年7月5日，Hunyuan Image 3.0在LM Arena Text-to-Image Overall排行榜上排名第24位（Elo 1151±3）。
 
@@ -328,9 +329,9 @@ Awesome-Chinese-Stable-Diffusion
 
 * **ERNIE-Image / 文心 ERNIE-Image**：
 
-  * 地址：https://huggingface.co/baidu/ERNIE-Image
+  * 地址：https://github.com/baidu/ernie-image ![](https://img.shields.io/github/stars/baidu/ernie-image.svg) | [技术报告](https://arxiv.org/abs/2605.25347) | [权重](https://huggingface.co/baidu/ERNIE-Image)
 
-  * 简介：百度文心于 2026 年 4 月 15 日开源的 8B 单流 DiT 中文文生图模型，以 Apache-2.0 许可证发布。文本编码器基于 ERNIE LLM，并搭配轻量 Prompt Enhancer 与 iRAG 检索增强，实现强中英双语理解与 2K 高清生成。当前在 8B 量级开源模型中**中英双语图内文字渲染**与多面板漫画生成能力领先。同期还放出了 8 步采样的 **ERNIE-Image-Turbo** 蒸馏版（[huggingface.co/baidu/ERNIE-Image-Turbo](https://huggingface.co/baidu/ERNIE-Image-Turbo)），延迟优化场景的同源伴侣模型。
+  * 简介：百度文心于 2026 年 4 月 15 日开源的 8B 单流 DiT 中文文生图模型，以 Apache-2.0 许可证发布。技术报告披露该模型为潜在扩散模型（LDM），VAE 复用 FLUX.2 VAE。文本编码器基于 ERNIE LLM，并搭配轻量 Prompt Enhancer 与 iRAG 检索增强，实现强中英双语理解与 2K 高清生成。当前在 8B 量级开源模型中**中英双语图内文字渲染**与多面板漫画生成能力领先，中英日多语言文字渲染表现突出。同期还放出了 8 步采样的 **ERNIE-Image-Turbo** 蒸馏版（[huggingface.co/baidu/ERNIE-Image-Turbo](https://huggingface.co/baidu/ERNIE-Image-Turbo)），延迟优化场景的同源伴侣模型，Turbo 版本可在 8GB 显存下运行，并支持 ComfyUI 本地部署。
 
 * **Mage-Flow / Mage-Flow-Edit**：
 
@@ -343,6 +344,12 @@ Awesome-Chinese-Stable-Diffusion
   * 地址：https://huggingface.co/nvidia/Qwen-Image-Flash
 
   * 简介：NVIDIA 于 2026 年 7 月 23 日发布的 Qwen-Image 四步蒸馏版本，使用 DMD2 保留原 20.43B MMDiT 架构，并提供 Diffusers、SGLang Diffusion、vLLM-Omni 和 TensorRT-LLM 推理路径。四步推理减少了 Transformer 前向次数，但不减少参数量或基础权重占用；官方仅在 1024×1024 上完成测试。该版本使用英文提示词蒸馏，模型卡明确说明继承的中文能力尚未评测，且用途限于文生图，不包含图像编辑。权重遵循 NVIDIA Open Model License。
+
+* **Qwen-Image-Layered**：
+
+  * 地址：https://github.com/QwenLM/Qwen-Image-Layered ![](https://img.shields.io/github/stars/QwenLM/Qwen-Image-Layered.svg) | [论文](https://arxiv.org/abs/2512.15603) | [权重](https://huggingface.co/Qwen/Qwen-Image-Layered)
+
+  * 简介：阿里 Qwen 团队于 2025 年 12 月首次发布、2026 年 6 月更新的图像分层分解模型（CVPR 2026 Highlight），采用 Apache-2.0 许可证开源。该模型将单张 RGB 图像分解为最多 10 个语义独立的 RGBA 图层，实现**固有可编辑性**——每个图层可独立操作而不影响其他内容。模型采用 20B 的 VLD-MMDiT（Vision-Language Disentangled Multi-Modal DiT）架构，使用 Qwen2.5-VL-7B 作为文本编码器，支持原生 2048 分辨率和中英双语文字渲染。分层结果可直接导入 Photoshop、GIMP 等专业工具进行后期编辑。2026 年 6 月的 v2 版本改进了图层质量、语义分离度和透明度处理。该模型为图像编辑工作流提供了全新范式，特别适合需要精细局部调整的设计场景。
 
 ### 1.3 闭源模型
 
@@ -360,9 +367,9 @@ Awesome-Chinese-Stable-Diffusion
 
 * **Qwen-Image-2.0**：
 
-  * 地址：https://qwen.ai/blog?id=qwen-image-2.0
+  * 地址：https://qwen.ai/blog?id=qwen-image-2.0 | [技术报告](https://arxiv.org/abs/2605.10730)
 
-  * 简介：Qwen 团队于 2026 年 2 月 10 日发布的闭源图像生成与编辑模型，支持专业排版渲染（PPT、海报和漫画等）、最长 1000 tokens 的复杂输入和原生 2K 输出。目前官方未公开对应模型权重。
+  * 简介：Qwen 团队于 2026 年 2 月 10 日发布的闭源全能（omni-capable）图像生成与编辑基础模型，在单一统一框架内融合了高保真图像生成与精确图像编辑能力。支持专业排版渲染（PPT、海报和漫画等）、最长 1000 tokens 的复杂输入和原生 2K 输出。技术报告披露采用 Qwen3-VL 作为条件编码器、多模态扩散 Transformer 进行联合建模，并通过课程学习策略提升文字渲染能力。目前官方未公开对应模型权重。
 
 * **Qwen-Image-2.0-Pro**：
 
@@ -437,7 +444,7 @@ Awesome-Chinese-Stable-Diffusion
 
     **Seedream 4.5**（2025年底）：改进了主体一致性、参考细节保持和排版保真度，支持批量输入/输出。截至2026年7月5日，在LM Arena Text-to-Image Overall排行榜上排名第28位（Elo 1146±3）。
 
-    **Seedream 5.0 Pro**（2026 年 7 月 8 日）：面向专业设计的闭源多模态图像创作模型，支持高密度信息图的逻辑推理与版面规划、点选/圈选/草图等精确局部编辑、图层拆分、多图融合和真实感增强，并支持十余种常用语言的输入与文字生成。
+    **Seedream 5.0 Pro**（2026 年 7 月 8 日）：面向专业设计的闭源多模态图像创作模型。相比之前版本，在图文匹配、结构合理性、文字渲染与画面美感等基础能力上全面提升，并带来四大核心能力突破：1）高密度信息图的逻辑推理与版面规划，能够理解设计意图并自动布局；2）点选/圈选/草图等精确局部编辑；3）图层拆分与多图融合；4）真实感增强与美学优化。该模型支持 14 种常用语言的输入与文字生成，统一了文生图生成与图像编辑能力，通过单一 API 提供生产就绪的创意工作流，适用于设计师、营销人员和创作者的专业场景。
 
 ### 1.4 论文与待开放模型
 
@@ -551,6 +558,12 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：2025年提出的文生图安全性评测基准，从毒性、公平性和偏见三个维度评估模型安全性。包含12个任务、44个类别和68000张人工标注图像，是目前规模最大的文生图安全性评测数据集。
 
+* **MMTIT-Bench**：
+
+  * 地址：https://github.com/VirtualLUOUCAS/MMTIT_Bench ![](https://img.shields.io/github/stars/VirtualLUOUCAS/MMTIT_Bench.svg) | [论文](https://openaccess.thecvf.com/content/CVPR2026/html/Li_MMTIT-Bench_A_Multilingual_and_Multi-Scenario_Benchmark_with_Cognition-Perception-Reasoning_Guided_Text-Image_CVPR_2026_paper.html)
+
+  * 简介：CVPR 2026 提出的多语言多场景文字图像机器翻译（Text-Image Machine Translation, TIMT）评测基准。包含 1,400 张经人工验证的图像，覆盖 14 种非英语和非中文语言（如日语、韩语、阿拉伯语、俄语等），以及文档、场景和网页图像等多样化现实场景，提供中英文双语翻译标注。该基准提出了认知-感知-推理（Cognition-Perception-Reasoning, CPR）引导的翻译范式，将视觉场景认知、文本感知和翻译推理三个阶段解耦，实现端到端 TIMT 的严格评估。相关工作由腾讯混元团队参与，可参考 [HunyuanOCR 项目](https://github.com/Tencent-Hunyuan/HunyuanOCR)。
+
 ### 2.2 评测工具
 
 * **ImageReward**：
@@ -573,9 +586,9 @@ Awesome-Chinese-Stable-Diffusion
 
 * **TextPecker**：
 
-  * 地址：https://github.com/CIawevy/TextPecker ![](https://img.shields.io/github/stars/CIawevy/TextPecker.svg) | [论文](https://arxiv.org/abs/2602.20903)
+  * 地址：https://github.com/CIawevy/TextPecker ![](https://img.shields.io/github/stars/CIawevy/TextPecker.svg) | [论文](https://arxiv.org/abs/2602.20903) | [CVPR 2026](https://cvpr.thecvf.com/virtual/2026/poster/38029)
 
-  * 简介：CVPR 2026 的视觉文字渲染专项 evaluator / reward 框架，可量化文字扭曲、模糊、错位等结构异常及语义一致性。已开放 InternVL3-8B、Qwen3-VL-8B 两个 evaluator、TextPecker-1.5M 数据集，以及训练、强化学习和评测代码（Apache-2.0）。
+  * 简介：CVPR 2026 的视觉文字渲染专项 evaluator / reward 框架，可量化文字扭曲、模糊、错位等结构异常及语义一致性。通过将细粒度的结构异常识别集成到评估和强化学习（RL）优化中，显著提升文生图模型的视觉文字渲染（VTR）质量。实验表明，TextPecker 能够持续改进各种文生图模型；即使在高度优化的 Qwen-Image 上，也能显著提升平均 4% 的结构保真度和 8.7% 的中文文字渲染语义对齐度，树立了高保真 VTR 的新 SOTA。已开放 InternVL3-8B、Qwen3-VL-8B 两个 evaluator、TextPecker-1.5M 数据集，以及训练、强化学习和评测代码（Apache-2.0）。该工具填补了 VTR 优化领域的空白，为可靠且结构忠实的视觉文字生成提供了基础性工具。
 
 ### 2.3 排行榜
 
