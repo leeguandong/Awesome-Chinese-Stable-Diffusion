@@ -586,9 +586,9 @@ Awesome-Chinese-Stable-Diffusion
 
 * **TextPecker**：
 
-  * 地址：https://github.com/CIawevy/TextPecker ![](https://img.shields.io/github/stars/CIawevy/TextPecker.svg) | [论文](https://arxiv.org/abs/2602.20903) | [CVPR 2026](https://cvpr.thecvf.com/virtual/2026/poster/38029)
+  * 地址：https://github.com/CIawevy/TextPecker ![](https://img.shields.io/github/stars/CIawevy/TextPecker.svg) | [论文](https://arxiv.org/abs/2602.20903)
 
-  * 简介：CVPR 2026 的视觉文字渲染专项 evaluator / reward 框架，可量化文字扭曲、模糊、错位等结构异常及语义一致性。通过将细粒度的结构异常识别集成到评估和强化学习（RL）优化中，显著提升文生图模型的视觉文字渲染（VTR）质量。实验表明，TextPecker 能够持续改进各种文生图模型；即使在高度优化的 Qwen-Image 上，也能显著提升平均 4% 的结构保真度和 8.7% 的中文文字渲染语义对齐度，树立了高保真 VTR 的新 SOTA。已开放 InternVL3-8B、Qwen3-VL-8B 两个 evaluator、TextPecker-1.5M 数据集，以及训练、强化学习和评测代码（Apache-2.0）。该工具填补了 VTR 优化领域的空白，为可靠且结构忠实的视觉文字生成提供了基础性工具。
+  * 简介：CVPR 2026 的视觉文字渲染专项 evaluator / reward 框架，可量化文字扭曲、模糊、错位等结构异常及语义一致性。已开放 InternVL3-8B、Qwen3-VL-8B 两个 evaluator、TextPecker-1.5M 数据集，以及训练、强化学习和评测代码（Apache-2.0）。
 
 ### 2.3 排行榜
 
