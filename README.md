@@ -83,7 +83,6 @@ Awesome-Chinese-Stable-Diffusion
 | JuZhou 1.0 | 0.387B | UNet + Rectified Flow | Chinese CLIP | 1024 | 支持 |
 | Mage-Flow / Mage-Flow-Edit | 4B | Native-Resolution MMDiT | Qwen3-VL | 2048 | 支持 |
 | Qwen-Image-Flash | 20.43B DiT（全流水线 28.85B） | MMDiT (4-step DMD2) | Qwen2.5-VL | 未公开（官方仅测 1024） | 未评测（英文蒸馏） |
-| Qwen-Image-Layered | 20B | VLD-MMDiT | Qwen2.5-VL-7B | 2048 | 支持（文字可独立成层） |
 | Qwen-Image-3.0 / Qwen-Image-3.0-Pro | - | - | - | 2K | 支持（12 种语言） |
 
 ### 1.2 开源模型
@@ -345,12 +344,6 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：NVIDIA 于 2026 年 7 月 23 日发布的 Qwen-Image 四步蒸馏版本，使用 DMD2 保留原 20.43B MMDiT 架构，并提供 Diffusers、SGLang Diffusion、vLLM-Omni 和 TensorRT-LLM 推理路径。四步推理减少了 Transformer 前向次数，但不减少参数量或基础权重占用；官方仅在 1024×1024 上完成测试。该版本使用英文提示词蒸馏，模型卡明确说明继承的中文能力尚未评测，且用途限于文生图，不包含图像编辑。权重遵循 NVIDIA Open Model License。
 
-* **Qwen-Image-Layered**：
-
-  * 地址：https://github.com/QwenLM/Qwen-Image-Layered ![](https://img.shields.io/github/stars/QwenLM/Qwen-Image-Layered.svg) | [论文](https://arxiv.org/abs/2512.15603) | [权重](https://huggingface.co/Qwen/Qwen-Image-Layered)
-
-  * 简介：阿里 Qwen 团队于 2025 年 12 月首次发布、2026 年 6 月更新的图像分层分解模型（CVPR 2026 Highlight），采用 Apache-2.0 许可证开源。该模型将单张 RGB 图像分解为最多 10 个语义独立的 RGBA 图层，实现**固有可编辑性**——每个图层可独立操作而不影响其他内容。模型采用 20B 的 VLD-MMDiT（Vision-Language Disentangled Multi-Modal DiT）架构，使用 Qwen2.5-VL-7B 作为文本编码器，支持原生 2048 分辨率和中英双语文字渲染。分层结果可直接导入 Photoshop、GIMP 等专业工具进行后期编辑。2026 年 6 月的 v2 版本改进了图层质量、语义分离度和透明度处理。该模型为图像编辑工作流提供了全新范式，特别适合需要精细局部调整的设计场景。
-
 ### 1.3 闭源模型
 
 * **Qwen-Image-3.0 / Qwen-Image-3.0-Pro**：
@@ -447,6 +440,18 @@ Awesome-Chinese-Stable-Diffusion
     **Seedream 5.0 Pro**（2026 年 7 月 8 日）：面向专业设计的闭源多模态图像创作模型。相比之前版本，在图文匹配、结构合理性、文字渲染与画面美感等基础能力上全面提升，并带来四大核心能力突破：1）高密度信息图的逻辑推理与版面规划，能够理解设计意图并自动布局；2）点选/圈选/草图等精确局部编辑；3）图层拆分与多图融合；4）真实感增强与美学优化。该模型支持 14 种常用语言的输入与文字生成，统一了文生图生成与图像编辑能力，通过单一 API 提供生产就绪的创意工作流，适用于设计师、营销人员和创作者的专业场景。
 
 ### 1.4 论文与待开放模型
+
+* **Swift-Image**：
+
+  * 地址：https://arxiv.org/abs/2608.20334
+
+  * 简介：2026 年 8 月 20 日公开的紧凑型统一图像生成与编辑模型，使用 6B 单流 DiT，在同一模型内支持文生图、单图编辑和多图编辑。训练流程包含渐进式预训练、并行专家强化学习和多教师 on-policy distillation；进一步通过结构化剪枝得到性能损失很小的 3B 版本，并提供少步蒸馏方向。论文报告总训练成本约 24.3 万 GPU 小时，但目前仅确认技术论文，尚未确认公开代码或权重，中文能力也未单独披露。
+
+* **InnoText**：
+
+  * 地址：https://arxiv.org/abs/2607.22101
+
+  * 简介：京东等机构提出、ECCV 2026 接收的中英双语视觉文字生成与编辑模型。InnoText 以统一 DiT 同时处理文字生成和编辑，通过字号感知调制（FSAM）、小字符感知增强及任务区域加权损失，改善小字号和中文等非拉丁文字的结构规整度与可读性；同时构建了覆盖多种字体、字号和背景的中英双语数据集。目前仅确认论文，尚未发现公开代码或权重。
 
 * **Qwen-Image-2.0-RL**：
 
@@ -558,11 +563,17 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：2025年提出的文生图安全性评测基准，从毒性、公平性和偏见三个维度评估模型安全性。包含12个任务、44个类别和68000张人工标注图像，是目前规模最大的文生图安全性评测数据集。
 
-* **MMTIT-Bench**：
+* **LingT2I**：
 
-  * 地址：https://github.com/VirtualLUOUCAS/MMTIT_Bench ![](https://img.shields.io/github/stars/VirtualLUOUCAS/MMTIT_Bench.svg) | [论文](https://openaccess.thecvf.com/content/CVPR2026/html/Li_MMTIT-Bench_A_Multilingual_and_Multi-Scenario_Benchmark_with_Cognition-Perception-Reasoning_Guided_Text-Image_CVPR_2026_paper.html)
+  * 地址：https://github.com/RISys-Lab/LingT2I ![](https://img.shields.io/github/stars/RISys-Lab/LingT2I.svg) | [论文](https://arxiv.org/abs/2608.11002) | [数据集](https://huggingface.co/datasets/RISys-Lab/LingT2I)
 
-  * 简介：CVPR 2026 提出的多语言多场景文字图像机器翻译（Text-Image Machine Translation, TIMT）评测基准。包含 1,400 张经人工验证的图像，覆盖 14 种非英语和非中文语言（如日语、韩语、阿拉伯语、俄语等），以及文档、场景和网页图像等多样化现实场景，提供中英文双语翻译标注。该基准提出了认知-感知-推理（Cognition-Perception-Reasoning, CPR）引导的翻译范式，将视觉场景认知、文本感知和翻译推理三个阶段解耦，实现端到端 TIMT 的严格评估。相关工作由腾讯混元团队参与，可参考 [HunyuanOCR 项目](https://github.com/Tencent-Hunyuan/HunyuanOCR)。
+  * 简介：ACM MM 2026 的多语言文生图评测基准，覆盖 10 种常用语言和 3.3 万条提示词，同时评估内容生成与图内文字渲染。基准提供布局信息、条件图像以及字符/词级编辑距离、整句准确率等指标，并扩展到文化偏差、人口属性偏差和多语言安全性分析。代码与数据集已经公开，可直接评测 Qwen-Image、Z-Image、Seedream、AnyText 系列等模型的跨语言一致性。
+
+* **TangPoetryBench**：
+
+  * 地址：https://arxiv.org/abs/2608.11452
+
+  * 简介：2026 年 8 月提出的唐诗生图专项基准，以 320 首唐诗和 4 个主流文生图模型构成 1,280 张评测图像，并提供十个维度的人工标注，覆盖画质、意象与场景忠实度、文化与风格适配、无关文字、情感及隐含情绪等。配套的 PoemAutoEvaluator（PAE）采用 rubric 条件化评价，可泛化到未见过的生成模型和宋词，用于弥补 CLIPScore、VQAScore 等字面匹配指标难以评价中文诗词意境的问题。
 
 ### 2.2 评测工具
 
