@@ -67,6 +67,8 @@ Awesome-Chinese-Stable-Diffusion
 | LongCat-Image | 6B | MM-DiT + Single-DiT | VLM | 1024+ | 支持 |
 | FLUX.2 | 32B 主干（另用 24B TE） | DiT | Mistral-Small-3.2-24B | 2048 | - |
 | GLM-Image | 16B（9B AR + 7B DiT） | AR + DiT | GLM-4-9B | 2K | 支持 |
+| SenseNova-U1.5 | 8B | Native unified MoT (NEO-unify) | 无外置编码器 | 4K | 支持 |
+| InternLumina-U2 | 16B (1B active) | Multi-codebook dLLM MoE | LLaDA-2.0 MoE | 1024 | - |
 | Qwen-Image-2512 | 20B | MMDiT | Qwen2.5-VL-7B | 2048+ | 支持 |
 | Qwen-Image-2.0 | - | - | - | 2K | 支持 |
 | Z-Image-Turbo | 6B | S3-DiT (8-step distill) | - | 2048 | 支持 |
@@ -285,7 +287,17 @@ Awesome-Chinese-Stable-Diffusion
   * 地址：https://github.com/zai-org/GLM-Image ![](https://img.shields.io/github/stars/zai-org/GLM-Image.svg)
 
   * 简介：首个开源的，国产链路训练的工业表现级离散自回归图像生成模型，是面向认知型生成技术范式的一次尝试，在文字生成上取得 SOTA 成绩。整个模型可以拆成两大块： Autoregressive（AR）模块：负责生成离散视觉 token。AR 模块本质上是个多模态理解 + 生成系统，包含 GLM-4-0414-9B 结构的语言模型, X-Omni-En 的 ViT 和 VQVAE。在原词表前面新增了16512个视觉 token，这也是这个模型lm head的大小，AR的输出结果不是直接出图，而是先产出一串离散视觉 token，然后把它们交给后面的 DiT 当输入。 Diffusion Decoder 模块：负责把 token 变成高质量图像，包含 DiT（Diffusion Transformer）Glyph + VAE，这里和去年发布的 CogView4 相似，是经典的Diffusion结构。不管多少张图以及什么比例，AR 这边的 ViT 会先把参考图编码成 Image Token （参考 GLM-V 类似的处理），这些 token 不仅给AR 用，也会复用到 DiT 里作为 condition_token（条件输入），让生成更贴着参考图走。
-    
+* **SenseNova-U1.5**：
+
+  * 地址：https://github.com/OpenSenseNova/SenseNova-U1 ![](https://img.shields.io/github/stars/OpenSenseNova/SenseNova-U1.svg) | [技术报告](https://github.com/OpenSenseNova/SenseNova-U1/blob/main/docs/pdf/SenseNOVA_U1_5.pdf) | [Hugging Face 权重](https://huggingface.co/sensenova/SenseNova-U1.5-8B-MoT) | [ModelScope 权重](https://modelscope.cn/models/SenseNova/SenseNova-U1.5-8B-MoT)
+
+  * 简介：商汤于 2026 年 8 月 20 日发布的 8B 原生统一多模态模型，基于 NEO-unify 的 MoT 架构，取消独立视觉编码器和 VAE，在同一模型中支持文生图、图像编辑、视觉理解和交错图文生成。U1.5 重点提升中文/英文文字与信息图、原生 4K 生成、主体及未编辑区域保持、复杂指令遵循和框选/参考图控制；官方技术报告于 2026 年 9 月 10 日公开，模型权重已开放，另提供 8-step LoRA。官方仍提示密集小字、严格布局和复杂多轮编辑存在失败案例。
+
+* **InternLumina-U2**：
+
+  * 地址：https://github.com/InternLM/InternLumina-U2 ![](https://img.shields.io/github/stars/InternLM/InternLumina-U2.svg) | [项目页](https://internlm.github.io/InternLumina-U2/) | [权重](https://huggingface.co/internlm/InternLumina-U2)
+
+  * 简介：上海人工智能实验室于 2026 年 9 月发布的统一视觉模型，基于 LLaDA-2.0 MoE（16B 总参数、约 1B 激活），采用 8 组 AToken 多码本表示和离散扩散语言模型，在同一骨干上覆盖视觉问答/OCR/图表与数学理解、文生图、指令编辑、视频和 3D 理解。项目同时适配 NVIDIA GPU 与昇腾 NPU；目前仓库提供推理代码，昇腾训练权重已在 9 月 10 日开放，NVIDIA 权重、训练代码和技术报告尚待发布。项目公布的 TIIF-Bench、DPG-Bench、ImgEdit 分数仍属于初步结果。
 
 * **Qwen-Image-2512**：
 
