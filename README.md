@@ -69,6 +69,8 @@ Awesome-Chinese-Stable-Diffusion
 | GLM-Image | 16B（9B AR + 7B DiT） | AR + DiT | GLM-4-9B | 2K | 支持 |
 | SenseNova-U1.5 | 8B | Native unified MoT (NEO-unify) | 无外置编码器 | 4K | 支持 |
 | InternLumina-U2 | 16B (1B active) | Multi-codebook dLLM MoE | LLaDA-2.0 MoE | 1024 | - |
+| Qwen-Image-Edit-2511 | 20B | MMDiT | Qwen2.5-VL-7B | - | 支持 |
+| Qwen-Image-Layered | - | - | - | 640 / 1024 分桶 | - |
 | Qwen-Image-2512 | 20B | MMDiT | Qwen2.5-VL-7B | 2048+ | 支持 |
 | Qwen-Image-2.0 | - | - | - | 2K | 支持 |
 | Z-Image-Turbo | 6B | S3-DiT (8-step distill) | - | 2048 | 支持 |
@@ -262,7 +264,7 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：采用了一种可扩展的单流数字图像处理 （S3-DiT）架构。在该架构中，文本、视觉语义标记和图像 VAE 标记在序列级别上连接起来，作为统一的输入流，与双流方法相比，最大限度地提高了参数效率。Decoupled-DMD：Z-Image背后的加速魔力，Decoupled-DMD 是赋能 8 步 Z-Image 模型的核心少步蒸馏算法。团队在 Decoupled-DMD 中的核心洞察是，现有分布匹配蒸馏（Distribution Matching Distillation，DMD）方法的成功来源于两个独立且协作的机制：CFG 增强：驱动蒸馏过程的主要引擎 ，这是以前工作中大多被忽视的因素。分布匹配：更像是一种正则化器 ，确保生成结果的稳定性和质量。通过识别并解耦这两个机制，能够独立地研究和优化它们。这最终促使团队开发出了一种改进的蒸馏流程，大幅提升了少步生成的性能。在Decoupled-DMD 基础上，8 步 Z-Image 模型已经展示了卓越的能力。为了在语义对齐、美学质量和结构一致性方面实现进一步提升，同时生成具有更丰富高频细节的图像，团队提出了 DMDR。DMDR 的核心洞见是，强化学习（RL）与分布匹配蒸馏（DMD）可以在少步模型的后训练阶段协同整合。团队展示了：1. RL 解锁了 DMD 的性能，2. DMD 有效规范了 RL。Z-Image-Turbo —— Z-Image 的蒸馏轻量版，仅使用 8 步即可达到或超越主流竞品性能。它在企业级 H800 GPU 上可实现亚秒级推理速度⚡️，并能轻松运行于 16G显存的消费级设备。该模型在照片级写实生成、中英双语文字渲染，以及指令遵循方面表现突出。
 
-    **更新**：官方模型族包含Z-Image-Turbo、Z-Image、Z-Image-Omni-Base和Z-Image-Edit等版本。Z-Image-Turbo是8步蒸馏版本，面向快速高质量文生图；Z-Image是Turbo背后的基础生成模型，支持负提示词、创意生成、微调和下游开发；Z-Image-Omni-Base定位为兼具生成和编辑能力的原始基础模型；Z-Image-Edit是面向图像编辑的微调版本。截至2026年7月，官方Model Zoo中Z-Image与Z-Image-Turbo已提供权重，Z-Image-Omni-Base与Z-Image-Edit仍标注为待发布。
+    **更新**：官方模型族包含Z-Image-Turbo、Z-Image、Z-Image-Omni-Base和Z-Image-Edit等版本。Z-Image-Turbo是8步蒸馏版本，面向快速高质量文生图；Z-Image是Turbo背后的基础生成模型，支持负提示词、创意生成、微调和下游开发；Z-Image-Omni-Base定位为兼具生成和编辑能力的原始基础模型；Z-Image-Edit是面向图像编辑的微调版本。截至2026年9月20日核查，官方Model Zoo中Z-Image与Z-Image-Turbo已提供权重，Z-Image-Omni-Base与Z-Image-Edit仍标注为待发布。
 
 * **Ovis-Image**：
 
@@ -291,13 +293,27 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://github.com/OpenSenseNova/SenseNova-U1 ![](https://img.shields.io/github/stars/OpenSenseNova/SenseNova-U1.svg) | [技术报告](https://github.com/OpenSenseNova/SenseNova-U1/blob/main/docs/pdf/SenseNOVA_U1_5.pdf) | [Hugging Face 权重](https://huggingface.co/sensenova/SenseNova-U1.5-8B-MoT) | [ModelScope 权重](https://modelscope.cn/models/SenseNova/SenseNova-U1.5-8B-MoT)
 
-  * 简介：商汤于 2026 年 8 月 20 日发布的 8B 原生统一多模态模型，基于 NEO-unify 的 MoT 架构，取消独立视觉编码器和 VAE，在同一模型中支持文生图、图像编辑、视觉理解和交错图文生成。U1.5 重点提升中文/英文文字与信息图、原生 4K 生成、主体及未编辑区域保持、复杂指令遵循和框选/参考图控制；官方技术报告于 2026 年 9 月 10 日公开，模型权重已开放，另提供 8-step LoRA。官方仍提示密集小字、严格布局和复杂多轮编辑存在失败案例。
+  * 简介：商汤于 2026 年 8 月 20 日发布的 8B 原生统一多模态模型，基于 NEO-unify 的 MoT 架构，取消独立视觉编码器和 VAE，在同一模型中支持文生图、图像编辑、视觉理解和交错图文生成。U1.5 重点提升中文/英文文字与信息图、原生 4K 生成、主体及未编辑区域保持、复杂指令遵循和框选/参考图控制；官方技术报告于 2026 年 9 月 11 日公告发布，模型权重已开放，另提供 8-step LoRA。官方仍提示密集小字、严格布局和复杂多轮编辑存在失败案例。
+
+    **量化权重**：官方公告收录了社区于 2026 年 9 月 1 日发布的 [U1.5 正式版 Q8 GGUF](https://huggingface.co/realrebelai/SenseNova-U1.5-8B_GGUFs/blob/main/SenseNova-U1.5-8B-MoT-Q8_0.gguf)（文件约 21.2 GB），由社区独立维护。另有面向 U1.5 Preview 的量化版本，使用时应匹配对应基础模型；文件大小不等于运行显存需求。
 
 * **InternLumina-U2**：
 
   * 地址：https://github.com/InternLM/InternLumina-U2 ![](https://img.shields.io/github/stars/InternLM/InternLumina-U2.svg) | [项目页](https://internlm.github.io/InternLumina-U2/) | [权重](https://huggingface.co/internlm/InternLumina-U2)
 
   * 简介：上海人工智能实验室于 2026 年 9 月发布的统一视觉模型，基于 LLaDA-2.0 MoE（16B 总参数、约 1B 激活），采用 8 组 AToken 多码本表示和离散扩散语言模型，在同一骨干上覆盖视觉问答/OCR/图表与数学理解、文生图、指令编辑、视频和 3D 理解。项目同时适配 NVIDIA GPU 与昇腾 NPU；目前仓库提供推理代码，昇腾训练权重已在 9 月 10 日开放，NVIDIA 权重、训练代码和技术报告尚待发布。项目公布的 TIIF-Bench、DPG-Bench、ImgEdit 分数仍属于初步结果。
+
+* **Qwen-Image-Edit-2511**：
+
+  * 地址：https://github.com/QwenLM/Qwen-Image ![](https://img.shields.io/github/stars/QwenLM/Qwen-Image.svg) | [权重](https://huggingface.co/Qwen/Qwen-Image-Edit-2511) | [官方介绍](https://qwenlm.github.io/blog/qwen-image-edit-2511/)
+
+  * 简介：Qwen 团队于 2025 年 12 月 23 日开放的图像编辑模型，支持单图与多图输入、中英文文字编辑。相比 Edit-2509，重点改善人物身份和多人合照的一致性，并增强工业设计、材质替换与几何推理能力；部分社区 LoRA 的光照和视角控制能力已整合进基础模型。官方提供 Diffusers 的 QwenImageEditPlusPipeline 用法，亦有 LightX2V、SGLang Diffusion 和 vLLM-Omni 推理支持。
+
+* **Qwen-Image-Layered**：
+
+  * 地址：https://github.com/QwenLM/Qwen-Image-Layered ![](https://img.shields.io/github/stars/QwenLM/Qwen-Image-Layered.svg) | [权重](https://huggingface.co/Qwen/Qwen-Image-Layered) | [论文](https://arxiv.org/abs/2512.15603)
+
+  * 简介：Qwen 团队于 2025 年 12 月 19 日开放的图像分层模型（Apache-2.0），将单张图像分解成多个带透明通道的 RGBA 图层，支持可变层数和递归分解。分层后可独立移动、缩放、重着色或删除目标图层，也可结合 Qwen-Image-Edit 修改图层中的文字或对象。官方应用支持导出 PSD、PPTX 和 ZIP；推理提供 640 与 1024 分辨率分桶，当前版本推荐 640。
 
 * **Qwen-Image-2512**：
 
@@ -614,6 +630,8 @@ Awesome-Chinese-Stable-Diffusion
   * 简介：CVPR 2026 的视觉文字渲染专项 evaluator / reward 框架，可量化文字扭曲、模糊、错位等结构异常及语义一致性。已开放 InternVL3-8B、Qwen3-VL-8B 两个 evaluator、TextPecker-1.5M 数据集，以及训练、强化学习和评测代码（Apache-2.0）。
 
 ### 2.3 排行榜
+
+> 排名随模型版本、评测类别和投票样本变化。本文保留的 2026 年 7 月 5 日 Arena 数值为历史快照；最新排名请以链接中的实时榜单为准。
 
 * **LM Arena Text-to-Image**：
 
