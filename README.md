@@ -25,6 +25,7 @@ Awesome-Chinese-Stable-Diffusion
   - [1.2 开源模型](#12-开源模型)
   - [1.3 闭源模型](#13-闭源模型)
   - [1.4 论文与待开放模型](#14-论文与待开放模型)
+  - [1.5 近期基模进展](#15-近期基模进展)
 - [2. 测评](#2-测评)
   - [2.1 评测基准](#21-评测基准)
   - [2.2 评测工具](#22-评测工具)
@@ -38,6 +39,8 @@ Awesome-Chinese-Stable-Diffusion
 ## 1. 中文图像生成与编辑模型
 
 ### 1.1 模型汇总
+
+> 本轮基模信息核查：2026 年 10 月 10 日。参数量需区分生成主干、条件编码器、总参数与激活参数；分辨率需结合条目区分原生训练能力与接口输出规格。`-` 表示此处未列明，不代表不支持。公开权重的许可范围以各模型条目为准。
 
 | 模型 | 参数量 | 架构 | 文本编码器 | 最大分辨率 | 中文文字渲染 |
 |------|--------|------|-----------|-----------|-------------|
@@ -67,12 +70,14 @@ Awesome-Chinese-Stable-Diffusion
 | LongCat-Image | 6B | MM-DiT + Single-DiT | VLM | 1024+ | 支持 |
 | FLUX.2 | 32B 主干（另用 24B TE） | DiT | Mistral-Small-3.2-24B | 2048 | - |
 | GLM-Image | 16B（9B AR + 7B DiT） | AR + DiT | GLM-4-9B | 2K | 支持 |
-| SenseNova-U1.5 | 8B | Native unified MoT (NEO-unify) | 无外置编码器 | 4K | 支持 |
+| SenseNova-U1.5 | 理解 / 生成分支各 8.2B | Native unified MoT (NEO-unify) | 无外置编码器 | 原生 4K | 支持 |
 | InternLumina-U2 | 16B (1B active) | Multi-codebook dLLM MoE | LLaDA-2.0 MoE | 1024 | - |
 | Qwen-Image-Edit-2511 | 20B | MMDiT | Qwen2.5-VL-7B | - | 支持 |
 | Qwen-Image-Layered | - | - | - | 640 / 1024 分桶 | - |
 | Qwen-Image-2512 | 20B | MMDiT | Qwen2.5-VL-7B | 2048+ | 支持 |
-| Qwen-Image-2.0 | - | - | - | 2K | 支持 |
+| Qwen-Image-2.1 | 7B DiT（另用 8B 编码器） | Single-stream DiT（32 层，block-causal） | Qwen3-VL-8B | 2K | 支持 |
+| Qwen-Image-2.1-Turbo | 7B 视觉生成主干 | Single-stream DiT（8 步） | 同 Qwen-Image-2.1 | 2K | 支持 |
+| Qwen-Image-2.0 | - | MMDiT + VAE | Qwen3-VL | 原生 2K | 支持 |
 | Z-Image-Turbo | 6B | S3-DiT (8-step distill) | - | 2048 | 支持 |
 | BAGEL-7B-MoT | 14B (7B active) | MoT | - | 1024+ | - |
 | ERNIE-Image | 8B | DiT (single-stream) | ERNIE-based | 2K | 支持 |
@@ -88,6 +93,11 @@ Awesome-Chinese-Stable-Diffusion
 | Mage-Flow / Mage-Flow-Edit | 4B | Native-Resolution MMDiT | Qwen3-VL | 2048 | 支持 |
 | Qwen-Image-Flash | 20.43B DiT（全流水线 28.85B） | MMDiT (4-step DMD2) | Qwen2.5-VL | 未公开（官方仅测 1024） | 未评测（英文蒸馏） |
 | Qwen-Image-3.0 / Qwen-Image-3.0-Pro | - | - | - | 2K | 支持（12 种语言） |
+| GPT Image 2.5（Flare / Sunburst） | 未公开 | 未公开 | 未公开 | - | 多语言，见条目 |
+| Nano Banana 2（Gemini 3.1 Flash Image） | 未公开 | 未公开 | 未公开 | 4K 输出 | 多语言，见条目 |
+| Nano Banana 2 Lite | 未公开 | 未公开 | 未公开 | - | - |
+| Hy Image 3.5 Preview | 未公开 | 未公开 | 未公开 | 4096×4096 输出 | 支持 |
+| FLUX 3 Image | 未公开 | 统一多模态模型（完整结构未公开） | 未公开 | - | 多语言，中文待专项验证 |
 
 ### 1.2 开源模型
 
@@ -264,7 +274,7 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：采用了一种可扩展的单流数字图像处理 （S3-DiT）架构。在该架构中，文本、视觉语义标记和图像 VAE 标记在序列级别上连接起来，作为统一的输入流，与双流方法相比，最大限度地提高了参数效率。Decoupled-DMD：Z-Image背后的加速魔力，Decoupled-DMD 是赋能 8 步 Z-Image 模型的核心少步蒸馏算法。团队在 Decoupled-DMD 中的核心洞察是，现有分布匹配蒸馏（Distribution Matching Distillation，DMD）方法的成功来源于两个独立且协作的机制：CFG 增强：驱动蒸馏过程的主要引擎 ，这是以前工作中大多被忽视的因素。分布匹配：更像是一种正则化器 ，确保生成结果的稳定性和质量。通过识别并解耦这两个机制，能够独立地研究和优化它们。这最终促使团队开发出了一种改进的蒸馏流程，大幅提升了少步生成的性能。在Decoupled-DMD 基础上，8 步 Z-Image 模型已经展示了卓越的能力。为了在语义对齐、美学质量和结构一致性方面实现进一步提升，同时生成具有更丰富高频细节的图像，团队提出了 DMDR。DMDR 的核心洞见是，强化学习（RL）与分布匹配蒸馏（DMD）可以在少步模型的后训练阶段协同整合。团队展示了：1. RL 解锁了 DMD 的性能，2. DMD 有效规范了 RL。Z-Image-Turbo —— Z-Image 的蒸馏轻量版，仅使用 8 步即可达到或超越主流竞品性能。它在企业级 H800 GPU 上可实现亚秒级推理速度⚡️，并能轻松运行于 16G显存的消费级设备。该模型在照片级写实生成、中英双语文字渲染，以及指令遵循方面表现突出。
 
-    **更新**：官方模型族包含Z-Image-Turbo、Z-Image、Z-Image-Omni-Base和Z-Image-Edit等版本。Z-Image-Turbo是8步蒸馏版本，面向快速高质量文生图；Z-Image是Turbo背后的基础生成模型，支持负提示词、创意生成、微调和下游开发；Z-Image-Omni-Base定位为兼具生成和编辑能力的原始基础模型；Z-Image-Edit是面向图像编辑的微调版本。截至2026年9月20日核查，官方Model Zoo中Z-Image与Z-Image-Turbo已提供权重，Z-Image-Omni-Base与Z-Image-Edit仍标注为待发布。
+    **更新**：官方模型族包含Z-Image-Turbo、Z-Image、Z-Image-Omni-Base和Z-Image-Edit等版本。Z-Image-Turbo是8步蒸馏版本，面向快速高质量文生图；Z-Image是Turbo背后的基础生成模型，支持负提示词、创意生成、微调和下游开发；Z-Image-Omni-Base定位为兼具生成和编辑能力的原始基础模型；Z-Image-Edit是面向图像编辑的微调版本。截至2026年10月10日核查，官方Model Zoo中Z-Image与Z-Image-Turbo已提供权重，Z-Image-Omni-Base与Z-Image-Edit仍标注为待发布。
 
 * **Ovis-Image**：
 
@@ -293,7 +303,9 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://github.com/OpenSenseNova/SenseNova-U1 ![](https://img.shields.io/github/stars/OpenSenseNova/SenseNova-U1.svg) | [技术报告](https://github.com/OpenSenseNova/SenseNova-U1/blob/main/docs/pdf/SenseNOVA_U1_5.pdf) | [Hugging Face 权重](https://huggingface.co/sensenova/SenseNova-U1.5-8B-MoT) | [ModelScope 权重](https://modelscope.cn/models/SenseNova/SenseNova-U1.5-8B-MoT)
 
-  * 简介：商汤于 2026 年 8 月 20 日发布的 8B 原生统一多模态模型，基于 NEO-unify 的 MoT 架构，取消独立视觉编码器和 VAE，在同一模型中支持文生图、图像编辑、视觉理解和交错图文生成。U1.5 重点提升中文/英文文字与信息图、原生 4K 生成、主体及未编辑区域保持、复杂指令遵循和框选/参考图控制；官方技术报告于 2026 年 9 月 11 日公告发布，模型权重已开放，另提供 8-step LoRA。官方仍提示密集小字、严格布局和复杂多轮编辑存在失败案例。
+  * 简介：商汤于 2026 年 8 月 20 日发布的原生统一多模态模型，基于 NEO-unify 的 MoT 架构，取消独立视觉编码器和 VAE，在同一模型中支持文生图、图像编辑、视觉理解和交错图文生成。U1.5 重点提升中文/英文文字与信息图、原生 4K 生成、主体及未编辑区域保持、复杂指令遵循和框选/参考图控制；官方技术报告于 2026 年 9 月 11 日公告发布，模型权重已开放，另提供 8-step LoRA。官方仍提示密集小字、严格布局和复杂多轮编辑存在失败案例。
+
+    **架构与后训练补充（2026-10-10）**：[论文](https://arxiv.org/abs/2609.11929)于 9 月 10 日首次提交，配置表中理解与生成分支分别为 8.2B，模型名中的 8B 不代表整套模型总参数。生成采用像素空间 flow matching，并用卷积与 Pixel Shuffle 联合重建相邻 patch；后训练先优化审美、文字、信息图、编辑四类专家，再用 multi-expert on-policy distillation 整合能力。
 
     **量化权重**：官方公告收录了社区于 2026 年 9 月 1 日发布的 [U1.5 正式版 Q8 GGUF](https://huggingface.co/realrebelai/SenseNova-U1.5-8B_GGUFs/blob/main/SenseNova-U1.5-8B-MoT-Q8_0.gguf)（文件约 21.2 GB），由社区独立维护。另有面向 U1.5 Preview 的量化版本，使用时应匹配对应基础模型；文件大小不等于运行显存需求。
 
@@ -314,6 +326,18 @@ Awesome-Chinese-Stable-Diffusion
   * 地址：https://github.com/QwenLM/Qwen-Image-Layered ![](https://img.shields.io/github/stars/QwenLM/Qwen-Image-Layered.svg) | [权重](https://huggingface.co/Qwen/Qwen-Image-Layered) | [论文](https://arxiv.org/abs/2512.15603)
 
   * 简介：Qwen 团队于 2025 年 12 月 19 日开放的图像分层模型（Apache-2.0），将单张图像分解成多个带透明通道的 RGBA 图层，支持可变层数和递归分解。分层后可独立移动、缩放、重着色或删除目标图层，也可结合 Qwen-Image-Edit 修改图层中的文字或对象。官方应用支持导出 PSD、PPTX 和 ZIP；推理提供 640 与 1024 分辨率分桶，当前版本推荐 640。
+
+* **Qwen-Image-2.1**：
+
+  * 地址：https://github.com/QwenLM/Qwen-Image-2.1 ![](https://img.shields.io/github/stars/QwenLM/Qwen-Image-2.1.svg) | [权重](https://huggingface.co/Qwen/Qwen-Image-2.1) | [ModelScope](https://modelscope.cn/models/Qwen/Qwen-Image-2.1) | [官方介绍](https://qwen.ai/blog?id=qwen-image-2.1)
+
+  * 简介：Qwen 团队于 2026 年 9 月 20 日公开代码与权重的统一文生图和图像编辑模型。视觉生成主干为 7B、32 层单流 DiT，另配 Qwen3-VL-8B 条件编码器，采用混合粒度的 block-causal 注意力，支持跨去噪步复用文本与参考图的前缀 KV cache。VAE 使用 64 通道 latent、16 倍空间压缩，原生支持 RGBA 透明图像生成与编辑。模型支持原生 2K 输出、中英文文字渲染、最多 10 张参考图，以及圈选、涂画或独立 mask 引导的局部编辑。官方提供 Diffusers、ComfyUI、LightX2V、SGLang 和 vLLM-Omni 推理支持，[DiffSynth-Studio](https://github.com/modelscope/DiffSynth-Studio/blob/main/docs/zh/Model_Details/Qwen-Image-2.1.md) 提供全参及 LoRA 训练入口。代码与权重采用 [Qwen Research License](https://modelscope.cn/models/Qwen/Qwen-Image-2.1/resolve/master/LICENSE)，仅限非商业研究与评估，商用需另行授权。
+
+* **Qwen-Image-2.1-Turbo**：
+
+  * 地址：https://huggingface.co/Qwen/Qwen-Image-2.1-Turbo | [官方代码](https://github.com/QwenLM/Qwen-Image-2.1)
+
+  * 简介：Qwen-Image-2.1 的 8 步加速检查点，沿用 7B 视觉生成架构，统一支持文生图和图像编辑。默认 CFG=1，通过前缀 KV cache 复用文本与参考图条件；推荐采样时间表随权重保存，由 QwenImage21Pipeline 自动加载。官方示例覆盖 2K、透明图像、文字排版和多参考图组合。权重采用 Qwen Research License；减少去噪步数不等于减少模型参数量。
 
 * **Qwen-Image-2512**：
 
@@ -374,6 +398,30 @@ Awesome-Chinese-Stable-Diffusion
 
 ### 1.3 闭源模型
 
+* **GPT Image 2.5（ChatGPT Images 2.5）**：
+
+  * 地址：https://openai.com/index/introducing-chatgpt-images-2-5/
+
+  * 简介：OpenAI 于 2026 年 9 月 8 日发布的图像生成与编辑模型，重点提升参考主体保持、局部修改、多轮编辑一致性、复杂布局和真实纹理。API 提供 Flare 与偏重精细创作的 Sunburst 两个版本，后者生成时间更长。官方称相较 Images 2.0，生成延迟最多降低 50%；该数据为官方口径。前代 [Images 2.0](https://openai.com/index/introducing-chatgpt-images-2-0/)已重点强化多语言图内文字。本次公开材料未披露参数量和完整生成架构。
+
+* **Nano Banana 2 / Nano Banana 2 Lite**：
+
+  * 地址：[Nano Banana 2 官方发布](https://blog.google/innovation-and-ai/technology/developers-tools/build-with-nano-banana-2/) | [Nano Banana 2 Lite 官方发布](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni-flash-nano-banana-2-lite/)
+
+  * 简介：Google 于 2026 年 2 月 26 日发布 Nano Banana 2（Gemini 3.1 Flash Image），支持生图与编辑、多语言图内文字及本地化、参考主体保持、512px 至 4K 输出，并提供可调思考强度和搜索增强。6 月 30 日推出面向吞吐与成本优化的 Nano Banana 2 Lite。两者通过托管服务提供；完整架构及参数量未公开，2 的输出规格不应直接套用于 Lite。
+
+* **Hy Image 3.5 Preview**：
+
+  * 地址：[腾讯云官方文档](https://cloud.tencent.com/document/product/1823/135745) | [ADP 发布说明](https://adp.tencent.com/zh/blog/hy-image-35-preview-tencent-adp)
+
+  * 简介：腾讯于 2026 年 9 月上线的混元图像生成预览模型，支持文生图、多参考图和多轮编辑，接口最高输出 4096×4096，参考图片总数最多 20 张。服务提供思维链改写与外部搜索增强，面向中文海报、UI 和商品编辑等场景。当前可核验资料以托管接口和能力说明为主，参数量与完整架构未披露；不能直接沿用开源 HunyuanImage-3.0 的架构参数。
+
+* **FLUX 3 Image**：
+
+  * 地址：[模型页](https://bfl.ai/models/flux-3-image) | [FLUX 3 官方发布](https://bfl.ai/blog/flux-3) | [Self-Flow 研究](https://bfl.ai/research/self-flow)
+
+  * 简介：Black Forest Labs 于 2026 年 7 月 23 日公布 FLUX 3 多模态基模，在统一 flow matching 框架中联合学习图像、视频和音频；图像能力覆盖生成、编辑、复杂指令与多语言文字。官方将 Self-Flow 作为连接生成与理解的训练基础。当前图像模型页提供服务和商业权重洽谈入口；发布路线图中的 FLUX 3 Dev 开放权重计划，不应视为图像基模已经公开下载。中文文字效果仍需专项验证。
+
 * **Qwen-Image-3.0 / Qwen-Image-3.0-Pro**：
 
   * 地址：https://help.aliyun.com/zh/model-studio/qwen-image-generation-and-editing-api-reference | [官方首发](https://zhuanlan.zhihu.com/p/2062903884503330992) | [全量开放](https://zhuanlan.zhihu.com/p/2068284890467014567) | [Standard](https://help.aliyun.com/zh/model-studio/qwen-image-3-0) | [Pro](https://help.aliyun.com/zh/model-studio/qwen-image-3-0-pro)
@@ -390,7 +438,7 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://qwen.ai/blog?id=qwen-image-2.0 | [技术报告](https://arxiv.org/abs/2605.10730)
 
-  * 简介：Qwen 团队于 2026 年 2 月 10 日发布的闭源全能（omni-capable）图像生成与编辑基础模型，在单一统一框架内融合了高保真图像生成与精确图像编辑能力。支持专业排版渲染（PPT、海报和漫画等）、最长 1000 tokens 的复杂输入和原生 2K 输出。技术报告披露采用 Qwen3-VL 作为条件编码器、多模态扩散 Transformer 进行联合建模，并通过课程学习策略提升文字渲染能力。目前官方未公开对应模型权重。
+  * 简介：Qwen 团队于 2026 年 2 月 10 日发布的闭源全能（omni-capable）图像生成与编辑基础模型，在单一统一框架内融合了高保真图像生成与精确图像编辑能力。支持专业排版渲染（PPT、海报和漫画等）、最长 1000 tokens 的复杂输入和原生 2K 输出。技术报告披露采用冻结的 Qwen3-VL 条件编码器、16 倍空间压缩的 VAE 与 MMDiT，结合渐进分辨率训练、SFT、基于 GRPO 的多维奖励后训练和少步蒸馏。目前官方未公开对应模型权重。
 
 * **Qwen-Image-2.0-Pro**：
 
@@ -465,6 +513,8 @@ Awesome-Chinese-Stable-Diffusion
 
     **Seedream 4.5**（2025年底）：改进了主体一致性、参考细节保持和排版保真度，支持批量输入/输出。截至2026年7月5日，在LM Arena Text-to-Image Overall排行榜上排名第28位（Elo 1146±3）。
 
+    **Seedream 5.0 Lite**（2026 年 2 月 13 日）：强化视觉理解、推理、指令遵循和编辑一致性，支持结合搜索信息生成图像。官方将其定位为迈向统一多模态模型的一步；搜索和多步规划的收益需与生成主干能力分别评估。[官方发布](https://seed.bytedance.com/en/blog/deeper-thinking-more-accurate-generation-introducing-seedream-5-0-lite)
+
     **Seedream 5.0 Pro**（2026 年 7 月 8 日）：面向专业设计的闭源多模态图像创作模型。相比之前版本，在图文匹配、结构合理性、文字渲染与画面美感等基础能力上全面提升，并带来四大核心能力突破：1）高密度信息图的逻辑推理与版面规划，能够理解设计意图并自动布局；2）点选/圈选/草图等精确局部编辑；3）图层拆分与多图融合；4）真实感增强与美学优化。该模型支持 14 种常用语言的输入与文字生成，统一了文生图生成与图像编辑能力，通过单一 API 提供生产就绪的创意工作流，适用于设计师、营销人员和创作者的专业场景。
 
 ### 1.4 论文与待开放模型
@@ -492,6 +542,23 @@ Awesome-Chinese-Stable-Diffusion
   * 地址：https://arxiv.org/abs/2606.28421
 
   * 简介：2026 年 6 月 25 日提交的端侧中文文生图技术报告。模型由 0.385B 去噪 UNet 和 1.90M 蒸馏解码器组成，采用 Rectified Flow 与 DMD2 蒸馏，将推理压缩到 4 步；中文对齐阶段使用 900 万精选图文对。目前公开来源为论文，权重仍待开放。
+
+### 1.5 近期基模进展
+
+> 更新日期：2026 年 10 月 10 日。本节根据官方发布、模型卡与技术报告梳理技术路线；趋势判断为归纳分析，不作为跨模型性能排名。
+
+近期基模的升级集中在理解与生成结合、生图与编辑统一，以及高质量生成的计算效率。文字准确性、复杂布局、参考主体保持和多轮编辑一致性，成为越来越重要的能力指标。
+
+| 方向 | 代表进展与来源 | 对基模研究与选型的启示 |
+|------|----------------|----------------------|
+| 生图、编辑与理解的统一 | [Qwen-Image-2.1](https://huggingface.co/Qwen/Qwen-Image-2.1)统一生成与编辑；[SenseNova-U1.5](https://arxiv.org/abs/2609.11929)通过共享注意力连接理解与生成分支 | 统一任务、联合训练和统一视觉表示是不同层次；共享注意力也不代表全部参数共享 |
+| 多种生成路线并行 | [Qwen-Image-2.0](https://arxiv.org/abs/2605.10730)采用条件编码器、VAE 与 MMDiT；[GLM-Image](https://github.com/zai-org/GLM-Image)采用 9B AR 与 7B 扩散解码器；SenseNova-U1.5 在像素空间训练 | DiT 是骨干架构、flow matching 是训练目标、AR 是序列生成方式，可以组合；VAE-free 仍可包含可学习的 patch 编解码接口 |
+| 多目标后训练与能力整合 | Qwen-Image-2.0 使用多维奖励与 GRPO；SenseNova-U1.5 先训练任务专家，再沿学生自身生成轨迹蒸馏 | 审美、文字、编辑成功率与内容保持需要分别衡量，联合优化与专家蒸馏是两类值得比较的方案 |
+| 紧凑主干、少步推理与缓存 | [Qwen-Image-2.1-Turbo](https://huggingface.co/Qwen/Qwen-Image-2.1-Turbo)采用 8 步与前缀 KV cache；[Z-Image](https://github.com/Tongyi-MAI/Z-Image)区分普通模型与 Turbo | 参数量、去噪步数、条件长度共同影响成本；继续训练的可塑性与部署时的速度需分别评测 |
+| 透明素材与结构化设计内容 | Qwen-Image-2.1 原生支持 RGBA；[Seedream 5.0 Pro](https://seed.bytedance.com/en/blog/beyond-generation-it-understands-design-introducing-seedream-5-0-pro)强化信息图、区域编辑与图层分离 | 关注图内文字、元素位置和编辑后的保持能力；RGBA 输出与多图层分解属于不同能力 |
+| 图像、视频与音频联合建模 | [FLUX 3](https://bfl.ai/blog/flux-3)联合训练图像、视频、音频；[MiniMax H3](https://www.minimax.io/blog/minimax-h3)将跨模态参考与编辑纳入预训练 | 联合训练是值得跟踪的基模方向，对静态图像能力的具体收益仍需消融与同条件评测 |
+
+评测建议：记录精确模型版本、分辨率、采样步数，以及是否启用提示词改写、搜索或额外思考；分别报告文字准确率、空间关系、非编辑区域保持、多轮编辑退化、时延和显存。闭源服务的系统能力应结合其工具与推理预算解读，不能仅凭演示结果推断底层架构或训练方法。
 
 ## 2. 测评
 
