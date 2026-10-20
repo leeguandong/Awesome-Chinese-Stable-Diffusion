@@ -40,7 +40,7 @@ Awesome-Chinese-Stable-Diffusion
 
 ### 1.1 模型汇总
 
-> 本轮基模信息核查：2026 年 10 月 10 日。参数量需区分生成主干、条件编码器、总参数与激活参数；分辨率需结合条目区分原生训练能力与接口输出规格。`-` 表示此处未列明，不代表不支持。公开权重的许可范围以各模型条目为准。
+> 基模信息核查：2026 年 10 月 10 日；新增模型及变体补充核查：2026 年 10 月 20 日。参数量需区分生成主干、条件编码器、总参数与激活参数；分辨率需结合条目区分原生训练能力与接口输出规格。`-` 表示此处未列明，不代表不支持。公开权重的许可范围以各模型条目为准。
 
 | 模型 | 参数量 | 架构 | 文本编码器 | 最大分辨率 | 中文文字渲染 |
 |------|--------|------|-----------|-----------|-------------|
@@ -98,6 +98,13 @@ Awesome-Chinese-Stable-Diffusion
 | Nano Banana 2 Lite | 未公开 | 未公开 | 未公开 | - | - |
 | Hy Image 3.5 Preview | 未公开 | 未公开 | 未公开 | 4096×4096 输出 | 支持 |
 | FLUX 3 Image | 未公开 | 统一多模态模型（完整结构未公开） | 未公开 | - | 多语言，中文待专项验证 |
+| MOSS-Image-Base / SFT | 5B 主干（另用 9B 编码器） | 42 层单流 DiT + FLUX.2 VAE | Qwen3.5-9B | 2K（外推；推荐 1M～2M 像素） | 支持 |
+| Ming-Image-0.1-Design | 6B 主干（另含条件模块） | MLLM + DiT | BailingMM2（见权重配置） | 2K 分桶 | 文字密集设计，中文待专项验证 |
+| Ming-Image-0.1-Design-Layer | 6B 主干（另含条件模块） | MLLM + DiT（多层 RGBA） | BailingMM2（见权重配置） | 512 / 1024 工作分桶 | -（图层分解） |
+| FLUX 3 Image Klein / Base | 5.6B 主干（另用 4B 编码器） | DiT；蒸馏版采用 flow-map 采样 | Qwen3-VL-4B-Instruct | 4K | 中文待专项验证 |
+| Iris-3B / Turbo | 3B 主干（另用 4B 编码器） | Pixel-space DiT，无 VAE | Qwen3-VL-4B-Instruct | 约 1M 像素（默认 1024²） | 中文待专项验证 |
+| Qwen-Image-2.1-Lightning | 基于 7B 主干的 LoRA | Qwen-Image-2.1 + 4 步 DMD 蒸馏 | 同 Qwen-Image-2.1 | 官方示例 1024² | 提供中文招牌示例 |
+| LLaDA-Image / Turbo | 6B（官方标称） | 扩散骨干 + DiT | LLaDA2 | 官方示例 1024²（上限未列明） | 支持 |
 
 ### 1.2 开源模型
 
@@ -339,6 +346,10 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：Qwen-Image-2.1 的 8 步加速检查点，沿用 7B 视觉生成架构，统一支持文生图和图像编辑。默认 CFG=1，通过前缀 KV cache 复用文本与参考图条件；推荐采样时间表随权重保存，由 QwenImage21Pipeline 自动加载。官方示例覆盖 2K、透明图像、文字排版和多参考图组合。权重采用 Qwen Research License；减少去噪步数不等于减少模型参数量。
 
+    **部署补充（2026-10-20）**：LightX2V 提供面向 Apple M5 的 [INT8 部署权重](https://huggingface.co/lightx2v/Qwen-Image-2.1-Turbo-INT8)，使用 `int8-metal` 后端，保留 Turbo 的 8 步采样。量化范围为部分 DiT 线性层，文本编码器与 VAE 等组件保留原始内容，使用仍遵循原 Qwen 模型许可。
+
+    **社区加速补充（2026-10-20）**：[LightX2V](https://github.com/ModelTC/LightX2V) 的 [Lightning LoRA](https://huggingface.co/lightx2v/Qwen-Image-2.1-Lightning) 提供基于 Qwen-Image-2.1 的 **4 步 DMD 蒸馏 LoRA**，支持文生图、单图与多参考图编辑，训练使用 16 张华为昇腾 910B NPU。加载时需要原始基模，并使用模型卡指定的噪声时间表；该适配器与 Qwen 官方 8 步 Turbo 是不同发布。
+
 * **Qwen-Image-2512**：
 
   * 地址：https://huggingface.co/Qwen/Qwen-Image-2512
@@ -396,6 +407,42 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：NVIDIA 于 2026 年 7 月 23 日发布的 Qwen-Image 四步蒸馏版本，使用 DMD2 保留原 20.43B MMDiT 架构，并提供 Diffusers、SGLang Diffusion、vLLM-Omni 和 TensorRT-LLM 推理路径。四步推理减少了 Transformer 前向次数，但不减少参数量或基础权重占用；官方仅在 1024×1024 上完成测试。该版本使用英文提示词蒸馏，模型卡明确说明继承的中文能力尚未评测，且用途限于文生图，不包含图像编辑。权重遵循 NVIDIA Open Model License。
 
+* **LLaDA-Image / LLaDA-Image-Turbo**：
+
+  * 地址：https://github.com/inclusionAI/LLaDA-Image ![](https://img.shields.io/github/stars/inclusionAI/LLaDA-Image.svg) | [技术报告](https://arxiv.org/abs/2609.03796) | [Base 权重](https://huggingface.co/inclusionAI/LLaDA-Image) | [Turbo 权重](https://huggingface.co/inclusionAI/LLaDA-Image-Turbo)
+
+  * 简介：inclusionAI 于 **2026 年 9 月 4 日**开放的统一图像生成与编辑模型族，官方标称 6B，采用 Apache-2.0。支持文生图、参考图指令编辑和中英文字渲染，并提供使用 LLaDA2 生成图像 VQ tokens、经 SigVQ 嵌入后扩散解码的条件生成模式。训练先以纯图像预训练与中期训练学习视觉先验，再引入配对语言监督及生成/编辑联合训练；Base 推荐 50 步，Turbo 通过 Twin-DMD 蒸馏推荐 4 步，两者均提供 FP8 版本。代码与权重已公开，训练代码仍在开放计划中；官方示例为 1024×1024，模型卡未明确最大分辨率。
+
+* **MOSS-Image-Base / MOSS-Image-SFT**：
+
+  * 地址：https://github.com/OpenMOSS/MOSS-Image ![](https://img.shields.io/github/stars/OpenMOSS/MOSS-Image.svg) | [技术报告](https://arxiv.org/abs/2610.23374) | [Base 权重](https://huggingface.co/OpenMOSS-Team/MOSS-Image-Base) | [SFT 权重](https://huggingface.co/OpenMOSS-Team/MOSS-Image-SFT)
+
+  * 简介：OpenMOSS 于 **2026 年 10 月 16 日**开放的文生图模型，包含 Base 与在精选数据上监督微调的 SFT，权重及随附推理代码采用 Apache-2.0。采用 5B、42 层扩散 Transformer 主干、Qwen3.5-9B 文本编码器和 FLUX.2 VAE；支持最长 4K tokens 的提示词、中英文字渲染，以及通过 JSON layout 指定文字内容、物体与边界框。官方推荐 1M～2M 像素输出，可外推到约 4M 像素（2K），默认 50 步、CFG=3；已提供 ComfyUI、SGLang、vLLM-Omni 接入及微调路径。布局提示的结构化修改与基于输入图像的指令编辑应分别理解。
+
+* **Ming-Image-0.1-Design**：
+
+  * 地址：https://github.com/inclusionAI/Ming-Image ![](https://img.shields.io/github/stars/inclusionAI/Ming-Image.svg) | [权重](https://huggingface.co/inclusionAI/Ming-Image-0.1-Design)
+
+  * 简介：inclusionAI 开放的 6B 视觉设计生成模型，面向 UI、信息图、海报和文字密集版式，支持透明背景 RGBA 输出，采用 MIT 许可证。权重包另含 MLLM、connector 等条件模块，6B 不代表全流水线总参数；MLLM 配置为 BailingMM2，扩散主干为 30 层 DiT。默认 12 步、CFG=1，推荐 2K 级分桶，也支持 1K；官方提供结构化提示词改写与 vLLM-Omni 部署说明。公开模型卡未单列中文文字准确率，需结合中文海报和长文本样例进一步验证。
+
+* **Ming-Image-0.1-Design-Layer**：
+
+  * 地址：https://github.com/inclusionAI/Ming-Image ![](https://img.shields.io/github/stars/inclusionAI/Ming-Image.svg) | [权重](https://huggingface.co/inclusionAI/Ming-Image-0.1-Design-Layer)
+
+  * 简介：Ming-Image 系列独立发布的 6B 图层分解模型，输入扁平设计图及图层规划，生成指定数量、可独立编辑的透明 RGBA 图层，采用 MIT 许可证。层数可由提示词中的规格或 `--num-layers` 指定；官方提供六层卡片案例及 Crello 测试集评测。推荐 1024 工作分桶（另支持 512），保持输入宽高比，默认 12 步、CFG=2；模型额外返回一张合成图，官方 CLI 将其跳过后导出各图层。
+
+* **FLUX 3 Image Klein / Klein Base**：
+
+  * 地址：https://github.com/black-forest-labs/flux-3-image-klein ![](https://img.shields.io/github/stars/black-forest-labs/flux-3-image-klein.svg) | [官方发布](https://bfl.ai/blog/flux-3-image-klein) | [Base 权重](https://huggingface.co/black-forest-labs/flux-3-image-klein-base) | [蒸馏权重](https://huggingface.co/black-forest-labs/flux-3-image-klein)
+
+  * 简介：Black Forest Labs 于 **2026 年 10 月 15 日**开放的 5.6B 图像生成与编辑主干，另用 Qwen3-VL-4B-Instruct 编码器，统一支持文生图、最多 10 张参考图及边界框布局控制，最高支持 4K。发布包含用于微调研究的 50 步 Base 与用于生成编辑的 16 步蒸馏版，并提供量化权重及 ComfyUI 等推理路径。官方要求配合提示词扩写，默认扩写器为另行加载的 9B 模型；边界框是布局引导，开放权重的模型卡不保证框外像素保持不变。代码采用 Apache-2.0，**权重采用有用途与商用条件限制的 FLUX Kommunity License**，具体使用范围应查阅许可原文；中文文字能力仍待专项验证。
+
+* **Iris-3B / Iris-3B Turbo**：
+
+  * 地址：https://github.com/speridlabs/iris-3b ![](https://img.shields.io/github/stars/speridlabs/iris-3b.svg) | [论文](https://arxiv.org/abs/2610.09450) | [权重](https://huggingface.co/speridlabs/iris-3b)
+
+  * 简介：Sperid Labs 开放的像素空间图像生成模型，作为近期基模路线补充收录，采用 Apache-2.0。3B 扩散主干由 8 个双流块、16 个单流块及 4 块像素输出头组成，另用冻结的 Qwen3-VL-4B-Instruct 编码器，直接生成像素，无需 VAE。默认约 1M 像素、100 步、CFG=3；同仓库 `turbo/` 提供使用 TDM 全参数蒸馏的 4 步版本，另开放深度估计和图像修复/超分任务权重。官方提示与评测以英文为主，中文理解及文字渲染尚需专项验证。
+
 ### 1.3 闭源模型
 
 * **GPT Image 2.5（ChatGPT Images 2.5）**：
@@ -421,6 +468,8 @@ Awesome-Chinese-Stable-Diffusion
   * 地址：[模型页](https://bfl.ai/models/flux-3-image) | [FLUX 3 官方发布](https://bfl.ai/blog/flux-3) | [Self-Flow 研究](https://bfl.ai/research/self-flow)
 
   * 简介：Black Forest Labs 于 2026 年 7 月 23 日公布 FLUX 3 多模态基模，在统一 flow matching 框架中联合学习图像、视频和音频；图像能力覆盖生成、编辑、复杂指令与多语言文字。官方将 Self-Flow 作为连接生成与理解的训练基础。当前图像模型页提供服务和商业权重洽谈入口；发布路线图中的 FLUX 3 Dev 开放权重计划，不应视为图像基模已经公开下载。中文文字效果仍需专项验证。
+
+    **开放权重补充（2026-10-20）**：10 月 15 日发布的 **FLUX 3 Image Klein / Klein Base** 已公开权重，见上方开源模型条目；此处的完整 FLUX 3 Image 服务与 Klein 是不同发布，开放情况及参数不能混用。
 
 * **Qwen-Image-3.0 / Qwen-Image-3.0-Pro**：
 
@@ -545,7 +594,7 @@ Awesome-Chinese-Stable-Diffusion
 
 ### 1.5 近期基模进展
 
-> 更新日期：2026 年 10 月 10 日。本节根据官方发布、模型卡与技术报告梳理技术路线；趋势判断为归纳分析，不作为跨模型性能排名。
+> 更新日期：2026 年 10 月 20 日（本轮补充布局控制、图层分解与少步推理进展）。本节根据官方发布、模型卡与技术报告梳理技术路线；趋势判断为归纳分析，不作为跨模型性能排名。
 
 近期基模的升级集中在理解与生成结合、生图与编辑统一，以及高质量生成的计算效率。文字准确性、复杂布局、参考主体保持和多轮编辑一致性，成为越来越重要的能力指标。
 
@@ -554,8 +603,9 @@ Awesome-Chinese-Stable-Diffusion
 | 生图、编辑与理解的统一 | [Qwen-Image-2.1](https://huggingface.co/Qwen/Qwen-Image-2.1)统一生成与编辑；[SenseNova-U1.5](https://arxiv.org/abs/2609.11929)通过共享注意力连接理解与生成分支 | 统一任务、联合训练和统一视觉表示是不同层次；共享注意力也不代表全部参数共享 |
 | 多种生成路线并行 | [Qwen-Image-2.0](https://arxiv.org/abs/2605.10730)采用条件编码器、VAE 与 MMDiT；[GLM-Image](https://github.com/zai-org/GLM-Image)采用 9B AR 与 7B 扩散解码器；SenseNova-U1.5 在像素空间训练 | DiT 是骨干架构、flow matching 是训练目标、AR 是序列生成方式，可以组合；VAE-free 仍可包含可学习的 patch 编解码接口 |
 | 多目标后训练与能力整合 | Qwen-Image-2.0 使用多维奖励与 GRPO；SenseNova-U1.5 先训练任务专家，再沿学生自身生成轨迹蒸馏 | 审美、文字、编辑成功率与内容保持需要分别衡量，联合优化与专家蒸馏是两类值得比较的方案 |
-| 紧凑主干、少步推理与缓存 | [Qwen-Image-2.1-Turbo](https://huggingface.co/Qwen/Qwen-Image-2.1-Turbo)采用 8 步与前缀 KV cache；[Z-Image](https://github.com/Tongyi-MAI/Z-Image)区分普通模型与 Turbo | 参数量、去噪步数、条件长度共同影响成本；继续训练的可塑性与部署时的速度需分别评测 |
-| 透明素材与结构化设计内容 | Qwen-Image-2.1 原生支持 RGBA；[Seedream 5.0 Pro](https://seed.bytedance.com/en/blog/beyond-generation-it-understands-design-introducing-seedream-5-0-pro)强化信息图、区域编辑与图层分离 | 关注图内文字、元素位置和编辑后的保持能力；RGBA 输出与多图层分解属于不同能力 |
+| 紧凑主干、少步推理与缓存 | [Qwen-Image-2.1-Turbo](https://huggingface.co/Qwen/Qwen-Image-2.1-Turbo)采用 8 步与前缀 KV cache；[LightX2V Lightning](https://huggingface.co/lightx2v/Qwen-Image-2.1-Lightning)提供 4 步 LoRA；[Iris-3B Turbo](https://github.com/speridlabs/iris-3b#iris-3b-turbo)提供像素空间全参数蒸馏 | 参数量、去噪步数、条件长度共同影响成本；蒸馏 LoRA、完整检查点及缓存是不同的加速方式 |
+| 透明素材与结构化设计内容 | Qwen-Image-2.1 与 [Ming-Image Design](https://huggingface.co/inclusionAI/Ming-Image-0.1-Design)支持 RGBA；[Ming-Image Design-Layer](https://huggingface.co/inclusionAI/Ming-Image-0.1-Design-Layer)按规划生成指定数量的透明图层 | 透明背景生成与多图层分解需要分别评测；分层还需衡量透明度、遮挡补全和重组一致性 |
+| 显式布局控制 | [MOSS-Image](https://github.com/OpenMOSS/MOSS-Image)使用 JSON layout；[FLUX 3 Image Klein](https://github.com/black-forest-labs/flux-3-image-klein)支持边界框控制及多参考图编辑 | 应分别测量文字内容、位置和大小；两者坐标格式不同，边界框布局引导也不等同于硬掩码约束 |
 | 图像、视频与音频联合建模 | [FLUX 3](https://bfl.ai/blog/flux-3)联合训练图像、视频、音频；[MiniMax H3](https://www.minimax.io/blog/minimax-h3)将跨模态参考与编辑纳入预训练 | 联合训练是值得跟踪的基模方向，对静态图像能力的具体收益仍需消融与同条件评测 |
 
 评测建议：记录精确模型版本、分辨率、采样步数，以及是否启用提示词改写、搜索或额外思考；分别报告文字准确率、空间关系、非编辑区域保持、多轮编辑退化、时延和显存。闭源服务的系统能力应结合其工具与推理预算解读，不能仅凭演示结果推断底层架构或训练方法。
