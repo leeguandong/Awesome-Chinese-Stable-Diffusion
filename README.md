@@ -40,7 +40,7 @@ Awesome-Chinese-Stable-Diffusion
 
 ### 1.1 模型汇总
 
-> 基模信息核查：2026 年 10 月 10 日；新增模型及变体补充核查：2026 年 10 月 20 日。参数量需区分生成主干、条件编码器、总参数与激活参数；分辨率需结合条目区分原生训练能力与接口输出规格。`-` 表示此处未列明，不代表不支持。公开权重的许可范围以各模型条目为准。
+> 基模信息核查：2026 年 10 月 10 日；新增模型及变体补充核查：2026 年 11 月 15 日。本轮新增与补录见 [近期基模进展](#15-近期基模进展)。参数量需区分生成主干、条件编码器、总参数与激活参数；分辨率需结合条目区分原生训练能力与接口输出规格。`-` 表示此处未列明，不代表不支持。公开权重的许可范围以各模型条目为准。
 
 | 模型 | 参数量 | 架构 | 文本编码器 | 最大分辨率 | 中文文字渲染 |
 |------|--------|------|-----------|-----------|-------------|
@@ -71,7 +71,7 @@ Awesome-Chinese-Stable-Diffusion
 | FLUX.2 | 32B 主干（另用 24B TE） | DiT | Mistral-Small-3.2-24B | 2048 | - |
 | GLM-Image | 16B（9B AR + 7B DiT） | AR + DiT | GLM-4-9B | 2K | 支持 |
 | SenseNova-U1.5 | 理解 / 生成分支各 8.2B | Native unified MoT (NEO-unify) | 无外置编码器 | 原生 4K | 支持 |
-| InternLumina-U2 | 16B (1B active) | Multi-codebook dLLM MoE | LLaDA-2.0 MoE | 1024 | - |
+| InternLumina-U2 | 16.9B（约 1.4B active） | Multi-codebook dLLM MoE | LLaDA2.0-mini | 1024 | - |
 | Qwen-Image-Edit-2511 | 20B | MMDiT | Qwen2.5-VL-7B | - | 支持 |
 | Qwen-Image-Layered | - | - | - | 640 / 1024 分桶 | - |
 | Qwen-Image-2512 | 20B | MMDiT | Qwen2.5-VL-7B | 2048+ | 支持 |
@@ -89,7 +89,7 @@ Awesome-Chinese-Stable-Diffusion
 | NextStep-1 | 14B + 157M | AR + Flow Matching | 内置 LM head | 1024+ | - |
 | Boogu-Image-0.1 | 10B | DiT | Qwen3-VL-8B | 2048 | 支持 |
 | JoyAI-Image / Edit | 24B (8B MLLM + 16B MMDiT) | MLLM + MMDiT | 8B MLLM | 1024 | 支持 |
-| JuZhou 1.0 | 0.387B | UNet + Rectified Flow | Chinese CLIP | 1024 | 支持 |
+| JuZhou 1.0 | 0.387B | UNet + Rectified Flow | Chinese CLIP | 1024 | 支持中文提示，文字渲染未确认 |
 | Mage-Flow / Mage-Flow-Edit | 4B | Native-Resolution MMDiT | Qwen3-VL | 2048 | 支持 |
 | Qwen-Image-Flash | 20.43B DiT（全流水线 28.85B） | MMDiT (4-step DMD2) | Qwen2.5-VL | 未公开（官方仅测 1024） | 未评测（英文蒸馏） |
 | Qwen-Image-3.0 / Qwen-Image-3.0-Pro | - | - | - | 2K | 支持（12 种语言） |
@@ -105,8 +105,26 @@ Awesome-Chinese-Stable-Diffusion
 | Iris-3B / Turbo | 3B 主干（另用 4B 编码器） | Pixel-space DiT，无 VAE | Qwen3-VL-4B-Instruct | 约 1M 像素（默认 1024²） | 中文待专项验证 |
 | Qwen-Image-2.1-Lightning | 基于 7B 主干的 LoRA | Qwen-Image-2.1 + 4 步 DMD 蒸馏 | 同 Qwen-Image-2.1 | 官方示例 1024² | 提供中文招牌示例 |
 | LLaDA-Image / Turbo | 6B（官方标称） | 扩散骨干 + DiT | LLaDA2 | 官方示例 1024²（上限未列明） | 支持 |
+| MiniMax-H3-Image | 33.1B DiT（另需 H3 编码器） | 单流 DiT + CNN/ViT VAE | MiniMax-H3 的 Qwen3-VL 编码器 | 推荐约 16MP；工作范围约 4～20MP | 中文待专项验证 |
+| BluePixel-Turbo | 9B 级主干 | FLUX.2 Klein 派生 DiT + DCAE-F64 | Qwen3 | 原生 4K，按输入宽高比对齐 | 中文待专项验证 |
+| Krea 2 Raw / Turbo | 12B（官方标称 DiT） | DiT | - | Raw 训练至 1K；Turbo 1K～2K | 中文待专项验证 |
+| P-JiT 21K | 2.18B 发布主干（另用 4B 编码器） | Pyramid-JiT，像素空间扩散 | Qwen3.5-4B | 约 1MP，含 1024² 分桶 | 不支持文字生成 |
+| GPT Image 2.6（Flare / Sunburst） | 未公开 | 未公开 | 未公开 | 本轮未核实 | 官方公告未单列中文指标 |
+| Seedream 5.5 | 未公开 | 未公开 | 未公开 | 官方发布页未列明 | 支持，中英小字增强 |
+| Qwen-Image-2.1-Pro（API） | 未公开 | 未公开 | 未公开 | 2K 级输出 | 支持 |
+| Fibo 2.0 Dev / Edit Turbo | 8B 主干（另用 4B 编码器） | 44 层单流 DiT + FLUX.2 VAE | Qwen3-VL-4B-Instruct | 训练约 1MP | 中文待专项验证 |
+| FLUX.2 Klein 4B / 9B（含 Base） | 4B / 9B 主干 | Rectified Flow Transformer | Qwen3；9B 版使用 8B 编码器 | 官方示例 1024² | 中文待专项验证 |
+| FLUX.2 Klein 9B KV | 9B 主干（另用 8B 编码器） | 4 步蒸馏 + 参考图 KV cache | Qwen3-8B | 官方示例 1024² | 中文待专项验证 |
+| LongCat-Image-Edit / Edit-Turbo | 6B 主干 | MM-DiT + Single-DiT；Turbo 8 步 | VLM | - | 支持 |
+| Step1X-Edit-v1p2 | - | MLLM + 图像编辑；思考与反思 | - | - | 有中英文 GEdit 评测，改字需专项验证 |
+| OmniGen2 | - | 文本/图像双解码路径 | Qwen2.5-VL | - | 中文文字待专项验证 |
+| Ming-UniVision-16B-A3B | 16B / 3B 激活（型号标称） | 自回归 MoE + MingTok 连续视觉表示 | 模型内置 | 混合分辨率，生成上限未列明 | 中文文字待专项验证 |
+| Lumina-DiMOO | - | 统一离散扩散 | 模型内置 | 支持多分辨率，上限未列明 | 中文文字待专项验证 |
+| SenseNova-U1.5 TailSteer | 同 U1.5；完整微调权重 | MoT + 轨迹尾段后训练 | 无外置编码器 | 沿用基模，示例设置见条目 | 中文专项指标见基模；另测多轮保持 |
 
 ### 1.2 开源模型
+
+> 本节包含开放权重模型与研究检查点；下载门槛、非商业限制和地域限制见各条目及原始许可证，不能仅凭公开下载认定为无限制开源。
 
 * **SkyPaint**：
   * 地址：https://github.com/SkyWorkAIGC/SkyPaint-AI-Diffusion ![](https://img.shields.io/github/stars/SkyWorkAIGC/SkyPaint-AI-Diffusion.svg)
@@ -293,13 +311,21 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://github.com/meituan-longcat/LongCat-Image ![](https://img.shields.io/github/stars/meituan-longcat/LongCat-Image.svg)
 
-  * 简介：LongCat-Image具备出色的跨语言图像编辑能力，通过共享 MM-DiT+Single-DiT 混合主干架构与VLM条件编码器，文生图与编辑能力相互辅助，继承文生图的出图质量并具备出色的指令遵循、一致性保持能力，在主流公开评测基准上达到第一梯队水平。文字生成专项能力上，覆盖全量通用规范汉字并在商业海报、自然场景文字上都展现出极强的适用性。此外，通过精细化模型设计及多阶段训练策略优化，极大提升生成真实度、合理性并可支持消费级显卡高效推理。图像编辑：ImgEdit 得分 4.50（开源 SOTA），GEdit 中/英 7.60 / 7.64，接近商业模型；文字渲染：ChineseWord 分数 90.7，超越所有竞品；文生图：GenEval 0.87、DPG 86.8，达到开源/闭源顶级模型水平。
+  * 简介：美团 LongCat 开放的 6B 中英双语图像模型族，包含文生图、可继续训练的 Dev 和独立编辑检查点，使用 MM-DiT 与 Single-DiT 混合主干及 VLM 条件编码器。文字渲染覆盖通用规范汉字；项目报告的 LongCat-Image 文生图 GenEval 为 0.87、DPG-Bench 为 86.80、ChineseWord 为 90.7，LongCat-Image-Edit 的 ImgEdit 为 4.50、GEdit 中/英为 7.60 / 7.64。这些是项目发布时的结果，需按任务、版本和评测设置比较。
+
+    **编辑与加速分支补录（2026-11-15 核查）**：[LongCat-Image-Edit](https://huggingface.co/meituan-longcat/LongCat-Image-Edit) 与 **2026 年 2 月 3 日**发布的 [Edit-Turbo](https://huggingface.co/meituan-longcat/LongCat-Image-Edit-Turbo) 已开放，Turbo 使用 **8 步、CFG=1**；3 月 22 日官方公告 ComfyUI 支持。权重采用 Apache-2.0，文字生成/编辑时应按官方要求将目标文字置于引号内。Turbo 的速度和质量需单独评测，不能直接继承非蒸馏版的分数。
 
 * **FLUX.2**：
 
   * 地址：https://github.com/black-forest-labs/flux2 ![](https://img.shields.io/github/stars/black-forest-labs/flux2.svg)
 
-  * 简介：参数量级：Text Encoder (TE) 激增至 23B，配合 32B 的 DiT (Diffusion Transformer) 主干，总参数量达到了恐怖的 55B 级别。模型性质：目前的 dev 版本是一个蒸馏模型 (Distilled)，这意味着它在保持高性能的同时，推理步数被压缩了。多参考图的“逻辑融合” 这一点非常 aggressive。Flux.2 支持高达 10 张的参考图输入 (Multi-Reference)。实际官方示例来看，其对 ID 保持、风格迁移和物体融合的理解能力还是不错的。对于需要处理复杂构图和一致性角色的工作流，这是质变。提示词工程：从 NLP 到 结构化指令 Text Encoder 的升级带来了全新的 Prompt 范式。结构化 (Structured)：模型对 JSON 格式的理解力大幅提升，支持分层定义主体、光影、构图。Hex 色值锚定：不再需要用 "dark blue" 这种模糊词，直接丢给它 #0033FF，模型能将其精确映射到 Latent Space 的颜色向量中。这意味着 AI 正在从“生成艺术”走向“工业设计”。视觉上限：4MP 原生分辨率 + 全新 VAE分辨率：原生支持生成 4MP（约 2048x2048）级别的图像，在这个分辨率下，细节的连贯性依然稳健。VAE 升级：配套了全新的 Flux.2 VAE。众所周知，高分图的崩坏往往始于解码阶段，新的 VAE 显然是为了应对 4K 级（4096px）纹理细节而特调的，极大地修复了边缘伪影和细节涂抹感。
+  * 简介：FLUX.2 Dev 是开放权重的 32B Rectified Flow Transformer，统一支持文生图、图像编辑和多参考图融合，另用 Mistral-Small-3.2-24B 条件编码器；32B 不代表全流水线参数。采用 FLUX.2 VAE，支持约 4MP 输出、结构化 JSON 提示与十六进制颜色描述。Dev 为蒸馏检查点，提供 Diffusers 和官方推理代码；权重采用 [FLUX Non-Commercial License](https://huggingface.co/black-forest-labs/FLUX.2-dev)。输出分辨率按该检查点的规格解释，不由 VAE 的设计目标推断。
+
+* **FLUX.2 Klein 4B / 9B / Base / KV**：
+
+  * 地址：https://github.com/black-forest-labs/flux2 ![](https://img.shields.io/github/stars/black-forest-labs/flux2.svg) | [4B](https://huggingface.co/black-forest-labs/FLUX.2-klein-4B) | [4B Base](https://huggingface.co/black-forest-labs/FLUX.2-klein-base-4B) | [9B](https://huggingface.co/black-forest-labs/FLUX.2-klein-9B) | [9B Base](https://huggingface.co/black-forest-labs/FLUX.2-klein-base-9B) | [9B KV](https://huggingface.co/black-forest-labs/FLUX.2-klein-9b-kv)
+
+  * 简介：补录 FLUX.2 家族的紧凑型生成与多参考图编辑分支，4B 与 9B 为生成主干规模，9B 版另配 8B Qwen3 编码器。常规 Klein 为 **4 步蒸馏版**，Base 保留未做步数/CFG 蒸馏的权重以供微调研究；**9B KV** 在首次去噪时缓存参考图 K/V，后续步骤复用，以降低多图编辑的重复计算。4B 与 4B Base 采用 Apache-2.0；9B、9B Base 与 9B KV 采用 FLUX Non-Commercial License。官方提供 Diffusers 与 ComfyUI 路径。该系列与上文 32B FLUX.2 Dev、后文 5.6B FLUX 3 Image Klein 均为不同发布，参数、步数及许可不能互套。
 
 * **GLM-Image**：
 
@@ -316,11 +342,21 @@ Awesome-Chinese-Stable-Diffusion
 
     **量化权重**：官方公告收录了社区于 2026 年 9 月 1 日发布的 [U1.5 正式版 Q8 GGUF](https://huggingface.co/realrebelai/SenseNova-U1.5-8B_GGUFs/blob/main/SenseNova-U1.5-8B-MoT-Q8_0.gguf)（文件约 21.2 GB），由社区独立维护。另有面向 U1.5 Preview 的量化版本，使用时应匹配对应基础模型；文件大小不等于运行显存需求。
 
+* **SenseNova-U1.5 TailSteer**：
+
+  * 地址：https://github.com/Lyricccco/tailsteer ![](https://img.shields.io/github/stars/Lyricccco/tailsteer.svg) | [论文](https://arxiv.org/abs/2611.06741) | [SenseNova 账号发布的权重](https://huggingface.co/sensenova/SenseNova-U1.5-8B-MoT-TailSteer) | [Add & Preserve 评测](https://huggingface.co/datasets/Lyricccco/Add-and-Preserve)
+
+  * 简介：面向多轮编辑累积漂移的后训练方法及 SenseNova-U1.5 完整微调检查点，模型卡采用 Apache-2.0，并要求保留基模许可与署名。训练使用模型自身的去噪轨迹，以源图中无需修改的内容作保持参考，通过尾段监督降低反复编辑的纹理与结构退化，无需多轮编辑链或成对编辑 GT。公开权重为论文的 2,000 次更新版本，训练监督起点为 42/50；**推理全过程均使用该检查点**，不需要在末尾切换模型、合并 LoRA 或加入额外模块。
+
+    模型卡在 Add & Preserve 的 100 图、10 轮设置下报告：第 10 轮非编辑区域 PSNR 从 11.23 提升至 18.22 dB，LPIPS 从 0.607 降至 0.417，累积对象准确率从 94.93% 变为 94.78%。单轮及生成评测整体接近基模，但 RISE 准确率也从 31.39% 降至 29.44%；应同时衡量多轮保持收益与其他能力变化，不能表述为所有指标无损提升。
+
 * **InternLumina-U2**：
 
   * 地址：https://github.com/InternLM/InternLumina-U2 ![](https://img.shields.io/github/stars/InternLM/InternLumina-U2.svg) | [项目页](https://internlm.github.io/InternLumina-U2/) | [权重](https://huggingface.co/internlm/InternLumina-U2)
 
-  * 简介：上海人工智能实验室于 2026 年 9 月发布的统一视觉模型，基于 LLaDA-2.0 MoE（16B 总参数、约 1B 激活），采用 8 组 AToken 多码本表示和离散扩散语言模型，在同一骨干上覆盖视觉问答/OCR/图表与数学理解、文生图、指令编辑、视频和 3D 理解。项目同时适配 NVIDIA GPU 与昇腾 NPU；目前仓库提供推理代码，昇腾训练权重已在 9 月 10 日开放，NVIDIA 权重、训练代码和技术报告尚待发布。项目公布的 TIIF-Bench、DPG-Bench、ImgEdit 分数仍属于初步结果。
+  * 简介：上海人工智能实验室的统一视觉模型，基于 LLaDA2.0-mini MoE（**16.9B 总参数、约 1.4B 激活**），采用 8 组 AToken 多码本表示和离散扩散语言模型，在同一骨干上覆盖视觉问答/OCR/图表与数学理解、文生图、指令编辑、视频和 3D 理解。
+
+    **开放状态更正（2026-11-15 核查）**：官方 README 的 2026 年 10 月更新已确认 **Ascend 与 NVIDIA 两套检查点、SFT 训练代码、推理加速路径及[技术报告](https://arxiv.org/abs/2610.20818)**；权重仓库分别提供 `ascend/`、`nvidia/`，主仓库为 NVIDIA 路径，昇腾支持另见官方分支。此前“仅开放昇腾权重，NVIDIA/训练代码/报告待发布”的记录已过时。官方生成与编辑分数对应所列检查点和推理设置，不能与早期初步结果混用。
 
 * **Qwen-Image-Edit-2511**：
 
@@ -339,6 +375,8 @@ Awesome-Chinese-Stable-Diffusion
   * 地址：https://github.com/QwenLM/Qwen-Image-2.1 ![](https://img.shields.io/github/stars/QwenLM/Qwen-Image-2.1.svg) | [权重](https://huggingface.co/Qwen/Qwen-Image-2.1) | [ModelScope](https://modelscope.cn/models/Qwen/Qwen-Image-2.1) | [官方介绍](https://qwen.ai/blog?id=qwen-image-2.1)
 
   * 简介：Qwen 团队于 2026 年 9 月 20 日公开代码与权重的统一文生图和图像编辑模型。视觉生成主干为 7B、32 层单流 DiT，另配 Qwen3-VL-8B 条件编码器，采用混合粒度的 block-causal 注意力，支持跨去噪步复用文本与参考图的前缀 KV cache。VAE 使用 64 通道 latent、16 倍空间压缩，原生支持 RGBA 透明图像生成与编辑。模型支持原生 2K 输出、中英文文字渲染、最多 10 张参考图，以及圈选、涂画或独立 mask 引导的局部编辑。官方提供 Diffusers、ComfyUI、LightX2V、SGLang 和 vLLM-Omni 推理支持，[DiffSynth-Studio](https://github.com/modelscope/DiffSynth-Studio/blob/main/docs/zh/Model_Details/Qwen-Image-2.1.md) 提供全参及 LoRA 训练入口。代码与权重采用 [Qwen Research License](https://modelscope.cn/models/Qwen/Qwen-Image-2.1/resolve/master/LICENSE)，仅限非商业研究与评估，商用需另行授权。
+
+    **提示词扩写补录（2026-11-15 核查）**：官方另开放 [PE-T2I](https://huggingface.co/Qwen/Qwen-Image-2.1-PE-T2I) 与 [PE-I2I](https://huggingface.co/Qwen/Qwen-Image-2.1-PE-I2I)，模型卡标称基于 9B Qwen3.5-VL 微调，分别将简短生图需求、输入图与模糊编辑指令改写为详细可执行提示，并输出宽高比相关字段。两者是独立的提示词模型，采用 Qwen Research License，不应计入 7B 生成主干或当作新生图检查点；评测时需注明是否启用扩写。
 
 * **Qwen-Image-2.1-Turbo**：
 
@@ -368,6 +406,8 @@ Awesome-Chinese-Stable-Diffusion
   * 地址：https://github.com/HiDream-ai/HiDream-O1-Image ![](https://img.shields.io/github/stars/HiDream-ai/HiDream-O1-Image.svg)
 
   * 简介：HiDream-O1-Image是HiDream.ai于2026年5月8日发布的8B开源文生图模型（MIT许可证），采用全新的像素级统一Transformer（Pixel-level Unified Transformer, UiT）架构，彻底移除了传统的VAE模块，扩散Transformer直接在原始像素空间操作，将文本和任务条件统一在同一个token空间中。该模型在单一架构中统一了文生图生成、指令编辑、主体驱动个性化和分镜生成四大能力，支持最高2048×2048分辨率。HiDream-O1-Image内置了基于Gemma-4-31B-IT的推理驱动提示词代理（Reasoning-Driven Prompt Agent），在生成前进行O1风格的思考规划。发布时在Artificial Analysis Image Arena排名第8，是当时排名最高的开源模型，以7倍更小的参数量超越了FLUX.2 Dev（56B）。
+
+    **发布变体补录（2026-11-15 核查）**：官方同时提供 [HiDream-O1-Image-Dev](https://huggingface.co/HiDream-ai/HiDream-O1-Image-Dev)，模型表将完整版与 Dev 的推荐步数分别列为 50 与 28；另有 5 月 14 日公告的 Dev-2604 文生图检查点与 Prompt-Refine。官方对编辑任务推荐完整版，不能把文生图专用变体和全任务模型混为一谈。
 
 * **NextStep-1 / NextStep-1.1**：
 
@@ -419,6 +459,8 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：OpenMOSS 于 **2026 年 10 月 16 日**开放的文生图模型，包含 Base 与在精选数据上监督微调的 SFT，权重及随附推理代码采用 Apache-2.0。采用 5B、42 层扩散 Transformer 主干、Qwen3.5-9B 文本编码器和 FLUX.2 VAE；支持最长 4K tokens 的提示词、中英文字渲染，以及通过 JSON layout 指定文字内容、物体与边界框。官方推荐 1M～2M 像素输出，可外推到约 4M 像素（2K），默认 50 步、CFG=3；已提供 ComfyUI、SGLang、vLLM-Omni 接入及微调路径。布局提示的结构化修改与基于输入图像的指令编辑应分别理解。
 
+    **社区部署补充（2026-11-15 核查）**：官方仓库已列出 [lodestones 的 8 步 DMD LoRA](https://huggingface.co/lodestones/MOSS-Image-SFT-8-steps-dmd)，属于仍在迭代的社区蒸馏，使用时需按模型卡区分适配器与采样配置。官方还新增低显存推理模式：1024×1024、50 步的示例峰值为约 3.85 GiB GPU reserved memory、14 GiB 系统内存（含文件缓存）；该模式依赖 CPU、磁盘换入与组件卸载，不能将此数字当作全模型常驻显存或同速推理要求。
+
 * **Ming-Image-0.1-Design**：
 
   * 地址：https://github.com/inclusionAI/Ming-Image ![](https://img.shields.io/github/stars/inclusionAI/Ming-Image.svg) | [权重](https://huggingface.co/inclusionAI/Ming-Image-0.1-Design)
@@ -443,7 +485,69 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：Sperid Labs 开放的像素空间图像生成模型，作为近期基模路线补充收录，采用 Apache-2.0。3B 扩散主干由 8 个双流块、16 个单流块及 4 块像素输出头组成，另用冻结的 Qwen3-VL-4B-Instruct 编码器，直接生成像素，无需 VAE。默认约 1M 像素、100 步、CFG=3；同仓库 `turbo/` 提供使用 TDM 全参数蒸馏的 4 步版本，另开放深度估计和图像修复/超分任务权重。官方提示与评测以英文为主，中文理解及文字渲染尚需专项验证。
 
+* **MiniMax-H3-Image**：
+
+  * 地址：https://github.com/MiniMax-AI/MiniMax-H3-Image ![](https://img.shields.io/github/stars/MiniMax-AI/MiniMax-H3-Image.svg) | [官方发布](https://www.minimax.io/blog/minimax-h3-image) | [权重](https://huggingface.co/MiniMaxAI/MiniMax-H3-Image) | [许可](https://huggingface.co/MiniMaxAI/MiniMax-H3-Image/blob/main/LICENSE)
+
+  * 简介：MiniMax 于 **2026 年 11 月 11 日**官宣的开放权重图像生成与编辑模型，沿用 H3 架构并移除音频分支。采用 33.1B、50 层稠密单流 DiT，另用 H3 的 Qwen3-VL 编码器；VAE 为 CNN 编码器与 24 层 2D ViT 解码器，16 倍空间压缩、24 通道 latent。统一支持文生图和最多 16 张参考图编辑，蒸馏为 **6 步、无 CFG**，推荐直接生成约 16MP 图像，如 4096×4096 或 6272×2688，无需级联超分；官方列出的有效工作范围约为 4～20MP。提供 Diffusers、SGLang、vLLM-Omni、LightX2V 与 ComfyUI 路径；完整下载还需要来自 H3 仓库的编码器，总体约 135GB。官方建议使用详细英文提示词，中文文字渲染仍需专项验证。
+
+    **许可边界**：采用 MiniMax-H3-Image Community License，标准许可排除欧盟、英国、韩国和美国；年化收入超过 100 万美元，或向第三方提供托管服务，均需事先取得单独书面授权，其他用途限制见许可原文。许可日期为 11 月 10 日，与上述官方博客发布日期区分。官方“4K 十秒内”属于发布口径，本仓库未做同硬件时延复测。
+
+* **BluePixel-Turbo**：
+
+  * 地址：https://github.com/vivo/BluePixel ![](https://img.shields.io/github/stars/vivo/BluePixel.svg) | [项目页](https://tech.vivo.com/BluePixel/) | [论文](https://arxiv.org/abs/2610.19882) | [权重](https://huggingface.co/openvivo/BluePixel-Turbo)
+
+  * 简介：vivo 基于 FLUX.2 Klein 9B 与 DCAE-F64 构建的原生 4K 指令编辑模型，通过 Source-Anchored Target Projection（SATP）将 50 步教师蒸馏至 **4 步**。按输入宽高比生成、尺寸对齐到 64 的倍数，无需级联超分。**2026 年 11 月 3 日**模型卡公告更新 SATP 蒸馏版，同时明确当前公开检查点尚未追加后训练，后续计划继续强化学习优化；论文中更完整的 ACE-MOPD、RL 与 Agent 流程不应全部视为当前权重已具备。项目报告的单昆仑芯 P800、BF16、4K 编辑 8.7 秒属于指定硬件测量；各质量分数也未全部单独归属到此 Turbo 检查点。权重采用 **FLUX Non-Commercial License**；官方定位为英文指令编辑，中文与改字能力需另测。
+
+* **Krea 2 Raw / Krea 2 Turbo**：
+
+  * 地址：https://github.com/krea-ai/krea-2 ![](https://img.shields.io/github/stars/krea-ai/krea-2.svg) | [Raw 权重](https://huggingface.co/krea/Krea-2-Raw) | [Turbo 模型卡与权重](https://huggingface.co/krea/Krea-2-Turbo)
+
+  * 简介：本轮补录的文生图模型，官方模型卡发布日期为 **2026 年 6 月 22 日**，标称 12B DiT。Raw 为未经后训练和蒸馏的基础检查点，训练分辨率至 1K，官方推理示例使用 52 步；Turbo 经后训练与蒸馏，使用 **8 步、关闭 CFG**，支持 1K～2K 生成。官方推荐在 Raw 上微调或训练 LoRA、在 Turbo 上快速推理，提供原生代码、Diffusers 和 SGLang 接入。权重下载需要登录并接受 **Krea 2 Community License**，不等同于 Apache/MIT；中文理解与文字准确性未见专项评测。
+
+* **P-JiT 21K（Pyramid-JiT）**：
+
+  * 地址：https://github.com/Linum-AI/pjit-21k ![](https://img.shields.io/github/stars/Linum-AI/pjit-21k.svg) | [官方说明](https://www.linum.ai/field-notes/pjit-21k) | [权重](https://huggingface.co/Linum-AI/pjit-21k)
+
+  * 简介：Linum 于 **2026 年 11 月 4 日**介绍并开放的紧凑型像素空间文生图研究检查点，采用 Apache-2.0，作为低成本基模研究路线补充。发布的 DiT 约 2.18B，另用冻结的 Qwen3.5-4B 编码器；官方称在 512px 阶段训练 610M 样本、1024px 阶段训练 50M 样本，并以 FDFO 变体后训练。预训练与后训练合计 8,415 H100 小时，按每小时 2.50 美元估算计算成本约 2.1 万美元；样本数是训练处理量，不应直接理解为去重图像数，成本为团队自报的计算费用。默认 50 步 Euler 与 adaptive projected guidance，支持包括 1024×1024 在内的五种约 1MP 分桶。**模型卡明确不支持文字、标牌或海报生成**，且复杂多人交互等能力有限；该模型适合研究训练效率，不适合作为中文文字渲染模型推荐。
+
+* **Fibo 2.0 Dev / Fibo 2.0 Edit Turbo**：
+
+  * 地址：[Dev 模型卡与权重](https://huggingface.co/briaai/Fibo-2.0-dev) | [Edit Turbo 模型卡与权重](https://huggingface.co/briaai/Fibo-2.0-edit-turbo)
+
+  * 简介：BRIA 开放的统一图像生成与编辑模型族，8B、44 层单流 DiT 配合 Qwen3-VL-4B-Instruct 和 FLUX.2 VAE，采用 flow matching，在约 1MP 图像上训练。通过 Visual Genomic Language（VGL）结构化 JSON 描述光照、镜头、构图与对象，并支持多参考图及 mask 编辑。Dev 示例使用 50 步，**Edit Turbo 使用 4 步、无 CFG，且仅用于编辑**；文生图应使用 Dev。官方提供 Diffusers、ComfyUI、LoRA 训练等路径，提示词结构化工具还可能调用额外的 Gemini 服务，比较成本时应一并记录。权重采用 **CC BY-NC 4.0**，商用需与 BRIA 签约；“训练数据获得授权”为官方说明，不代表权重许可无限制。中文文字效果待专项验证。
+
+* **Step1X-Edit-v1p2（ReasonEdit-S）**：
+
+  * 地址：https://github.com/stepfun-ai/Step1X-Edit ![](https://img.shields.io/github/stars/stepfun-ai/Step1X-Edit.svg) | [权重](https://huggingface.co/stepfun-ai/Step1X-Edit-v1p2) | [技术报告](https://arxiv.org/abs/2511.22625)
+
+  * 简介：补录阶跃星辰于 **2025 年 11 月 26 日**开放的推理增强编辑模型，采用 Apache-2.0。在“思考—编辑—反思”流程中，先利用多模态模型理解抽象意图，再审阅编辑结果并改进；模型卡分别报告 base、thinking、thinking + reflection 设置的 GEdit 与 KRIS-Bench 分数。官方示例使用 50 步，并提供 RegionE 加速路径。多次反思会改变调用次数与时延预算，不能将该设置的分数当作单次前向编辑结果。
+
+* **OmniGen2**：
+
+  * 地址：https://github.com/VectorSpaceLab/OmniGen2 ![](https://img.shields.io/github/stars/VectorSpaceLab/OmniGen2.svg) | [权重](https://huggingface.co/OmniGen2/OmniGen2) | [技术报告](https://arxiv.org/abs/2506.18871)
+
+  * 简介：补录 **2025 年 6 月 16 日**开放的统一多模态生成模型，基于 Qwen2.5-VL，使用参数不共享的文本/图像解码路径与解耦图像 tokenizer，支持视觉理解、文生图、指令编辑和多参考图上下文生成。模型采用 Apache-2.0，训练代码于 6 月 30 日开放，另有 OmniContext 评测和 X2I2 训练数据，支持 Diffusers、ComfyUI 与 CPU offload。主体保持和上下文生成是其重点，中文文字准确性需单独评估。
+
+* **Ming-UniVision-16B-A3B**：
+
+  * 地址：https://github.com/inclusionAI/Ming-UniVision ![](https://img.shields.io/github/stars/inclusionAI/Ming-UniVision.svg) | [权重](https://huggingface.co/inclusionAI/Ming-UniVision-16B-A3B) | [论文](https://arxiv.org/abs/2510.06590)
+
+  * 简介：补录 inclusionAI 的统一理解与生成研究模型，采用 Apache-2.0，与 Ming-Image Design 系列为不同路线。通过 MingTok 连续视觉表示将图像纳入自回归 next-token prediction，支持问答、文生图与多轮编辑，并可在连续 latent 中保留交互状态。模型卡明确说明当前版本采用混合分辨率训练：理解使用高分辨率，生成/编辑使用较低分辨率，预训练也未纳入大规模交错图文数据，编辑质量与一致性因此存在限制；中文文字生成不宜由中文对话能力直接推断。
+
+* **Lumina-DiMOO**：
+
+  * 地址：https://github.com/Alpha-VLLM/Lumina-DiMOO ![](https://img.shields.io/github/stars/Alpha-VLLM/Lumina-DiMOO.svg) | [权重](https://huggingface.co/Alpha-VLLM/Lumina-DiMOO) | [论文](https://arxiv.org/abs/2510.06308)
+
+  * 简介：补录采用统一离散扩散路线的多模态研究模型，采用 Apache-2.0，支持视觉理解、文生图、图像编辑、主体驱动生成与修复。模型卡在速度比较中采用图像生成 64 步、理解任务文本块长 256 与 128 个采样步骤；图像的全局解码与文本分块生成不能用同一种“步数”直接比较。该模型与 InternLumina-U2 为不同发布，中文文字准确性需专项评测。
+
 ### 1.3 闭源模型
+
+* **GPT Image 2.6（Images 2.6）**：
+
+  * 地址：[官方发布](https://openai.com/index/introducing-images-2-6/) | [官方 RSS](https://openai.com/news/rss.xml) | [官方 SDK 型号定义](https://github.com/openai/openai-python/blob/main/src/openai/types/image_model.py)
+
+  * 简介：OpenAI 官方 RSS 于 **2026 年 11 月 4 日**公告 Images 2.6，强调更快的图像生成、GIF 创作、更精确的编辑和新的 API 控制，并覆盖 ChatGPT、Codex 与 API。官方 SDK 已列出 `gpt-image-2.6-flare` 与 `gpt-image-2.6-sunburst`。本轮已核实官方发布摘要和 API 型号，但未取得正文完整规格，因此不沿用 2.5 的速度数字，也不据此填写 2.6 的参数量、架构、最大分辨率或中文专项指标。
 
 * **GPT Image 2.5（ChatGPT Images 2.5）**：
 
@@ -482,6 +586,12 @@ Awesome-Chinese-Stable-Diffusion
   * 地址：https://help.aliyun.com/zh/model-studio/wan-image-generation-and-editing-api-reference
 
   * 简介：阿里云百炼提供的闭源图像生成与编辑模型，覆盖文生图、图像编辑、多图参考和组图生成。标准版支持最高 2K；Pro 版仅在单张文生图场景支持 4K（4096×4096），图像编辑与组图生成仍最高为 2K。
+
+* **Qwen-Image-2.1-Pro（托管 API）**：
+
+  * 地址：[官方发布记录](https://github.com/QwenLM/Qwen-Image-2.1#news) | [百炼接口说明](https://help.aliyun.com/zh/model-studio/qwen-image-generation-and-editing-api-reference)
+
+  * 简介：补录 **2026 年 10 月 9 日**上线的 Qwen-Image-2.1 Pro 托管服务，与 Turbo API 同日公告。支持文生图、最多 10 张参考图编辑，并可根据提示词输出普通图或带透明通道的图像。Pro 的参数与完整架构没有在本轮核验材料中单列，不能直接套用开放权重 2.1 的 7B 规模；当前权重目录中确认开放的是 2.1 与 2.1-Turbo，Pro 服务单独归入本节。
 
 * **Qwen-Image-2.0**：
 
@@ -552,7 +662,7 @@ Awesome-Chinese-Stable-Diffusion
 
 * **字节Seedream系列**：
 
-  * 地址：https://seed.bytedance.com/zh/seedream5_0_pro | [官方发布博客](https://seed.bytedance.com/zh/blog/beyond-generation-it-understands-design-introducing-seedream-5-0-pro)
+  * 地址：[Seedream 5.5](https://seed.bytedance.com/en/seedream5_5) | [5.5 官方发布](https://seed.bytedance.com/en/blog/more-realistic-images-more-stable-editing-across-100-rounds-introducing-seedream-5-5) | [Seedream 5.0 Pro](https://seed.bytedance.com/zh/seedream5_0_pro) | [5.0 Pro 发布](https://seed.bytedance.com/zh/blog/beyond-generation-it-understands-design-introducing-seedream-5-0-pro)
 
   * 简介：Seedream是字节跳动的文生图大模型系列，已迭代多个重要版本：
 
@@ -565,6 +675,8 @@ Awesome-Chinese-Stable-Diffusion
     **Seedream 5.0 Lite**（2026 年 2 月 13 日）：强化视觉理解、推理、指令遵循和编辑一致性，支持结合搜索信息生成图像。官方将其定位为迈向统一多模态模型的一步；搜索和多步规划的收益需与生成主干能力分别评估。[官方发布](https://seed.bytedance.com/en/blog/deeper-thinking-more-accurate-generation-introducing-seedream-5-0-lite)
 
     **Seedream 5.0 Pro**（2026 年 7 月 8 日）：面向专业设计的闭源多模态图像创作模型。相比之前版本，在图文匹配、结构合理性、文字渲染与画面美感等基础能力上全面提升，并带来四大核心能力突破：1）高密度信息图的逻辑推理与版面规划，能够理解设计意图并自动布局；2）点选/圈选/草图等精确局部编辑；3）图层拆分与多图融合；4）真实感增强与美学优化。该模型支持 14 种常用语言的输入与文字生成，统一了文生图生成与图像编辑能力，通过单一 API 提供生产就绪的创意工作流，适用于设计师、营销人员和创作者的专业场景。
+
+    **Seedream 5.5**（**2026 年 11 月 9 日**）：强化多轮编辑的非编辑区域保持、原生 RGBA 透明/半透明素材生成，以及写实材质与中英文密集小字渲染。官方展示连续 100 轮编辑，并报告文字严重/轻微错误率为 0.4% / 1.7%；这些均为项目方的演示与评测口径，不等同于任意输入下的像素保持保证或中文 OCR 准确率。公开发布页未披露完整架构、参数量和最大输出规格；博客称 **5.5 Pro 将后续推出**，不能把 5.5 Pro 记为已发布。
 
 ### 1.4 论文与待开放模型
 
@@ -590,11 +702,15 @@ Awesome-Chinese-Stable-Diffusion
 
   * 地址：https://arxiv.org/abs/2606.28421
 
-  * 简介：2026 年 6 月 25 日提交的端侧中文文生图技术报告。模型由 0.385B 去噪 UNet 和 1.90M 蒸馏解码器组成，采用 Rectified Flow 与 DMD2 蒸馏，将推理压缩到 4 步；中文对齐阶段使用 900 万精选图文对。目前公开来源为论文，权重仍待开放。
+  * 简介：2026 年 6 月 25 日提交、9 月 27 日修订到 v3 的端侧中文文生图技术报告。模型由 0.385B 去噪 UNet 和 1.90M 蒸馏解码器组成，采用 Rectified Flow 与 DMD2 蒸馏，将推理压缩到 4 步；中文对齐阶段使用 900 万精选图文对。检索到的 [JuZhou-V1 页面](https://huggingface.co/HswAI2026/JuZhou-V1)明确自述为发布占位，文件列表仅有 README 与仓库配置，尚无模型权重和推理代码；页面存在不等于权重已经开放，仍保留于待开放分类。
 
 ### 1.5 近期基模进展
 
-> 更新日期：2026 年 10 月 20 日（本轮补充布局控制、图层分解与少步推理进展）。本节根据官方发布、模型卡与技术报告梳理技术路线；趋势判断为归纳分析，不作为跨模型性能排名。
+> 更新日期：2026 年 11 月 15 日（本轮补充原生高分辨率生成与编辑、少步蒸馏和低成本研究模型）。本节根据官方发布、模型卡与技术报告梳理技术路线；趋势判断为归纳分析，不作为跨模型性能排名。
+
+本轮增量：11 月 11 日官宣的 [MiniMax-H3-Image](https://www.minimax.io/blog/minimax-h3-image) 将约 16MP 生成、多参考图编辑与 6 步采样结合；[BluePixel-Turbo](https://huggingface.co/openvivo/BluePixel-Turbo) 于 11 月 3 日更新 4 步原生 4K 编辑检查点；[P-JiT 21K](https://www.linum.ai/field-notes/pjit-21k) 于 11 月 4 日公开低成本像素空间模型。另补录 Krea 2（6 月发布），并补充 MOSS 的社区蒸馏、低显存部署及 VINS 高分辨率编辑资源。核查日期与模型发布日期分别标注，补录不代表本月首发。
+
+复核补充：新增 **Images 2.6（11 月 4 日）、Seedream 5.5（11 月 9 日）与 SenseNova-U1.5 TailSteer**，更正 InternLumina-U2 的 NVIDIA 权重、训练代码和论文开放状态，以及 16.9B / 1.4B 激活参数口径；补齐 Fibo 2.0、FLUX.2 Klein、LongCat 编辑分支与较早发布的统一生成/编辑模型，以及 Qwen 的 Pro 服务、PE 提示词模型和 Qwen-Image-Bench。按团队检查的范围、未证实事项及来源见 [本轮复核记录](docs/model-review-2026-11-15.md)。
 
 近期基模的升级集中在理解与生成结合、生图与编辑统一，以及高质量生成的计算效率。文字准确性、复杂布局、参考主体保持和多轮编辑一致性，成为越来越重要的能力指标。
 
@@ -605,10 +721,15 @@ Awesome-Chinese-Stable-Diffusion
 | 多目标后训练与能力整合 | Qwen-Image-2.0 使用多维奖励与 GRPO；SenseNova-U1.5 先训练任务专家，再沿学生自身生成轨迹蒸馏 | 审美、文字、编辑成功率与内容保持需要分别衡量，联合优化与专家蒸馏是两类值得比较的方案 |
 | 紧凑主干、少步推理与缓存 | [Qwen-Image-2.1-Turbo](https://huggingface.co/Qwen/Qwen-Image-2.1-Turbo)采用 8 步与前缀 KV cache；[LightX2V Lightning](https://huggingface.co/lightx2v/Qwen-Image-2.1-Lightning)提供 4 步 LoRA；[Iris-3B Turbo](https://github.com/speridlabs/iris-3b#iris-3b-turbo)提供像素空间全参数蒸馏 | 参数量、去噪步数、条件长度共同影响成本；蒸馏 LoRA、完整检查点及缓存是不同的加速方式 |
 | 透明素材与结构化设计内容 | Qwen-Image-2.1 与 [Ming-Image Design](https://huggingface.co/inclusionAI/Ming-Image-0.1-Design)支持 RGBA；[Ming-Image Design-Layer](https://huggingface.co/inclusionAI/Ming-Image-0.1-Design-Layer)按规划生成指定数量的透明图层 | 透明背景生成与多图层分解需要分别评测；分层还需衡量透明度、遮挡补全和重组一致性 |
+| 多轮编辑与素材复用 | [Seedream 5.5](https://seed.bytedance.com/en/seedream5_5)强化连续编辑、原生 RGBA 和小字；[Images 2.6](https://openai.com/news/rss.xml)公告更精确编辑、GIF 与新的 API 控制 | 静态图像、透明素材和动画是不同输出能力；多轮评测需固定编辑序列并累计测量色偏、细节损失及非编辑区域变化 |
+| 多轮保持的后训练与诊断 | [TailSteer](https://huggingface.co/sensenova/SenseNova-U1.5-8B-MoT-TailSteer)以轨迹尾段监督减少累积漂移，公开完整权重及 Add & Preserve 十轮评测 | 同时测对象编辑成功率与非编辑区域保持；还需检查单轮、生成与推理任务是否退化，避免只优化背景保持 |
 | 显式布局控制 | [MOSS-Image](https://github.com/OpenMOSS/MOSS-Image)使用 JSON layout；[FLUX 3 Image Klein](https://github.com/black-forest-labs/flux-3-image-klein)支持边界框控制及多参考图编辑 | 应分别测量文字内容、位置和大小；两者坐标格式不同，边界框布局引导也不等同于硬掩码约束 |
+| 原生高分辨率与少步生成结合 | [MiniMax-H3-Image](https://huggingface.co/MiniMaxAI/MiniMax-H3-Image)推荐约 16MP、6 步生成与多参考图编辑；[BluePixel-Turbo](https://huggingface.co/openvivo/BluePixel-Turbo)以 DCAE-F64 与 SATP 实现 4 步原生 4K 编辑 | 区分原生生成、级联超分与接口缩放；同时报告像素面积、条件编码器成本、非编辑区域保持及完整流水线时延 |
+| 可微调基础权重与快速推理权重分工 | [Krea 2](https://github.com/krea-ai/krea-2)分别开放 Raw 与 8 步 Turbo；[MOSS 社区 DMD](https://huggingface.co/lodestones/MOSS-Image-SFT-8-steps-dmd)提供 8 步适配器 | 基础模型、蒸馏检查点与社区 LoRA 需要区分；比较时应固定采样器、适配器版本和 CFG 设置 |
+| 紧凑像素空间模型的训练效率 | [P-JiT 21K](https://huggingface.co/Linum-AI/pjit-21k)以约 2B 主干探索低成本训练，公开研究权重 | 训练成本要结合数据处理量与能力覆盖解读；模型明确缺少文字生成能力，不能据一般画质推断中文排版效果 |
 | 图像、视频与音频联合建模 | [FLUX 3](https://bfl.ai/blog/flux-3)联合训练图像、视频、音频；[MiniMax H3](https://www.minimax.io/blog/minimax-h3)将跨模态参考与编辑纳入预训练 | 联合训练是值得跟踪的基模方向，对静态图像能力的具体收益仍需消融与同条件评测 |
 
-评测建议：记录精确模型版本、分辨率、采样步数，以及是否启用提示词改写、搜索或额外思考；分别报告文字准确率、空间关系、非编辑区域保持、多轮编辑退化、时延和显存。闭源服务的系统能力应结合其工具与推理预算解读，不能仅凭演示结果推断底层架构或训练方法。
+评测建议：记录精确模型版本、分辨率、采样步数，以及是否启用提示词改写、搜索或额外思考；分别报告文字准确率、空间关系、非编辑区域保持、多轮编辑退化、时延和显存。高分辨率编辑可参考 VINS-4KEval，并明确与 BluePixel 使用的 VINS-4KEval++ 区分，不能混用测试集版本或把完整方法的分数归给中间检查点。闭源服务的系统能力应结合其工具与推理预算解读，不能仅凭演示结果推断底层架构或训练方法。
 
 ## 2. 测评
 
@@ -632,6 +753,12 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：一个全面的组合式文生图评测基准，包含6000条组合式文本提示，覆盖三大类别：属性绑定（颜色、形状、纹理）、物体关系（空间、非空间、复杂）和复杂组合。为每个类别提供专门的评估指标，被Hunyuan-DiT、Kolors、Seedream、SDXL等模型广泛采用。
 
+* **Qwen-Image-Bench**：
+
+  * 地址：https://github.com/QwenLM/Qwen-Image-Bench ![](https://img.shields.io/github/stars/QwenLM/Qwen-Image-Bench.svg) | [论文](https://arxiv.org/abs/2605.28091) | [数据集](https://huggingface.co/datasets/Qwen/Qwen-Image-Bench) | [Q-Judger 权重](https://huggingface.co/Qwen/Qwen-Image-Bench)
+
+  * 简介：面向专业创作的图像生成诊断基准，包含 1,000 个专家设计提示案例，覆盖中英文与长短提示；从质量、美学、图文对齐、真实世界保真与创意生成五大维度，细分 23 项子能力、56 个评测细项。配套 Q-Judger 输出逐项评分和诊断，数据与裁判模型卡均标注 Apache-2.0。官方当前展示的榜单基于中文提示生成结果，不能当作中英文混合排名；与人工判断的相关性应按所报告的模型级排名口径解释。
+
 * **WeGenBench**：
 
   * 地址：https://github.com/WeChatCV/WeGenBench ![](https://img.shields.io/github/stars/WeChatCV/WeGenBench.svg) | [论文](https://arxiv.org/abs/2606.20100)
@@ -649,6 +776,18 @@ Awesome-Chinese-Stable-Diffusion
   * 地址：https://modelscope.cn/datasets/iic/AnyText-benchmark/summary
 
   * 简介：AnyText 系列的多语言视觉文字评测集。OCR 准确率部分包含中文 `wukong_word` 与英文 `laion_word` 各 1,000 张，FID 部分中英文各 40,000 张；2025 年 2 月更新了 AnyText2 使用的长描述版本。
+
+* **VINS-4KEval / VINS-4KEval++**：
+
+  * 地址：[VINS-120K 项目页](https://nju-pcalab.github.io/projects/VINS-120K/) | [VINS-4KEval 数据](https://huggingface.co/datasets/openvivo/VINS-120K) | [BluePixel / VINS-4KEval++ 说明](https://tech.vivo.com/BluePixel/)
+
+  * 简介：面向原生高分辨率指令编辑的评测资源。VINS-4KEval 包含 **509 个 4K/UHR 样本、13 类编辑任务**，随 VINS-120K 的 `benchmark.tar` 提供，关注指令遵循、结构保持与细节质量。BluePixel 项目报告使用扩展的 **VINS-4KEval++，包含 3,305 个原生 4K 案例**，增加了对非编辑区域一致性等能力的检查；此处已核验项目说明，不将原始 `benchmark.tar` 当作 ++ 版本下载入口。两版样本量与评测口径不同，分数不能直接混用；英文编辑指令也不能替代中文改字专项评测。
+
+* **Add & Preserve**：
+
+  * 地址：https://huggingface.co/datasets/Lyricccco/Add-and-Preserve | [代码](https://github.com/Lyricccco/tailsteer) | [论文](https://arxiv.org/abs/2611.06741)
+
+  * 简介：TailSteer 配套的多轮编辑漂移评测，包含 **100 张初始图，每张 10 条英文编辑指令**；每轮在红框内增加小对象，保留前轮新增对象，并将本模型上一轮输出作为下一轮输入。以 COA 检查对象完成度，以框外相对初始图的 PSNR、SSIM、LPIPS 测量保持程度，避免把“不执行编辑”误判为优质结果。需固定几何、种子、裁判模型和逐轮反馈方式；论文中图像反馈与 latent-feedback 消融不可混为同一设置。源图来自 Open Images 与 MONET，按逐图来源保留原始许可。
 
 * **ChineseWord**：
 
@@ -746,6 +885,18 @@ Awesome-Chinese-Stable-Diffusion
 
   * 简介：CVPR 2026 的视觉文字渲染专项 evaluator / reward 框架，可量化文字扭曲、模糊、错位等结构异常及语义一致性。已开放 InternVL3-8B、Qwen3-VL-8B 两个 evaluator、TextPecker-1.5M 数据集，以及训练、强化学习和评测代码（Apache-2.0）。
 
+* **Q-Judger（Qwen-Image-Bench 裁判模型）**：
+
+  * 地址：https://huggingface.co/Qwen/Qwen-Image-Bench | [推理与评测代码](https://github.com/QwenLM/Qwen-Image-Bench)
+
+  * 简介：为 Qwen-Image-Bench 开放的视觉语言裁判，输出 56 个细项评分向量，用于定位图像质量、文字、对齐、真实性和设计能力的缺口。官方报告其使用 13 万余组双语专家标注图文对训练，在 18 个参评模型的总体排名上与人工专家的 Spearman 相关系数为 0.92；该数字不是单张图像评分的正确率。权重采用 Apache-2.0，应与配套评分规范、数据版本和人工抽检一起使用。
+
+* **ERNIE-Image-Aes**：
+
+  * 地址：https://huggingface.co/baidu/ERNIE-Image-Aes
+
+  * 简介：百度开放的 8B 图像美学评分模型，基于 ArtiMuse 初始化，使用专业标注和类别平衡数据微调，覆盖摄影、动漫、设计、日常快照与胶片摄影，采用 Apache-2.0。模型卡报告在 ERIA-1K 上 SRCC 为 0.7445、PLCC 为 0.7598。它是美学评价工具，不是 ERNIE-Image 的新生图检查点，也不能代替中文 OCR、指令遵循或非编辑区域保真度评测。
+
 ### 2.3 排行榜
 
 > 排名随模型版本、评测类别和投票样本变化。本文保留的 2026 年 7 月 5 日 Arena 数值为历史快照；最新排名请以链接中的实时榜单为准。
@@ -808,6 +959,18 @@ Awesome-Chinese-Stable-Diffusion
   * 地址：https://modelscope.cn/datasets/iic/AnyWord-3M/summary
 
   * 简介：AnyText 系列使用的多语言视觉文字训练集。V1.1 共整理 3,034,486 张图像和 900 万余行文字，约含 160 万张中文、139 万张英文及 1 万张其他语言图像，并补充了 AnyText2 所需的长描述与文字颜色标注。数据来源混合多个公开数据集，使用时仍需核对原始图像的授权条件。
+
+* **VINS-120K**：
+
+  * 地址：[项目页](https://nju-pcalab.github.io/projects/VINS-120K/) | [Hugging Face 数据集](https://huggingface.co/datasets/openvivo/VINS-120K) | [ModelScope](https://modelscope.cn/datasets/vivo/VINS-120K)
+
+  * 简介：南京大学与 vivo 的 CVPR 2026 高分辨率指令编辑数据集，包含 **12 万组源图、目标图、英文编辑指令三元组**，覆盖局部编辑、全局编辑、相机运动与个性化生成等 13 类任务。图像为 4K 及以上，项目报告平均尺寸 4656×4138，来源包括真实高分辨率视频与经筛选的开放编辑数据。数据卡标注 Apache-2.0，另提供 509 样本的 VINS-4KEval 测试集；适合高分辨率编辑适配与保真度研究，训练和评测应保持划分隔离，中文指令及中文文字编辑需另补数据。
+
+* **TailSteer-Source**：
+
+  * 地址：https://huggingface.co/datasets/Lyricccco/TailSteer-Source | [训练代码](https://github.com/Lyricccco/tailsteer)
+
+  * 简介：用于编辑保持后训练的 **11,947 张源图、47,788 个轨迹请求**，每张图包含 3 条独立局部编辑指令和 1 条 identity 指令，覆盖照片、动漫、插画、3D 渲染与平面设计。下载内容是源图、英文提示与来源信息，去噪轨迹缓存需用所选基模另行生成，不是成对编辑 GT 数据集。图像来自 Open Images 与 MONET，沿用逐图许可，不能把代码或模型的 Apache-2.0 许可直接套给全部数据。
 
 ### 3.2 评测/标注数据集
 
