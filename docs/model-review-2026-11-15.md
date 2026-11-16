@@ -11,7 +11,6 @@
 | MiniMax | 确认 H3-Image 为 11 月 11 日官宣，许可日期为 11 月 10 日；6 步、约 16MP、最多 16 张参考图与许可限制分开记录 | [发布](https://www.minimax.io/blog/minimax-h3-image)、[模型卡与文件](https://huggingface.co/MiniMaxAI/MiniMax-H3-Image) |
 | Qwen | 补入 2.1-Pro 托管服务、两个独立 PE 模型、Qwen-Image-Bench 与 Q-Judger；开放 2.1/2.1-Turbo 与托管 Pro 不混用参数 | [官方代码](https://github.com/QwenLM/Qwen-Image-2.1)、[接口目录](https://help.aliyun.com/zh/model-studio/qwen-image-generation-and-editing-api-reference)、[评测仓库](https://github.com/QwenLM/Qwen-Image-Bench) |
 | InternLumina | 更正“仅昇腾开放”：已提供 Ascend/NVIDIA 权重、SFT 训练代码、加速路径及报告；参数更新为 16.9B / 约 1.4B 激活 | [官方 README](https://github.com/InternLM/InternLumina-U2)、[报告](https://arxiv.org/abs/2610.20818) |
-| SenseNova / TailSteer | 补入 SenseNova 账号发布的 U1.5 TailSteer 完整微调权重：多轮保持的尾段后训练，推理不切换模型；同时记录收益与 RISE 下降，补充 Add & Preserve 评测及 TailSteer-Source 数据 | [权重](https://huggingface.co/sensenova/SenseNova-U1.5-8B-MoT-TailSteer)、[项目代码](https://github.com/Lyricccco/tailsteer)、[11 月 4 日论文](https://arxiv.org/abs/2611.06741)、[数据](https://huggingface.co/datasets/Lyricccco/TailSteer-Source) |
 | Black Forest Labs | 补齐 FLUX.2 Klein 4B/9B、Base、9B KV；4B Apache-2.0 与 9B 非商业许可分别记录，避免和 FLUX 3 Klein 混淆 | [FLUX.2](https://github.com/black-forest-labs/flux2)、[官方模型目录](https://huggingface.co/black-forest-labs)、[发布列表](https://bfl.ai/blog) |
 | BRIA | 补入 Fibo 2.0 Dev / Edit Turbo：8B、结构化 VGL、4 步编辑；Turbo 不作为文生图模型推荐 | [Dev](https://huggingface.co/briaai/Fibo-2.0-dev)、[Edit Turbo](https://huggingface.co/briaai/Fibo-2.0-edit-turbo) |
 | 美团 LongCat | 补齐独立 Edit 与 2 月 3 日发布的 8 步 Edit-Turbo；质量分数不直接继承到 Turbo | [官方发布记录](https://github.com/meituan-longcat/LongCat-Image)、[Turbo](https://huggingface.co/meituan-longcat/LongCat-Image-Edit-Turbo) |
@@ -28,7 +27,8 @@
 - **Google**：检查了官方 Gemini 发布 RSS；11 月 5 日 Gemini Omni 1.2 Flash 的原文聚焦视频生成与视频编辑，不据其名称升级 Nano Banana 图像型号。来源：[官方文章](https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash/)。
 - **万相**：百炼图像接口仍列 Wan2.7-Image / Pro；Pro 的 4K 条件限定于非组图文生图，其余编辑/组图场景不套用。来源：[接口文档](https://help.aliyun.com/zh/model-studio/wan-image-generation-and-editing-api-reference)。
 - **混元**：HunyuanImage-3.0 Instruct / Distil 的 1 月 26 日发布已在原条目记录，当前官方 README 推荐 Distil 8 步；不再重复作为 11 月新品。来源：[官方 README](https://github.com/Tencent-Hunyuan/HunyuanImage-3.0)。
-- **Z-Image / Ovis**：公开目录检索未发现可据此替换现有主版本的新官方图像型号；社区量化、合并权重和同名仓库不自动算官方基模升级。来源：[Z-Image 目录](https://huggingface.co/Tongyi-MAI)、[Ovis 权重](https://huggingface.co/ATH-MaaS/Ovis-Image-7B)。SenseNova 则在补查准确官方账号后发现 TailSteer 分支，已单独补入，说明只检查热门下载列表不足以查全。
+- **Z-Image / Ovis**：公开目录检索未发现可据此替换现有主版本的新官方图像型号；社区量化、合并权重和同名仓库不自动算官方基模升级。来源：[Z-Image 目录](https://huggingface.co/Tongyi-MAI)、[Ovis 权重](https://huggingface.co/ATH-MaaS/Ovis-Image-7B)。
+- **基模收录边界（2026-11-16 更正）**：TailSteer 是 SenseNova-U1.5 的专项后训练检查点，已从模型汇总、独立模型条目与近期基模进展中移除；完整微调权重或发布账号不能作为新基模的判据。Lightning LoRA 仅保留在 Qwen-Image-2.1 的部署说明中，Qwen-Image-Flash 并入 Qwen-Image 的衍生加速说明，FLUX.2 Klein KV 合并到同族汇总。MOSS-Image Base/SFT 已有基模条目；Add & Preserve 与 TailSteer-Source 分别按评测、数据集收录。
 - **Swift-Image / InnoText**：本轮代码仓库与模型目录检索没有确认作者发布的可用权重，保持论文/待开放分类；搜索无结果并不能证明永久未开放。
 - **JuZhou**：发现 JuZhou-V1 页面，但其 README 明确是占位，实际文件只有 README 与仓库配置，不能改成权重已开放。来源：[页面及文件](https://huggingface.co/HswAI2026/JuZhou-V1/tree/main)。
 
